@@ -1,3 +1,180 @@
+<?php
+
+// Function to read students from CSV file
+function getStudents($db, $cumgpa = null, $cumunits = null, $cumgraded = null, $gqtr = null) {
+    $students = [];
+    $csvFile = __DIR__ . '/fake_student_dataset_100.csv';
+    
+    if (!file_exists($csvFile)) {
+        return $students;
+    }
+    
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+    
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        if (count($data) >= 21) {
+            $student = [
+                'name' => $data[0],
+                'fname' => $data[1], 
+                'mname' => $data[2],
+                'lname' => $data[3],
+                'id' => $data[4],
+                'college' => $data[5],
+                'major' => $data[6],
+                'major_desc' => $data[7],
+                'level' => $data[8],
+                'sex' => $data[9],
+                'cumunits' => $data[10],
+                'cumgpa' => $data[11],
+                'email' => $data[12],
+                'pm_line1' => $data[13],
+                'pm_city' => $data[14],
+                'pm_state' => $data[15],
+                'pm_zip' => $data[16],
+                'pm_country' => $data[17],
+                'pm_phone' => $data[18],
+                'gradqtr' => $data[19],
+                'reg_status' => $data[20],
+                'major2' => '', // Not in CSV, set to empty
+                'major2_desc' => '', // Not in CSV, set to empty
+                'apln_term' => $data[19], // Use graduating quarter as application term
+                'lang' => 'N', // Default to No
+                'country' => $data[17] == 'USA' ? 'United States' : $data[17] // Convert country code
+            ];
+            $students[] = $student;
+        }
+    }
+    fclose($handle);
+    
+    return $students;
+}
+
+// Function to generate random class names in format XXX123
+function generateRandomClass() {
+    $letters = '';
+    $numbers = '';
+    
+    // Generate 3 random letters
+    for ($i = 0; $i < 3; $i++) {
+        $letters .= chr(rand(65, 90)); // A-Z
+    }
+    
+    // Generate 3 random numbers
+    for ($i = 0; $i < 3; $i++) {
+        $numbers .= rand(0, 9);
+    }
+    
+    return $letters . $numbers;
+}
+
+// Function to get random grade
+function getRandomGrade() {
+    $grades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'];
+    return $grades[array_rand($grades)];
+}
+
+// Function to get class types
+function getClassTypes() {
+    return [
+        'LA' => 'Liberal Arts',
+        'SC' => 'Science',
+        'MA' => 'Mathematics', 
+        'EN' => 'English',
+        'HI' => 'History',
+        'SO' => 'Social Science',
+        'AR' => 'Arts'
+    ];
+}
+
+// Function to get regular classes by student ID
+function getClasses($db, $studentId) {
+    $classTypes = array_keys(getClassTypes());
+    $classes = [];
+    
+    foreach ($classTypes as $type) {
+        $classes[$type] = [];
+        $numClasses = rand(3, 8); // Random number of classes per type
+        
+        for ($i = 0; $i < $numClasses; $i++) {
+            $classes[$type][] = [
+                'dept' => substr(generateRandomClass(), 0, 3),
+                'crsnum' => substr(generateRandomClass(), 3, 3),
+                'grade' => getRandomGrade()
+            ];
+        }
+    }
+    
+    return $classes;
+}
+
+// Function to get AP classes by student ID  
+function getAPClasses($db, $studentId) {
+    $classTypes = array_keys(getClassTypes());
+    $apClasses = [];
+    
+    foreach ($classTypes as $type) {
+        $apClasses[$type] = [];
+        $numClasses = rand(0, 3); // Random number of AP classes per type
+        
+        for ($i = 0; $i < $numClasses; $i++) {
+            $className = generateRandomClass();
+            $apClasses[$type][] = [
+                'crsnum' => $className,
+                'description' => 'AP ' . substr($className, 0, 3) . ' Course',
+                'units' => rand(3, 6)
+            ];
+        }
+    }
+    
+    return $apClasses;
+}
+
+// Function to get IB classes by student ID
+function getIBClasses($db, $studentId) {
+    $classTypes = array_keys(getClassTypes());
+    $ibClasses = [];
+    
+    foreach ($classTypes as $type) {
+        $ibClasses[$type] = [];
+        $numClasses = rand(0, 2); // Random number of IB classes per type
+        
+        for ($i = 0; $i < $numClasses; $i++) {
+            $className = generateRandomClass();
+            $ibClasses[$type][] = [
+                'crsnum' => $className,
+                'description' => 'IB ' . substr($className, 0, 3) . ' Course',
+                'units' => rand(3, 6)
+            ];
+        }
+    }
+    
+    return $ibClasses;
+}
+
+// Function to get transfer classes by student ID
+function getTransferClasses($db, $studentId) {
+    $transferClasses = [];
+    $numClasses = rand(5, 15); // Random number of transfer classes
+    
+    for ($i = 0; $i < $numClasses; $i++) {
+        $className = generateRandomClass();
+        $transferClasses[] = [
+            'dept' => substr($className, 0, 3),
+            'crsnum' => substr($className, 3, 3),
+            'title' => 'Transfer Course ' . $className,
+            'units' => rand(3, 6),
+            'grade' => getRandomGrade()
+        ];
+    }
+    
+    return $transferClasses;
+}
+
+// Mock database connection
+$db = null;
+
+/* 
 $students = getStudents($db, $_REQUEST['cumgpa'], $_REQUEST['cumunits'], $_REQUEST['cumgraded'], $_REQUEST['gqtr']);
 
 if (isset($_REQUEST['usersel'])  && $_REQUEST['usersel'] == "CSVFile") {
@@ -64,7 +241,8 @@ if (isset($_REQUEST['usersel'])  && $_REQUEST['usersel'] == "CSVFile") {
 // This program creates an html file for the PBK people to print via the web
 // It also creates a file 'pbklist.txt' for the PBK people to send to their printer or whoever
 // It first checks GPA and Unit info, then prints student coursework in catagories for review 
- ?>
+*/
+?>
 <style>
 table {
 	border-collapse: collapse;
@@ -103,6 +281,8 @@ h5, h6 {
 
 </style>
 	<?php 
+	// Initialize students data from CSV file
+	$students = getStudents($db, $_REQUEST['cumgpa'] ?? null, $_REQUEST['cumunits'] ?? null, $_REQUEST['cumgraded'] ?? null, $_REQUEST['gqtr'] ?? null);
 
 	foreach ($students as $i => $row) {
 		$classes = getClasses($db, $row['id']);
@@ -203,4 +383,3 @@ h5, h6 {
 
 			</table>
 	<?php }
-}
