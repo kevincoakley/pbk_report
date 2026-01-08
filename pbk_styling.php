@@ -3,7 +3,7 @@
 // Function to read students from CSV file
 function getStudents($db, $cumgpa = null, $cumunits = null, $cumgraded = null, $gqtr = null) {
     $students = [];
-    $csvFile = __DIR__ . '/fake_student_dataset_100.csv';
+    $csvFile = __DIR__ . '/pbk_screening.csv';
     
     if (!file_exists($csvFile)) {
         return $students;
@@ -77,30 +77,40 @@ function getRandomGrade() {
 // Function to get class types
 function getClassTypes() {
     return [
-        'LA' => 'Liberal Arts',
-        'SC' => 'Science',
-        'MA' => 'Mathematics', 
-        'EN' => 'English',
-        'HI' => 'History',
-        'SO' => 'Social Science',
-        'AR' => 'Arts'
+        'HU' => 'Humanities',
+        'SS' => 'Social Sciences',
+        'NS' => 'Natural Sciences', 
+        'MA' => 'Mathematics',
+        'LA' => 'Language',
     ];
 }
 
 // Function to get regular classes by student ID
 function getClasses($db, $studentId) {
-    $classTypes = array_keys(getClassTypes());
     $classes = [];
+    $csvFile = __DIR__ . '/pbk_screening_classes.csv';
     
-    foreach ($classTypes as $type) {
+    if (!file_exists($csvFile)) {
+        return $classes;
+    }
+    
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+
+    # Added all of the class types to the array to avoid undefined index issues
+    foreach (array_keys(getClassTypes()) as $type) {
         $classes[$type] = [];
-        $numClasses = rand(3, 8); // Random number of classes per type
-        
-        for ($i = 0; $i < $numClasses; $i++) {
+    }
+
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
+        $type = array_rand(getClassTypes());
+
+        if ($data[0] == $studentId) {        
             $classes[$type][] = [
-                'dept' => substr(generateRandomClass(), 0, 3),
-                'crsnum' => substr(generateRandomClass(), 3, 3),
-                'grade' => getRandomGrade()
+                'dept' => $data[1],
+                'crsnum' => $data[2],
+                'grade' => $data[7]
             ];
         }
     }
@@ -110,19 +120,30 @@ function getClasses($db, $studentId) {
 
 // Function to get AP classes by student ID  
 function getAPClasses($db, $studentId) {
-    $classTypes = array_keys(getClassTypes());
     $apClasses = [];
+    $csvFile = __DIR__ . '/pbk_screening_apclasses.csv';
     
-    foreach ($classTypes as $type) {
+    if (!file_exists($csvFile)) {
+        return $apClasses;
+    }
+
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+    
+    # Added all of the class types to the array to avoid undefined index issues
+    foreach (array_keys(getClassTypes()) as $type) {
         $apClasses[$type] = [];
-        $numClasses = rand(0, 3); // Random number of AP classes per type
+    }
+
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
+        $type = array_rand(getClassTypes());
         
-        for ($i = 0; $i < $numClasses; $i++) {
-            $className = generateRandomClass();
+        if ($data[0] == $studentId) {
             $apClasses[$type][] = [
-                'crsnum' => $className,
-                'description' => 'AP ' . substr($className, 0, 3) . ' Course',
-                'units' => rand(3, 6)
+                'crsnum' => $data[4],
+                'description' => $data[5],
+                'units' => $data[8]
             ];
         }
     }
@@ -132,19 +153,30 @@ function getAPClasses($db, $studentId) {
 
 // Function to get IB classes by student ID
 function getIBClasses($db, $studentId) {
-    $classTypes = array_keys(getClassTypes());
     $ibClasses = [];
+    $csvFile = __DIR__ . '/pbk_screening_ibclasses.csv';
     
-    foreach ($classTypes as $type) {
+    if (!file_exists($csvFile)) {
+        return $ibClasses;
+    }
+
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+    
+    # Added all of the class types to the array to avoid undefined index issues
+    foreach (array_keys(getClassTypes()) as $type) {
         $ibClasses[$type] = [];
-        $numClasses = rand(0, 2); // Random number of IB classes per type
+    }
+
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
+        $type = array_rand(getClassTypes());
         
-        for ($i = 0; $i < $numClasses; $i++) {
-            $className = generateRandomClass();
+        if ($data[0] == $studentId) {
             $ibClasses[$type][] = [
-                'crsnum' => $className,
-                'description' => 'IB ' . substr($className, 0, 3) . ' Course',
-                'units' => rand(3, 6)
+                'crsnum' => $data[4],
+                'description' => $data[5],
+                'units' => $data[8]
             ];
         }
     }
@@ -155,17 +187,25 @@ function getIBClasses($db, $studentId) {
 // Function to get transfer classes by student ID
 function getTransferClasses($db, $studentId) {
     $transferClasses = [];
-    $numClasses = rand(5, 15); // Random number of transfer classes
+    $csvFile = __DIR__ . '/pbk_screening_transferclasses.csv';
     
-    for ($i = 0; $i < $numClasses; $i++) {
-        $className = generateRandomClass();
-        $transferClasses[] = [
-            'dept' => substr($className, 0, 3),
-            'crsnum' => substr($className, 3, 3),
-            'title' => 'Transfer Course ' . $className,
-            'units' => rand(3, 6),
-            'grade' => getRandomGrade()
-        ];
+    if (!file_exists($csvFile)) {
+        return $transferClasses;
+    }
+
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+    
+    while (($data = fgetcsv($handle)) !== FALSE) {    
+        if ($data[0] == $studentId) {
+            $transferClasses[] = [
+                'dept' => $data[3],
+                'crsnum' => $data[4],
+                'title' => $data[5],
+                'units' => $data[8],
+                'grade' => $data[9]
+            ];
+        }
     }
     
     return $transferClasses;
