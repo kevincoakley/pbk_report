@@ -1,7 +1,7 @@
 <?php
 
 // Function to read students from CSV file
-function getStudents($db, $cumgpa = null, $cumunits = null, $cumgraded = null, $gqtr = null) {
+function getStudents() {
     $students = [];
     $csvFile = __DIR__ . '/pbk_screening.csv';
     
@@ -50,30 +50,6 @@ function getStudents($db, $cumgpa = null, $cumunits = null, $cumgraded = null, $
     return $students;
 }
 
-// Function to generate random class names in format XXX123
-function generateRandomClass() {
-    $letters = '';
-    $numbers = '';
-    
-    // Generate 3 random letters
-    for ($i = 0; $i < 3; $i++) {
-        $letters .= chr(rand(65, 90)); // A-Z
-    }
-    
-    // Generate 3 random numbers
-    for ($i = 0; $i < 3; $i++) {
-        $numbers .= rand(0, 9);
-    }
-    
-    return $letters . $numbers;
-}
-
-// Function to get random grade
-function getRandomGrade() {
-    $grades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'];
-    return $grades[array_rand($grades)];
-}
-
 // Function to get class types
 function getClassTypes() {
     return [
@@ -86,7 +62,7 @@ function getClassTypes() {
 }
 
 // Function to get regular classes by student ID
-function getClasses($db, $studentId) {
+function getClasses($studentId) {
     $classes = [];
     $csvFile = __DIR__ . '/pbk_screening_classes.csv';
     
@@ -119,7 +95,7 @@ function getClasses($db, $studentId) {
 }
 
 // Function to get AP classes by student ID  
-function getAPClasses($db, $studentId) {
+function getAPClasses($studentId) {
     $apClasses = [];
     $csvFile = __DIR__ . '/pbk_screening_apclasses.csv';
     
@@ -152,7 +128,7 @@ function getAPClasses($db, $studentId) {
 }
 
 // Function to get IB classes by student ID
-function getIBClasses($db, $studentId) {
+function getIBClasses($studentId) {
     $ibClasses = [];
     $csvFile = __DIR__ . '/pbk_screening_ibclasses.csv';
     
@@ -185,7 +161,7 @@ function getIBClasses($db, $studentId) {
 }
 
 // Function to get transfer classes by student ID
-function getTransferClasses($db, $studentId) {
+function getTransferClasses($studentId) {
     $transferClasses = [];
     $csvFile = __DIR__ . '/pbk_screening_transferclasses.csv';
     
@@ -211,77 +187,6 @@ function getTransferClasses($db, $studentId) {
     return $transferClasses;
 }
 
-// Mock database connection
-$db = null;
-
-/* 
-$students = getStudents($db, $_REQUEST['cumgpa'], $_REQUEST['cumunits'], $_REQUEST['cumgraded'], $_REQUEST['gqtr']);
-
-if (isset($_REQUEST['usersel'])  && $_REQUEST['usersel'] == "CSVFile") {
-
-
-    $heading = array(
-        "Full Name",
-        "First Name",
-        "Middle Name",
-        "Last Name",
-        "PID",
-        "College",
-        "Major Code",
-        "Major Description",
-        "Class Level",
-        "Gender",
-        "Cumulative Units",
-        "Cumulative GPA",
-        "Email(UCSD)",
-        "Permanent Mailing Addresss Line 1",
-        "Permanent Mailing City Line 1",
-        "Permanent Mailing State Line 1",
-        "Permanent Mailing Zip Code Line 1",
-        "Permanent Mailing Country Line 1",
-        "Permanent Phone Number",
-        "Graduating Quarter",
-        "Registration Status"
-
-    );
-
-	header("Content-type: application/csv");
-	header("Content-Disposition: attachment; filename=pbk_screening.csv");
-	$fp = fopen('php://output', 'w');
-	fputcsv($fp, $heading);
-
-	foreach ($students as $row) {
-		fputcsv($fp, array(
-            $row["name"],
-            $row["fname"],
-            $row["mname"],
-            $row["lname"],
-            $row["id"],
-            $row["college"],
-            $row["major"],
-            $row['major_desc'],
-            $row["level"],
-            $row["sex"],
-            $row["cumunits"],
-            $row["cumgpa"],
-            $row["email"],
-            $row["pm_line1"],
-            $row["pm_city"],
-            $row["pm_state"],
-            $row["pm_zip"],
-            $row["pm_country"],
-            $row["pm_phone"],
-            $row["gradqtr"],
-            $row["reg_status"]
-        ));
-	}
-	fclose($fp);
-} else {
-
-// This program creates an html file for the PBK people to print via the web
-// It also creates a file 'pbklist.txt' for the PBK people to send to their printer or whoever
-// It first checks GPA and Unit info, then prints student coursework in catagories for review 
-*/
 ?>
 <style>
 table {
@@ -322,13 +227,13 @@ h5, h6 {
 </style>
 	<?php 
 	// Initialize students data from CSV file
-	$students = getStudents($db, $_REQUEST['cumgpa'] ?? null, $_REQUEST['cumunits'] ?? null, $_REQUEST['cumgraded'] ?? null, $_REQUEST['gqtr'] ?? null);
+	$students = getStudents();
 
 	foreach ($students as $i => $row) {
-		$classes = getClasses($db, $row['id']);
-		$apClasses =  getAPClasses($db, $row['id']);
-		$ibClasses =  getIBClasses($db, $row['id']);
-		$transferClasses = getTransferClasses($db, $row['id']);
+		$classes = getClasses($row['id']);
+		$apClasses =  getAPClasses($row['id']);
+		$ibClasses =  getIBClasses($row['id']);
+		$transferClasses = getTransferClasses($row['id']);
 	?>
 			<p style="page-break-before:always">&nbsp;</p>
 			<table class="student">
