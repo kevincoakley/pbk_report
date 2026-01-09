@@ -1,4 +1,6 @@
 <?php
+// Increase time limit to 10 minutes
+set_time_limit(600);
 
 // Function to read students from CSV file
 function getStudents() {
@@ -53,12 +55,47 @@ function getStudents() {
 // Function to get class types
 function getClassTypes() {
     return [
-        'HU' => 'Humanities',
+        'LS' => 'Humanities',
         'SS' => 'Social Sciences',
         'NS' => 'Natural Sciences', 
-        'MA' => 'Mathematics',
+        'MS' => 'Mathematics',
         'LA' => 'Language',
     ];
+}
+
+// Function to map class types from course criteria CSV
+function mapClassTypes($department, $coursenumber, $courseletter) {
+    $csvFile = __DIR__ . '/coursecrit.csv';
+
+    if (!file_exists($csvFile)) {
+        return null;
+    }
+    
+    $handle = fopen($csvFile, 'r');
+    $headers = fgetcsv($handle); // Read header row
+
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        if ($data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter) {
+            return $data[5]; // Return the class type
+        }
+    }
+
+    // If department is not AP or IB, check for wildcard course letter
+    if ($department != "AP" && $department != "IB") {
+        // Second pass: check for wildcard course letter
+        rewind($handle); // Reset file pointer to beginning
+        fgetcsv($handle); // Skip header row again
+
+        while (($data = fgetcsv($handle)) !== FALSE) {  
+            if ($data[1] == $department && $data[2] == '*') {
+                return $data[5]; // Return the class type
+            }
+        }
+    }
+
+    print("No match found for: $department - $coursenumber - $courseletter\n");
+    fclose($handle);
+    return null; // Return null if not found
 }
 
 // Function to get regular classes by student ID
@@ -73,16 +110,21 @@ function getClasses($studentId) {
     $handle = fopen($csvFile, 'r');
     $headers = fgetcsv($handle); // Read header row
 
-    # Added all of the class types to the array to avoid undefined index issues
+    // Added all of the class types to the array to avoid undefined index issues
     foreach (array_keys(getClassTypes()) as $type) {
         $classes[$type] = [];
     }
 
     while (($data = fgetcsv($handle)) !== FALSE) {
-        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
-        $type = array_rand(getClassTypes());
+        // Check if the student ID matches
+        if ($data[0] == $studentId) {
+            // Split coursenumber and courseletter
+            $coursenumber = preg_replace('/[^0-9]/', '', $data[2]);
+            $courseletter = preg_replace('/[0-9]/', '', $data[2]);
+            
+            // Map to class type
+            $type = mapClassTypes($data[1], $coursenumber, $courseletter);
 
-        if ($data[0] == $studentId) {        
             $classes[$type][] = [
                 'dept' => $data[1],
                 'crsnum' => $data[2],
@@ -90,7 +132,8 @@ function getClasses($studentId) {
             ];
         }
     }
-    
+
+    fclose($handle);
     return $classes;
 }
 
@@ -105,17 +148,18 @@ function getAPClasses($studentId) {
 
     $handle = fopen($csvFile, 'r');
     $headers = fgetcsv($handle); // Read header row
-    
-    # Added all of the class types to the array to avoid undefined index issues
+
+    // Added all of the class types to the array to avoid undefined index issues
     foreach (array_keys(getClassTypes()) as $type) {
         $apClasses[$type] = [];
     }
 
-    while (($data = fgetcsv($handle)) !== FALSE) {
-        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
-        $type = array_rand(getClassTypes());
-        
+    while (($data = fgetcsv($handle)) !== FALSE) { 
+        // Check if the student ID matches      
         if ($data[0] == $studentId) {
+            // Map to class type
+            $type = mapClassTypes($data[3], $data[4], "");
+
             $apClasses[$type][] = [
                 'crsnum' => $data[4],
                 'description' => $data[5],
@@ -124,6 +168,7 @@ function getAPClasses($studentId) {
         }
     }
     
+    fclose($handle);
     return $apClasses;
 }
 
@@ -139,16 +184,17 @@ function getIBClasses($studentId) {
     $handle = fopen($csvFile, 'r');
     $headers = fgetcsv($handle); // Read header row
     
-    # Added all of the class types to the array to avoid undefined index issues
+    // Added all of the class types to the array to avoid undefined index issues
     foreach (array_keys(getClassTypes()) as $type) {
         $ibClasses[$type] = [];
     }
 
     while (($data = fgetcsv($handle)) !== FALSE) {
-        # $type should be a randomly selected value from (HU, SS, NS, MA, LA)
-        $type = array_rand(getClassTypes());
-        
+        // Check if the student ID matches
         if ($data[0] == $studentId) {
+            // Map to class type
+            $type = mapClassTypes($data[3], $data[4], "");
+
             $ibClasses[$type][] = [
                 'crsnum' => $data[4],
                 'description' => $data[5],
@@ -157,6 +203,7 @@ function getIBClasses($studentId) {
         }
     }
     
+    fclose($handle);
     return $ibClasses;
 }
 
@@ -183,7 +230,8 @@ function getTransferClasses($studentId) {
             ];
         }
     }
-    
+
+    fclose($handle);
     return $transferClasses;
 }
 
