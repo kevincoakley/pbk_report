@@ -1,0 +1,134 @@
+<style>
+table {
+	border-collapse: collapse;
+}
+
+table.student {
+	border: 1px solid;
+	width: 100%;
+}
+
+table.classList {
+	border: none;
+	width: 100%;
+}
+
+table.student .info > td {
+	border: 1px solid;
+	padding-left: 5px;
+}
+
+table.classList > tbody > tr > td {
+	padding-left: 5px;
+}
+
+table.classList > tbody > tr > td:not(:first-child) {
+	border-left: 1px solid;
+}
+
+h5, h6 {
+  margin-bottom: 5px;
+}
+
+.class-title {
+	font-size: small;
+}
+
+</style>
+
+{% for student in students %}
+    {% set i = loop.index0 %}
+    <p style="page-break-before:always">&nbsp;</p>
+    <table class="student">
+        <tr class="info">
+            <td width="2%">{{ i + 1 }}</td>
+            <td colspan="2" width="25%">
+            {% if student.level != "SR" %}
+                <font color="#FF0000" face="Arial, Helvetica, sans-serif">{{ student.name }}</font>
+            {% else %}
+                {{ student.name }}
+            {% endif %}
+            </td>
+            <td width="15%">{{ student.id }}</td>
+            <td width="10%"><small><strong>GPA</strong></small> {{ student.cumgpa }}</td>
+            <td width="10%"><small><strong>Units</strong></small> {{ student.cumunits }}</td>
+            <td width="10%">
+                {{ student.major }}-{{ student.major_desc }}
+                {% if student.major2 != "" %}
+                    <br>{{ student.major2 }}-{{ student.major2_desc }}
+                {% endif %}
+            </td>
+            <td width="15%"><small><strong>Apln Term</strong></small> {{ student.apln_term }}<br /><small><strong>Grad Qtr</strong></small> {{ student.gradqtr }}</td>
+            <td width="10%"><small><strong>Coll</strong></small> {{ student.college }}<br /><small><strong>Lvl</strong></small> {{ student.level }}</td>
+        </tr>
+    <tr>
+        <td colspan="9">
+            <table class="classList">
+                <tr>
+                {% for classType, className in class_types.items() %}
+                {% set numClasses = 0 %}
+                    <td valign="top" width="14%">
+                    <h5>{{ className }}</h5>
+                        <table width="100%" style="border: none;" cellpadding="0">
+                        {% if classType == 'LA' and student.lang == 'Y' %}
+                        <tr><td colspan="2">LangProficiency</td></tr>
+                        {% endif %}
+                        
+                        {% for rowclss in student.classes[classType] %}
+                            {% if rowclss.grade %}
+                                {% set numClasses = numClasses + 1 %}
+                            {% endif %}
+                            <tr>
+                                <td>{{ rowclss.dept }} {{ rowclss.crsnum }}</td>
+                                <td>{{ rowclss.grade }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        <br />
+                        <strong># of classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong>
+                        {% if student.apClasses[classType] %}
+                        <h6>AP Classes</h6>
+                        {% endif %}
+                        <table width="100%" style="border: none;" cellpadding="0">
+                        {% for rowclss in student.apClasses[classType] %}
+                            <tr>
+                                <td>{{ rowclss.crsnum }} <span class="class-title">{{ rowclss.description }}</span></td>
+                                <td>{{ rowclss.units }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        {% if student.ibClasses[classType] %}
+                        <h6>IB Classes</h6>
+                        {% endif %}
+                        <table width="100%" style="border: none;" cellpadding="0">
+                        {% for rowclss in student.ibClasses[classType] %}
+                            <tr>
+                                <td>{{ rowclss.crsnum }} <span class="class-title">{{ rowclss.description }}</span></td>
+                                <td>{{ rowclss.units }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        {% if classType == 'LA' and student.pm_country != 'US' %}
+                            <h6>Home Country</h6>
+                            {{ student.country }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+
+                    <td valign="top" width="30%">
+        <h5>Transfer Classes</h5>
+        <table width="100%" cellpadding="0" border="0">
+        {% for rowclss in student.transferClasses %}
+             {% if rowclss.dept != "" %}
+                <tr><td>{{ rowclss.dept }}</td><td>{{ rowclss.crsnum }}</td><td class="class-title">{{ rowclss.title }}</td><td>{{ rowclss.units }}</td><td>{{ rowclss.grade }}</td></tr>
+            {% endif %}
+        {% endfor %}
+
+        </table>
+        </td>
+        </tr>
+        </table>
+
+
+        </table>
+{% endfor %}
