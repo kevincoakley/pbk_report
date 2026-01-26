@@ -15,4 +15,10 @@
 ### Running pbk_report Python with uv
 
     uv sync
-    uv run python pbk_styling.py > output.html 
+    uv run python pbk_styling.py > output.html
+
+### Run Unit Tests for pbk_report Python
+
+    uv sync --group test 
+    uv run pytest
+    uv run pytest --cov=./ --cov-report=term
