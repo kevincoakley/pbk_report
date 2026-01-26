@@ -14,7 +14,5 @@
 
 ### Running pbk_report Python with uv
 
-    uv venv
-    source .venv/bin/activate
-    uv pip install jinja2
-    python3 pbk_styling.py > output.html
+    uv sync
+    uv run python pbk_styling.py > output.html 
