@@ -25,9 +25,9 @@ class TestPbkStyling(unittest.TestCase):
     def test_map_class_types(self, mock_file, mock_exists):
         # Setup mock CSV data
         csv_content = (
-            "header,header,header,header,header,header\n"
-            "1,MATH,101,A,Calculus,MS\n"
-            "2,HIST,*,*,History,SS\n"
+            "courseid,department,coursenumber,courseletter,anyUD,classtype\n"
+            "1,MATH,101,A,N,MS\n"
+            "2,HIST,*,*,N,SS\n"
         )
         # Use side_effect to return a fresh file handle each time open() is called
         mock_file.side_effect = lambda *args, **kwargs: mock_open(
@@ -55,8 +55,7 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling.os.path.exists")
     @patch("builtins.open", new_callable=mock_open)
     def test_get_students(self, mock_file, mock_exists):
-        headers = "name,fname,mname,lname,id,college,major,major_desc,level,sex,cumunits,cumgpa,email,line1,city,state,zip,country,phone,term,status"
-        # 17th index is country
+        headers = "Full Name,First Name,Middle Name,Last Name,PID,College,Major Code,Major Description,Class Level,Gender,Cumulative Units,Cumulative GPA,Email(UCSD),Permanent Mailing Addresss Line 1,Permanent Mailing City Line 1,Permanent Mailing State Line 1,Permanent Mailing Zip Code Line 1,Permanent Mailing Country Line 1,Permanent Phone Number,Graduating Quarter,Registration Status"
         row1 = "Doe,John,M,Doe,12345,Col,Maj,Desc,U,M,100,4.0,e@mail,Addr,City,ST,12345,USA,555,2023,Reg"
         csv_content = f"{headers}\n{row1}\n"
 
@@ -102,8 +101,8 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling.os.path.exists")
     @patch("builtins.open", new_callable=mock_open)
     def test_get_ap_classes(self, mock_file, mock_exists, mock_map):
-        headers = "id,x,x,dept,crsnum,desc,x,x,units"
-        row1 = "12345,x,x,MATH,101,Calc,x,x,4"
+        headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
+        row1 = "12345,OTHRADPL,Advanced Placement Credit,MATH,101,Calc,S112,4580,4.0,P,LD,,0,,,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
         csv_content = f"{headers}\n{row1}\n"
 
         mock_exists.return_value = True
@@ -123,8 +122,8 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling.os.path.exists")
     @patch("builtins.open", new_callable=mock_open)
     def test_get_ib_classes(self, mock_file, mock_exists, mock_map):
-        headers = "id,x,x,dept,crsnum,desc,x,x,units"
-        row1 = "12345,x,x,HIST,101,World,x,x,4"
+        headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
+        row1 = "12345,OTHRIBAC,International Baccalaureate Examination,HIST,101,World,SP20,5060,4.0,P,LD,,1,HIST,4,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4"
         csv_content = f"{headers}\n{row1}\n"
 
         mock_exists.return_value = True
@@ -142,8 +141,8 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling.os.path.exists")
     @patch("builtins.open", new_callable=mock_open)
     def test_get_transfer_classes(self, mock_file, mock_exists):
-        headers = "id,x,x,dept,crsnum,title,x,x,units,grade"
-        row1 = "12345,x,x,TRNS,101,Transfer 101,x,x,3,T"
+        headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
+        row1 = "12345,EC004692,Santa Rosa Jr Coll,TRNS,101,Transfer 101,SP13,4610,3,T,LD,,1,CSE,12,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12"
         csv_content = f"{headers}\n{row1}\n"
 
         mock_exists.return_value = True

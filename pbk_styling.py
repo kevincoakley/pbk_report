@@ -26,33 +26,24 @@ def map_class_types(department, coursenumber, courseletter):
     # Read all rows into memory to avoid repeated file handles and allow multiple passes
     rows = []
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            headers = next(reader)  # Skip header
-        except StopIteration:
-            return None
+        reader = csv.DictReader(f)
         rows = list(reader)
 
     # First pass: exact match
     for data in rows:
-        if len(data) < 6:
-            continue
-        # CSV columns: 0=id??, 1=dept, 2=num, 3=letter, ..., 5=type
         # PHP: $data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter
         if (
-            data[1] == department
-            and data[2] == coursenumber
-            and data[3] == courseletter
+            data["department"] == department
+            and data["coursenumber"] == coursenumber
+            and data["courseletter"] == courseletter
         ):
-            return data[5]
+            return data["classtype"]
 
     # Second pass: wildcard
     if department != "AP" and department != "IB":
         for data in rows:
-            if len(data) < 6:
-                continue
-            if data[1] == department and data[2] == "*":
-                return data[5]
+            if data["department"] == department and data["coursenumber"] == "*":
+                return data["classtype"]
 
     # print(f"No match found for: {department} - {coursenumber} - {courseletter}")
     return None
@@ -66,43 +57,42 @@ def get_students():
         return students
 
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            headers = next(reader)
-        except StopIteration:
-            return students
+        reader = csv.DictReader(f)
 
         for data in reader:
-            if len(data) >= 21:
-                student = {
-                    "name": data[0],
-                    "fname": data[1],
-                    "mname": data[2],
-                    "lname": data[3],
-                    "id": data[4],
-                    "college": data[5],
-                    "major": data[6],
-                    "major_desc": data[7],
-                    "level": data[8],
-                    "sex": data[9],
-                    "cumunits": data[10],
-                    "cumgpa": data[11],
-                    "email": data[12],
-                    "pm_line1": data[13],
-                    "pm_city": data[14],
-                    "pm_state": data[15],
-                    "pm_zip": data[16],
-                    "pm_country": data[17],
-                    "pm_phone": data[18],
-                    "gradqtr": data[19],
-                    "reg_status": data[20],
-                    "major2": "",
-                    "major2_desc": "",
-                    "apln_term": data[19],
-                    "lang": "N",
-                    "country": "United States" if data[17] == "USA" else data[17],
-                }
-                students.append(student)
+            student = {
+                "name": data["Full Name"],
+                "fname": data["First Name"],
+                "mname": data["Middle Name"],
+                "lname": data["Last Name"],
+                "id": data["PID"],
+                "college": data["College"],
+                "major": data["Major Code"],
+                "major_desc": data["Major Description"],
+                "level": data["Class Level"],
+                "sex": data["Gender"],
+                "cumunits": data["Cumulative Units"],
+                "cumgpa": data["Cumulative GPA"],
+                "email": data["Email(UCSD)"],
+                "pm_line1": data["Permanent Mailing Addresss Line 1"],
+                "pm_city": data["Permanent Mailing City Line 1"],
+                "pm_state": data["Permanent Mailing State Line 1"],
+                "pm_zip": data["Permanent Mailing Zip Code Line 1"],
+                "pm_country": data["Permanent Mailing Country Line 1"],
+                "pm_phone": data["Permanent Phone Number"],
+                "gradqtr": data["Graduating Quarter"],
+                "reg_status": data["Registration Status"],
+                "major2": "",
+                "major2_desc": "",
+                "apln_term": data["Graduating Quarter"],
+                "lang": "N",
+                "country": (
+                    "United States"
+                    if data["Permanent Mailing Country Line 1"] == "USA"
+                    else data["Permanent Mailing Country Line 1"]
+                ),
+            }
+            students.append(student)
     return students
 
 
@@ -114,23 +104,23 @@ def get_classes(student_id):
         return classes
 
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            next(reader)  # header
-        except StopIteration:
-            return classes
+        reader = csv.DictReader(f)
 
         for data in reader:
-            if data[0] == student_id:
+            if data["id"] == student_id:
                 # PHP: preg_replace('/[^0-9]/', '', $data[2])
-                coursenumber = re.sub(r"[^0-9]", "", data[2])
-                courseletter = re.sub(r"[0-9]", "", data[2])
+                coursenumber = re.sub(r"[^0-9]", "", data["crsnum"])
+                courseletter = re.sub(r"[0-9]", "", data["crsnum"])
 
-                type_ = map_class_types(data[1], coursenumber, courseletter)
+                type_ = map_class_types(data["dept"], coursenumber, courseletter)
 
                 if type_ in classes:
                     classes[type_].append(
-                        {"dept": data[1], "crsnum": data[2], "grade": data[7]}
+                        {
+                            "dept": data["dept"],
+                            "crsnum": data["crsnum"],
+                            "grade": data["grade"],
+                        }
                     )
     return classes
 
@@ -143,19 +133,19 @@ def get_ap_classes(student_id):
         return ap_classes
 
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            next(reader)
-        except StopIteration:
-            return ap_classes
+        reader = csv.DictReader(f)
 
         for data in reader:
-            if data[0] == student_id:
-                type_ = map_class_types(data[3], data[4], "")
+            if data["id"] == student_id:
+                type_ = map_class_types(data["dept"], data["crsnum"], "")
 
                 if type_ in ap_classes:
                     ap_classes[type_].append(
-                        {"crsnum": data[4], "description": data[5], "units": data[8]}
+                        {
+                            "crsnum": data["crsnum"],
+                            "description": data["title"],
+                            "units": data["units"],
+                        }
                     )
     return ap_classes
 
@@ -168,19 +158,19 @@ def get_ib_classes(student_id):
         return ib_classes
 
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            next(reader)
-        except StopIteration:
-            return ib_classes
+        reader = csv.DictReader(f)
 
         for data in reader:
-            if data[0] == student_id:
-                type_ = map_class_types(data[3], data[4], "")
+            if data["id"] == student_id:
+                type_ = map_class_types(data["dept"], data["crsnum"], "")
 
                 if type_ in ib_classes:
                     ib_classes[type_].append(
-                        {"crsnum": data[4], "description": data[5], "units": data[8]}
+                        {
+                            "crsnum": data["crsnum"],
+                            "description": data["title"],
+                            "units": data["units"],
+                        }
                     )
     return ib_classes
 
@@ -193,21 +183,17 @@ def get_transfer_classes(student_id):
         return transfer_classes
 
     with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.reader(f)
-        try:
-            next(reader)
-        except StopIteration:
-            return transfer_classes
+        reader = csv.DictReader(f)
 
         for data in reader:
-            if data[0] == student_id:
+            if data["id"] == student_id:
                 transfer_classes.append(
                     {
-                        "dept": data[3],
-                        "crsnum": data[4],
-                        "title": data[5],
-                        "units": data[8],
-                        "grade": data[9],
+                        "dept": data["dept"],
+                        "crsnum": data["crsnum"],
+                        "title": data["title"],
+                        "units": data["units"],
+                        "grade": data["grade"],
                     }
                 )
     return transfer_classes
