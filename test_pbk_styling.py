@@ -1,7 +1,9 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock
+from unittest.mock import patch, MagicMock
 import sys
 import os
+import io
+import pandas as pd
 
 # Ensure valid import
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -20,20 +22,16 @@ class TestPbkStyling(unittest.TestCase):
         }
         self.assertEqual(pbk_styling.get_class_types(), expected)
 
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_map_class_types(self, mock_file, mock_exists):
+    @patch("pbk_styling._get_df")
+    def test_map_class_types(self, mock_get_df):
         # Setup mock CSV data
         csv_content = (
             "courseid,department,coursenumber,courseletter,anyUD,classtype\n"
             "1,MATH,101,A,N,MS\n"
             "2,HIST,*,*,N,SS\n"
         )
-        # Use side_effect to return a fresh file handle each time open() is called
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
-        mock_exists.return_value = True
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         # Test exact match
         result = pbk_styling.map_class_types("MATH", "101", "A")
@@ -48,21 +46,18 @@ class TestPbkStyling(unittest.TestCase):
         self.assertIsNone(result)
 
         # Test file not exists
-        mock_exists.return_value = False
+        mock_get_df.return_value = None
         result = pbk_styling.map_class_types("MATH", "101", "A")
         self.assertIsNone(result)
 
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_get_students(self, mock_file, mock_exists):
+    @patch("pbk_styling._get_df")
+    def test_get_students(self, mock_get_df):
         headers = "Full Name,First Name,Middle Name,Last Name,PID,College,Major Code,Major Description,Class Level,Gender,Cumulative Units,Cumulative GPA,Email(UCSD),Permanent Mailing Addresss Line 1,Permanent Mailing City Line 1,Permanent Mailing State Line 1,Permanent Mailing Zip Code Line 1,Permanent Mailing Country Line 1,Permanent Phone Number,Graduating Quarter,Registration Status"
         row1 = "Doe,John,M,Doe,12345,Col,Maj,Desc,U,M,100,4.0,e@mail,Addr,City,ST,12345,USA,555,2023,Reg"
         csv_content = f"{headers}\n{row1}\n"
 
-        mock_exists.return_value = True
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         students = pbk_styling.get_students()
         self.assertEqual(len(students), 1)
@@ -70,21 +65,18 @@ class TestPbkStyling(unittest.TestCase):
         self.assertEqual(students[0]["country"], "United States")
 
         # Test file not exists
-        mock_exists.return_value = False
+        mock_get_df.return_value = None
         self.assertEqual(pbk_styling.get_students(), [])
 
     @patch("pbk_styling.map_class_types")
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_get_classes(self, mock_file, mock_exists, mock_map):
+    @patch("pbk_styling._get_df")
+    def test_get_classes(self, mock_get_df, mock_map):
         headers = "id,dept,crsnum,x,x,x,x,grade"
         row1 = "12345,MATH,101A,x,x,x,x,A"
         csv_content = f"{headers}\n{row1}\n"
 
-        mock_exists.return_value = True
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         mock_map.return_value = "MS"  # Return 'Mathematics' key
 
@@ -92,23 +84,24 @@ class TestPbkStyling(unittest.TestCase):
 
         self.assertIn("MS", classes)
         self.assertEqual(len(classes["MS"]), 1)
+        # Note: the mock data has crsnum="101A".
+        # The logic: re.sub(r"[^0-9]", "", data["crsnum"]) -> "101"
+        # The stored object uses original data["crsnum"] -> "101A"
+        # The test checks classes["MS"][0]["crsnum"] == "101A"
         self.assertEqual(classes["MS"][0]["crsnum"], "101A")
         self.assertEqual(classes["MS"][0]["grade"], "A")
 
         mock_map.assert_called()
 
     @patch("pbk_styling.map_class_types")
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_get_ap_classes(self, mock_file, mock_exists, mock_map):
+    @patch("pbk_styling._get_df")
+    def test_get_ap_classes(self, mock_get_df, mock_map):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
         row1 = "12345,OTHRADPL,Advanced Placement Credit,MATH,101,Calc,S112,4580,4.0,P,LD,,0,,,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
         csv_content = f"{headers}\n{row1}\n"
 
-        mock_exists.return_value = True
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         mock_map.return_value = "MS"
 
@@ -119,17 +112,14 @@ class TestPbkStyling(unittest.TestCase):
         self.assertEqual(ap_classes["MS"][0]["crsnum"], "101")
 
     @patch("pbk_styling.map_class_types")
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_get_ib_classes(self, mock_file, mock_exists, mock_map):
+    @patch("pbk_styling._get_df")
+    def test_get_ib_classes(self, mock_get_df, mock_map):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
         row1 = "12345,OTHRIBAC,International Baccalaureate Examination,HIST,101,World,SP20,5060,4.0,P,LD,,1,HIST,4,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4"
         csv_content = f"{headers}\n{row1}\n"
 
-        mock_exists.return_value = True
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         mock_map.return_value = "SS"
 
@@ -138,17 +128,14 @@ class TestPbkStyling(unittest.TestCase):
         self.assertIn("SS", ib_classes)
         self.assertEqual(len(ib_classes["SS"]), 1)
 
-    @patch("pbk_styling.os.path.exists")
-    @patch("builtins.open", new_callable=mock_open)
-    def test_get_transfer_classes(self, mock_file, mock_exists):
+    @patch("pbk_styling._get_df")
+    def test_get_transfer_classes(self, mock_get_df):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
         row1 = "12345,EC004692,Santa Rosa Jr Coll,TRNS,101,Transfer 101,SP13,4610,3,T,LD,,1,CSE,12,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12"
         csv_content = f"{headers}\n{row1}\n"
 
-        mock_exists.return_value = True
-        mock_file.side_effect = lambda *args, **kwargs: mock_open(
-            read_data=csv_content
-        ).return_value
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
 
         t_classes = pbk_styling.get_transfer_classes("12345")
 

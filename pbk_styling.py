@@ -3,8 +3,39 @@ import os
 import sys
 import re
 from jinja2 import Environment, FileSystemLoader
+import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Global cache for DataFrames to ensure they are loaded only once
+_DFS = {}
+
+
+def _get_df(filename):
+    """
+    Helper to load a CSV into a pandas DataFrame and cache it.
+    Returns None if file does not exist.
+    """
+    if filename in _DFS:
+        return _DFS[filename]
+
+    file_path = os.path.join(BASE_DIR, filename)
+    if not os.path.exists(file_path):
+        _DFS[filename] = None
+        return None
+
+    try:
+        # Keep all data as string to avoid type inference issues (e.g. leading zeros in IDs)
+        # Using dtype=str ensures consistent behavior with csv.DictReader
+        df = pd.read_csv(file_path, dtype=str, encoding="utf-8", on_bad_lines="skip")
+        # Fill NaN with empty strings to match previous behavior where empty fields were strings
+        df = df.fillna("")
+        _DFS[filename] = df
+        return df
+    except Exception as e:
+        print(f"Error reading {filename}: {e}")
+        _DFS[filename] = None
+        return None
 
 
 def get_class_types():
@@ -18,32 +49,28 @@ def get_class_types():
 
 
 def map_class_types(department, coursenumber, courseletter):
-    csv_file = os.path.join(BASE_DIR, "coursecrit.csv")
+    df = _get_df("coursecrit.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return None
 
-    # Read all rows into memory to avoid repeated file handles and allow multiple passes
-    rows = []
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
-        rows = list(reader)
-
     # First pass: exact match
-    for data in rows:
-        # PHP: $data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter
-        if (
-            data["department"] == department
-            and data["coursenumber"] == coursenumber
-            and data["courseletter"] == courseletter
-        ):
-            return data["classtype"]
+    # PHP: $data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter
+    match = df[
+        (df["department"] == department)
+        & (df["coursenumber"] == coursenumber)
+        & (df["courseletter"] == courseletter)
+    ]
+    if not match.empty:
+        return match.iloc[0]["classtype"]
 
     # Second pass: wildcard
     if department != "AP" and department != "IB":
-        for data in rows:
-            if data["department"] == department and data["coursenumber"] == "*":
-                return data["classtype"]
+        wildcard_match = df[
+            (df["department"] == department) & (df["coursenumber"] == "*")
+        ]
+        if not wildcard_match.empty:
+            return wildcard_match.iloc[0]["classtype"]
 
     # print(f"No match found for: {department} - {coursenumber} - {courseletter}")
     return None
@@ -51,151 +78,158 @@ def map_class_types(department, coursenumber, courseletter):
 
 def get_students():
     students = []
-    csv_file = os.path.join(BASE_DIR, "pbk_screening.csv")
+    df = _get_df("pbk_screening.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return students
 
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
+    # Iterate over the rows and construct the student dictionary
+    # to_dict('records') is efficient enough for this step
+    records = df.to_dict("records")
 
-        for data in reader:
-            student = {
-                "name": data["Full Name"],
-                "fname": data["First Name"],
-                "mname": data["Middle Name"],
-                "lname": data["Last Name"],
-                "id": data["PID"],
-                "college": data["College"],
-                "major": data["Major Code"],
-                "major_desc": data["Major Description"],
-                "level": data["Class Level"],
-                "sex": data["Gender"],
-                "cumunits": data["Cumulative Units"],
-                "cumgpa": data["Cumulative GPA"],
-                "email": data["Email(UCSD)"],
-                "pm_line1": data["Permanent Mailing Addresss Line 1"],
-                "pm_city": data["Permanent Mailing City Line 1"],
-                "pm_state": data["Permanent Mailing State Line 1"],
-                "pm_zip": data["Permanent Mailing Zip Code Line 1"],
-                "pm_country": data["Permanent Mailing Country Line 1"],
-                "pm_phone": data["Permanent Phone Number"],
-                "gradqtr": data["Graduating Quarter"],
-                "reg_status": data["Registration Status"],
-                "major2": "",
-                "major2_desc": "",
-                "apln_term": data["Graduating Quarter"],
-                "lang": "N",
-                "country": (
-                    "United States"
-                    if data["Permanent Mailing Country Line 1"] == "USA"
-                    else data["Permanent Mailing Country Line 1"]
-                ),
-            }
-            students.append(student)
+    for data in records:
+        student = {
+            "name": data.get("Full Name", ""),
+            "fname": data.get("First Name", ""),
+            "mname": data.get("Middle Name", ""),
+            "lname": data.get("Last Name", ""),
+            "id": data.get("PID", ""),
+            "college": data.get("College", ""),
+            "major": data.get("Major Code", ""),
+            "major_desc": data.get("Major Description", ""),
+            "level": data.get("Class Level", ""),
+            "sex": data.get("Gender", ""),
+            "cumunits": data.get("Cumulative Units", ""),
+            "cumgpa": data.get("Cumulative GPA", ""),
+            "email": data.get("Email(UCSD)", ""),
+            "pm_line1": data.get("Permanent Mailing Addresss Line 1", ""),
+            "pm_city": data.get("Permanent Mailing City Line 1", ""),
+            "pm_state": data.get("Permanent Mailing State Line 1", ""),
+            "pm_zip": data.get("Permanent Mailing Zip Code Line 1", ""),
+            "pm_country": data.get("Permanent Mailing Country Line 1", ""),
+            "pm_phone": data.get("Permanent Phone Number", ""),
+            "gradqtr": data.get("Graduating Quarter", ""),
+            "reg_status": data.get("Registration Status", ""),
+            "major2": "",
+            "major2_desc": "",
+            "apln_term": data.get("Graduating Quarter", ""),
+            "lang": "N",
+            "country": (
+                "United States"
+                if data.get("Permanent Mailing Country Line 1") == "USA"
+                else data.get("Permanent Mailing Country Line 1", "")
+            ),
+        }
+        students.append(student)
     return students
 
 
 def get_classes(student_id):
     classes = {k: [] for k in get_class_types()}
-    csv_file = os.path.join(BASE_DIR, "pbk_screening_classes.csv")
+    df = _get_df("pbk_screening_classes.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return classes
 
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
+    # Filter for the specific student
+    student_classes = df[df["id"] == student_id]
 
-        for data in reader:
-            if data["id"] == student_id:
-                # PHP: preg_replace('/[^0-9]/', '', $data[2])
-                coursenumber = re.sub(r"[^0-9]", "", data["crsnum"])
-                courseletter = re.sub(r"[0-9]", "", data["crsnum"])
+    if student_classes.empty:
+        return classes
 
-                type_ = map_class_types(data["dept"], coursenumber, courseletter)
+    for _, data in student_classes.iterrows():
+        # PHP: preg_replace('/[^0-9]/', '', $data[2])
+        crsnum = data["crsnum"]
+        coursenumber = re.sub(r"[^0-9]", "", crsnum)
+        courseletter = re.sub(r"[0-9]", "", crsnum)
 
-                if type_ in classes:
-                    classes[type_].append(
-                        {
-                            "dept": data["dept"],
-                            "crsnum": data["crsnum"],
-                            "grade": data["grade"],
-                        }
-                    )
+        type_ = map_class_types(data["dept"], coursenumber, courseletter)
+
+        if type_ in classes:
+            classes[type_].append(
+                {
+                    "dept": data["dept"],
+                    "crsnum": data["crsnum"],
+                    "grade": data["grade"],
+                }
+            )
     return classes
 
 
 def get_ap_classes(student_id):
     ap_classes = {k: [] for k in get_class_types()}
-    csv_file = os.path.join(BASE_DIR, "pbk_screening_apclasses.csv")
+    df = _get_df("pbk_screening_apclasses.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return ap_classes
 
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
+    student_classes = df[df["id"] == student_id]
 
-        for data in reader:
-            if data["id"] == student_id:
-                type_ = map_class_types(data["dept"], data["crsnum"], "")
+    if student_classes.empty:
+        return ap_classes
 
-                if type_ in ap_classes:
-                    ap_classes[type_].append(
-                        {
-                            "crsnum": data["crsnum"],
-                            "description": data["title"],
-                            "units": data["units"],
-                        }
-                    )
+    for _, data in student_classes.iterrows():
+        type_ = map_class_types(data["dept"], data["crsnum"], "")
+
+        if type_ in ap_classes:
+            ap_classes[type_].append(
+                {
+                    "crsnum": data["crsnum"],
+                    "description": data["title"],
+                    "units": data["units"],
+                }
+            )
     return ap_classes
 
 
 def get_ib_classes(student_id):
     ib_classes = {k: [] for k in get_class_types()}
-    csv_file = os.path.join(BASE_DIR, "pbk_screening_ibclasses.csv")
+    df = _get_df("pbk_screening_ibclasses.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return ib_classes
 
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
+    student_classes = df[df["id"] == student_id]
 
-        for data in reader:
-            if data["id"] == student_id:
-                type_ = map_class_types(data["dept"], data["crsnum"], "")
+    if student_classes.empty:
+        return ib_classes
 
-                if type_ in ib_classes:
-                    ib_classes[type_].append(
-                        {
-                            "crsnum": data["crsnum"],
-                            "description": data["title"],
-                            "units": data["units"],
-                        }
-                    )
+    for _, data in student_classes.iterrows():
+        type_ = map_class_types(data["dept"], data["crsnum"], "")
+
+        if type_ in ib_classes:
+            ib_classes[type_].append(
+                {
+                    "crsnum": data["crsnum"],
+                    "description": data["title"],
+                    "units": data["units"],
+                }
+            )
     return ib_classes
 
 
 def get_transfer_classes(student_id):
     transfer_classes = []
-    csv_file = os.path.join(BASE_DIR, "pbk_screening_transferclasses.csv")
+    df = _get_df("pbk_screening_transferclasses.csv")
 
-    if not os.path.exists(csv_file):
+    if df is None:
         return transfer_classes
 
-    with open(csv_file, "r", encoding="utf-8", errors="replace") as f:
-        reader = csv.DictReader(f)
+    student_classes = df[df["id"] == student_id]
 
-        for data in reader:
-            if data["id"] == student_id:
-                transfer_classes.append(
-                    {
-                        "dept": data["dept"],
-                        "crsnum": data["crsnum"],
-                        "title": data["title"],
-                        "units": data["units"],
-                        "grade": data["grade"],
-                    }
-                )
+    if student_classes.empty:
+        return transfer_classes
+
+    for _, data in student_classes.iterrows():
+        transfer_classes.append(
+            {
+                "dept": data["dept"],
+                "crsnum": data["crsnum"],
+                "title": data["title"],
+                "units": data["units"],
+                "grade": data["grade"],
+            }
+        )
     return transfer_classes
 
 
