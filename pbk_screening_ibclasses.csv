@@ -1,7 +1,9 @@
 "id","entityid","entityname","dept","crsnum","title","term","term_seq","units","grade","course_level","tranafct","approx_flag","approx_course_dept","approx_course_crsnum","term_received","attend_from","attend_to","approx_group_id","approx_group_type","refresh","download_shared_unique_key"
 A0000000,OTHRIBAC,International Baccalaureate Examination,IB,HS5,Hist Sc5,SP20,5060,6.0,P,LD,,1,HIST,4,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4
 A0000000,OTHRIBAC,International Baccalaureate Examination,IB,LG5,Lang Sc5,SP21,5120,6.0,P,LD,,0,,,,,,0000,,2025-12-30,A0000000-OTHRIBAC-IB-LG5
-A0000000,OTHRIBAC,International Baccalaureate Examination,IB,PS5,Psych Sc5,FA20,5080,6.0,P,LD,,1,PSYC,1,,,,PS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-PS5-PSYC-1
+A0000000,OTHRIBAC,International Baccalaureate Examination,IB,PS5,Psych Sc5,FA20,5080,6.0,P,LD,,1,PSYC,1a,,,,PS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-PS5-PSYC-1
+A0000000,OTHRIBAC,International Baccalaureate Examination,IB,PS5,Psych Sc5,FA20,5080,6.0,P,LD,,1,PSYC,1b,,,,PS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-PS5-PSYC-1
+A0000000,OTHRIBAC,International Baccalaureate Examination,IB,PS5,Psych Sc5,FA20,5080,6.0,P,LD,,1,PSYC,1c,,,,PS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-PS5-PSYC-1
 A0000000,OTHRIBAC,International Baccalaureate Examination,IB,AR5,Art Sc5,SP21,5120,6.0,P,LD,,0,,,,,,0000,,2025-12-30,A0000000-OTHRIBAC-IB-AR5
 A0000000,OTHRIBAC,International Baccalaureate Examination,IB,BI5,Bio Sc5,FA18,4980,8.0,P,LD,,1,BILD,10,,,,BI0810,S,2025-12-30,A0000000-OTHRIBAC-IB-BI5-BILD-10
 A0000003,OTHRIBAC,International Baccalaureate Examination,IB,MU5,Music Sc5,SP18,4960,6.0,P,LD,,0,,,,,,0000,,2025-12-06,A0000003-OTHRIBAC-IB-MU5

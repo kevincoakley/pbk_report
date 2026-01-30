@@ -97,8 +97,10 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling._get_df")
     def test_get_ap_classes(self, mock_get_df, mock_map):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
-        row1 = "12345,OTHRADPL,Advanced Placement Credit,MATH,101,Calc,S112,4580,4.0,P,LD,,0,,,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
-        csv_content = f"{headers}\n{row1}\n"
+        # Include duplicate rows that differ in ignored columns (e.g. approx_course_crsnum)
+        row1 = "12345,OTHRADPL,Advanced Placement Credit,MATH,101,Calc,S112,4580,4.0,P,LD,,0,HIST,1a,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
+        row2 = "12345,OTHRADPL,Advanced Placement Credit,MATH,101,Calc,S112,4580,4.0,P,LD,,0,HIST,1b,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
+        csv_content = f"{headers}\n{row1}\n{row2}\n"
 
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
@@ -108,6 +110,7 @@ class TestPbkStyling(unittest.TestCase):
         ap_classes = pbk_styling.get_ap_classes("12345")
 
         self.assertIn("MS", ap_classes)
+        # Should be 1 because of deduplication on relevant cols
         self.assertEqual(len(ap_classes["MS"]), 1)
         self.assertEqual(ap_classes["MS"][0]["crsnum"], "101")
 
@@ -115,8 +118,10 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling._get_df")
     def test_get_ib_classes(self, mock_get_df, mock_map):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
-        row1 = "12345,OTHRIBAC,International Baccalaureate Examination,HIST,101,World,SP20,5060,4.0,P,LD,,1,HIST,4,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4"
-        csv_content = f"{headers}\n{row1}\n"
+        # Include duplicate rows that differ in ignored columns
+        row1 = "12345,OTHRIBAC,International Baccalaureate Examination,HIST,101,World,SP20,5060,4.0,P,LD,,1,HIST,4a,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4"
+        row2 = "12345,OTHRIBAC,International Baccalaureate Examination,HIST,101,World,SP20,5060,4.0,P,LD,,1,HIST,4b,,,,HS0610,S,2025-12-30,A0000000-OTHRIBAC-IB-HS5-HIST-4"
+        csv_content = f"{headers}\n{row1}\n{row2}\n"
 
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
@@ -126,19 +131,23 @@ class TestPbkStyling(unittest.TestCase):
         ib_classes = pbk_styling.get_ib_classes("12345")
 
         self.assertIn("SS", ib_classes)
+        # Should be 1 because of deduplication
         self.assertEqual(len(ib_classes["SS"]), 1)
 
     @patch("pbk_styling._get_df")
     def test_get_transfer_classes(self, mock_get_df):
         headers = "id,entityid,entityname,dept,crsnum,title,term,term_seq,units,grade,course_level,tranafct,approx_flag,approx_course_dept,approx_course_crsnum,term_received,attend_from,attend_to,approx_group_id,approx_group_type,refresh,download_shared_unique_key"
-        row1 = "12345,EC004692,Santa Rosa Jr Coll,TRNS,101,Transfer 101,SP13,4610,3,T,LD,,1,CSE,12,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12"
-        csv_content = f"{headers}\n{row1}\n"
+        # Include duplicate rows that differ in ignored columns
+        row1 = "12345,EC004692,Santa Rosa Jr Coll,TRNS,101,Transfer 101,SP13,4610,3,T,LD,,1,CSE,12a,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12"
+        row2 = "12345,EC004692,Santa Rosa Jr Coll,TRNS,101,Transfer 101,SP13,4610,3,T,LD,,1,CSE,12b,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12"
+        csv_content = f"{headers}\n{row1}\n{row2}\n"
 
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
         t_classes = pbk_styling.get_transfer_classes("12345")
 
+        # Should be 1 because of deduplication
         self.assertEqual(len(t_classes), 1)
         self.assertEqual(t_classes[0]["title"], "Transfer 101")
 

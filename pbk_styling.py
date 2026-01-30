@@ -168,6 +168,11 @@ def get_ap_classes(student_id):
     if student_classes.empty:
         return ap_classes
 
+    # Deduplicate rows based on output columns
+    student_classes = student_classes.drop_duplicates(
+        subset=["dept", "crsnum", "title", "units"]
+    )
+
     for _, data in student_classes.iterrows():
         type_ = map_class_types(data["dept"], data["crsnum"], "")
 
@@ -194,6 +199,11 @@ def get_ib_classes(student_id):
     if student_classes.empty:
         return ib_classes
 
+    # Deduplicate rows based on output columns
+    student_classes = student_classes.drop_duplicates(
+        subset=["dept", "crsnum", "title", "units"]
+    )
+
     for _, data in student_classes.iterrows():
         type_ = map_class_types(data["dept"], data["crsnum"], "")
 
@@ -219,6 +229,11 @@ def get_transfer_classes(student_id):
 
     if student_classes.empty:
         return transfer_classes
+
+    # Deduplicate rows based on output columns
+    student_classes = student_classes.drop_duplicates(
+        subset=["dept", "crsnum", "title", "units", "grade"]
+    )
 
     for _, data in student_classes.iterrows():
         transfer_classes.append(

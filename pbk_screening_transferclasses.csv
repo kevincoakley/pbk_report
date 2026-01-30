@@ -1,5 +1,7 @@
 "id","entityid","entityname","dept","crsnum","title","term","term_seq","units","grade","course_level","tranafct","approx_flag","approx_course_dept","approx_course_crsnum","term_received","attend_from","attend_to","approx_group_id","approx_group_type","refresh","download_shared_unique_key"
-A0000000,EC004692,Santa Rosa Jr Coll,CIS,22B,Data Structures,SP13,4610,1,B-,LD,,1,CSE,12,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12
+A0000000,EC004692,Santa Rosa Jr Coll,CIS,22B,Data Structures,SP13,4610,1,B-,LD,,1,CSE,12a,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12
+A0000000,EC004692,Santa Rosa Jr Coll,CIS,22B,Data Structures,SP13,4610,1,B-,LD,,1,CSE,12b,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12
+A0000000,EC004692,Santa Rosa Jr Coll,CIS,22B,Data Structures,SP13,4610,1,B-,LD,,1,CSE,12c,,,,0000,,2025-11-18,A0000000-EC004692-CIS-22B-CSE-12
 A0000000,EC004692,Santa Rosa Jr Coll,CHEM,1A,General Chemistry I,SP13,4610,1,C+,LD,,1,CHEM,6A,,,,0000,,2025-11-18,A0000000-EC004692-CHEM-1A-CHEM-6A
 A0000000,EC004692,Santa Rosa Jr Coll,HIST,17A,US History to 1877,FA13,4620,1,B+,LD,,1,HIST,101,,,,0000,,2025-11-18,A0000000-EC004692-HIST-17A-HIST-101
 A0000001,EC006210,Foothill College,PHIL,10,Introduction to Logic,S112,4580,1,B,LD,,1,PHIL,10,,,,0000,,2025-12-10,A0000001-EC006210-PHIL-10-PHIL-10
