@@ -140,6 +140,23 @@ def get_classes(student_id):
     for _, data in student_classes.iterrows():
         # PHP: preg_replace('/[^0-9]/', '', $data[2])
         crsnum = data["crsnum"]
+
+        # Filter 1: Exclude grade column equal to W (should include w and W)
+        if data["grade"].strip().upper() == "W":
+            continue
+
+        # Filter 2: Exclude crsnum column equal to "90"
+        if crsnum.strip() == "90":
+            continue
+
+        # Filter 3: Only include units that are greater than 2
+        try:
+            units = float(data["units"])
+            if units <= 2:
+                continue
+        except (ValueError, TypeError):
+            continue
+
         coursenumber = re.sub(r"[^0-9]", "", crsnum)
         courseletter = re.sub(r"[0-9]", "", crsnum)
 

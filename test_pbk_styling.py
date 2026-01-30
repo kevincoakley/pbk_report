@@ -71,23 +71,36 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling.map_class_types")
     @patch("pbk_styling._get_df")
     def test_get_classes(self, mock_get_df, mock_map):
-        headers = "id,dept,crsnum,x,x,x,x,grade"
-        row1 = "12345,MATH,101A,x,x,x,x,A"
-        csv_content = f"{headers}\n{row1}\n"
+        headers = "id,dept,crsnum,grade,units"
+        # 1. Valid class
+        row1 = "12345,MATH,101A,A,4.0"
+        # 2. Grade W
+        row2 = "12345,MATH,102,W,4.0"
+        # 3. Grade w
+        row3 = "12345,MATH,103,w,4.0"
+        # 4. Crsnum 90
+        row4 = "12345,MATH,90,A,4.0"
+        # 5. Crsnum 90 with space
+        row5 = "12345,MATH, 90 ,A,4.0"
+        # 6. Units 2.0
+        row6 = "12345,MATH,104,A,2.0"
+        # 7. Units 1.0
+        row7 = "12345,MATH,105,A,1.0"
+
+        csv_content = (
+            f"{headers}\n{row1}\n{row2}\n{row3}\n{row4}\n{row5}\n{row6}\n{row7}\n"
+        )
 
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
-        mock_map.return_value = "MS"  # Return 'Mathematics' key
+        mock_map.side_effect = lambda d, n, l: "MS" if d == "MATH" else None
 
         classes = pbk_styling.get_classes("12345")
 
         self.assertIn("MS", classes)
+        # Only row1 should be included
         self.assertEqual(len(classes["MS"]), 1)
-        # Note: the mock data has crsnum="101A".
-        # The logic: re.sub(r"[^0-9]", "", data["crsnum"]) -> "101"
-        # The stored object uses original data["crsnum"] -> "101A"
-        # The test checks classes["MS"][0]["crsnum"] == "101A"
         self.assertEqual(classes["MS"][0]["crsnum"], "101A")
         self.assertEqual(classes["MS"][0]["grade"], "A")
 
