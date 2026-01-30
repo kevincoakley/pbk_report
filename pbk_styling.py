@@ -66,11 +66,22 @@ def map_class_types(department, coursenumber, courseletter):
 
     # Second pass: wildcard
     if department != "AP" and department != "IB":
-        wildcard_match = df[
+        wildcard_matches = df[
             (df["department"] == department) & (df["coursenumber"] == "*")
         ]
-        if not wildcard_match.empty:
-            return wildcard_match.iloc[0]["classtype"]
+
+        if not wildcard_matches.empty:
+            c_num = int(coursenumber)
+            for _, row in wildcard_matches.iterrows():
+                # If anyUD is Y and coursenumber is >= 100, return classtype
+                if (row["anyUD"] == "Y") and (c_num >= 100):
+                    return row["classtype"]
+                # If anyUD is N and coursenumber is < 100, return classtype
+                elif (row["anyUD"] == "N") and (c_num < 100):
+                    return row["classtype"]
+
+            # If no condition met after checking all rows
+            return None
 
     # print(f"No match found for: {department} - {coursenumber} - {courseletter}")
     return None

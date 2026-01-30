@@ -37,9 +37,40 @@ class TestPbkStyling(unittest.TestCase):
         result = pbk_styling.map_class_types("MATH", "101", "A")
         self.assertEqual(result, "MS")
 
-        # Test wildcard match
-        result = pbk_styling.map_class_types("HIST", "999", "B")
+        # Test wildcard match logic
+        # 1. Match anyUD=N with course < 100 (SS)
+        result = pbk_styling.map_class_types("HIST", "99", "")
         self.assertEqual(result, "SS")
+
+        # 2. Match anyUD=Y with course >= 100 (LS) -- assuming added row
+        # Add a more complex dataframe setup for this test
+        csv_content_complex = (
+            "courseid,department,coursenumber,courseletter,anyUD,classtype\n"
+            "1,MATH,101,A,N,MS\n"
+            "2,HIST,*,*,N,SS\n"
+            "3,LIT,*,*,Y,LS\n"
+            "4,MIX,*,*,N,SS\n"
+            "5,MIX,*,*,Y,LS\n"
+        )
+        df_complex = pd.read_csv(io.StringIO(csv_content_complex), dtype=str).fillna("")
+        mock_get_df.return_value = df_complex
+
+        # Test LIT: anyUD=Y, course=105 -> LS
+        result = pbk_styling.map_class_types("LIT", "105", "")
+        self.assertEqual(result, "LS")
+
+        # Test LIT: anyUD=Y, course=50 -> None (mismatch condition)
+        result = pbk_styling.map_class_types("LIT", "50", "")
+        self.assertIsNone(result)
+
+        # Test MIX: has both N (SS) and Y (LS) rows
+        # Course 10 (matches N -> SS)
+        result = pbk_styling.map_class_types("MIX", "10", "")
+        self.assertEqual(result, "SS")
+
+        # Course 150 (matches Y -> LS)
+        result = pbk_styling.map_class_types("MIX", "150", "")
+        self.assertEqual(result, "LS")
 
         # Test no match
         result = pbk_styling.map_class_types("ART", "101", "A")
