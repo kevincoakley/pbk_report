@@ -139,6 +139,25 @@ def get_students():
     return students
 
 
+def _course_sort_key(item):
+    """
+    Sort key for courses:
+    1. Department (alphabetical)
+    2. Course Number (numeric value)
+    3. Course Suffix (alphanumeric)
+    """
+    dept = item.get("dept", "")
+    crsnum = item.get("crsnum", "")
+
+    # Extract number and letter parts
+    c_num_str = re.sub(r"[^0-9]", "", crsnum)
+    c_let_str = re.sub(r"[0-9]", "", crsnum)
+
+    c_num = int(c_num_str) if c_num_str else 0
+
+    return (dept, c_num, c_let_str)
+
+
 def get_classes(student_id):
     classes = {k: [] for k in get_class_types()}
     df = _get_df("pbk_screening_classes.csv")
@@ -198,6 +217,11 @@ def get_classes(student_id):
                     "grade": data["grade"],
                 }
             )
+
+    # Sort classes in each category
+    for type_ in classes:
+        classes[type_].sort(key=_course_sort_key)
+
     return classes
 
 
@@ -226,11 +250,17 @@ def get_ap_classes(student_id):
                 if type_ in ap_classes:
                     ap_classes[type_].append(
                         {
+                            "dept": data["dept"],
                             "crsnum": data["crsnum"],
                             "description": data["title"],
                             "units": data["units"],
                         }
                     )
+
+    # Sort classes in each category
+    for type_ in ap_classes:
+        ap_classes[type_].sort(key=_course_sort_key)
+
     return ap_classes
 
 
@@ -259,11 +289,17 @@ def get_ib_classes(student_id):
                 if type_ in ib_classes:
                     ib_classes[type_].append(
                         {
+                            "dept": data["dept"],
                             "crsnum": data["crsnum"],
                             "description": data["title"],
                             "units": data["units"],
                         }
                     )
+
+    # Sort classes in each category
+    for type_ in ib_classes:
+        ib_classes[type_].sort(key=_course_sort_key)
+
     return ib_classes
 
 
@@ -294,6 +330,9 @@ def get_transfer_classes(student_id):
                 "grade": data["grade"],
             }
         )
+
+    transfer_classes.sort(key=_course_sort_key)
+
     return transfer_classes
 
 

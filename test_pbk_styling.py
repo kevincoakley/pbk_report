@@ -272,6 +272,56 @@ class TestPbkStyling(unittest.TestCase):
         mock_template.render.assert_called()
         mock_print.assert_called_with("<html>Result</html>")
 
+    @patch("pbk_styling.map_class_types")
+    @patch("pbk_styling._get_df")
+    def test_get_classes_sorting(self, mock_get_df, mock_map):
+        headers = "id,dept,crsnum,grade,units"
+        # Mixed order in CSV
+        # Desired order:
+        # ANTH 2
+        # ANTH 100
+        # ANTH 100A
+        # BIO 1
+
+        rows = [
+            "12345,ANTH,100A,A,4.0",
+            "12345,BIO,1,A,4.0",
+            "12345,ANTH,2,A,4.0",
+            "12345,ANTH,100,A,4.0",
+        ]
+
+        csv_content = f"{headers}\n" + "\n".join(rows)
+        df_csv = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df_csv
+
+        # All map to "LS"
+        mock_map.return_value = ["LS"]
+
+        classes = pbk_styling.get_classes("12345")
+
+        # We expect a dictionary with key "LS"
+        self.assertIn("LS", classes)
+        result_list = classes["LS"]
+
+        # Expected sort order by (dept, numeric_crsnum, alpha_crsnum)
+        # ANTH 2
+        # ANTH 100
+        # ANTH 100A
+        # BIO 1
+
+        expected = [
+            {"dept": "ANTH", "crsnum": "2"},
+            {"dept": "ANTH", "crsnum": "100"},
+            {"dept": "ANTH", "crsnum": "100A"},
+            {"dept": "BIO", "crsnum": "1"},
+        ]
+
+        self.assertEqual(len(result_list), 4)
+
+        for i, exp in enumerate(expected):
+            self.assertEqual(result_list[i]["dept"], exp["dept"])
+            self.assertEqual(result_list[i]["crsnum"], exp["crsnum"])
+
 
 if __name__ == "__main__":
     unittest.main()
