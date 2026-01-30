@@ -56,7 +56,7 @@ def map_class_types(department, coursenumber, courseletter):
     df = _get_df("coursecrit.csv")
 
     if df is None:
-        return None
+        return []
 
     # First pass: exact match
     # PHP: $data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter
@@ -66,7 +66,7 @@ def map_class_types(department, coursenumber, courseletter):
         & (df["courseletter"] == courseletter)
     ]
     if not match.empty:
-        return match.iloc[0]["classtype"]
+        return match["classtype"].tolist()
 
     # Second pass: wildcard
     if department != "AP" and department != "IB":
@@ -79,16 +79,16 @@ def map_class_types(department, coursenumber, courseletter):
             for _, row in wildcard_matches.iterrows():
                 # If anyUD is Y and coursenumber is >= 100, return classtype
                 if (row["anyUD"] == "Y") and (c_num >= 100):
-                    return row["classtype"]
+                    return [row["classtype"]]
                 # If anyUD is N and coursenumber is < 100, return classtype
                 elif (row["anyUD"] == "N") and (c_num < 100):
-                    return row["classtype"]
+                    return [row["classtype"]]
 
             # If no condition met after checking all rows
-            return None
+            return []
 
     # print(f"No match found for: {department} - {coursenumber} - {courseletter}")
-    return None
+    return []
 
 
 def get_students():
@@ -175,20 +175,22 @@ def get_classes(student_id):
         coursenumber = re.sub(r"[^0-9]", "", crsnum)
         courseletter = re.sub(r"[0-9]", "", crsnum)
 
-        type_ = map_class_types(data["dept"], coursenumber, courseletter)
+        types = map_class_types(data["dept"], coursenumber, courseletter)
 
-        if type_ in classes:
-            classes[type_].append(
-                {
-                    "dept": data["dept"],
-                    "crsnum": data["crsnum"],
-                    "grade": data["grade"],
-                }
-            )
+        if types:
+            for type_ in types:
+                if type_ in classes:
+                    classes[type_].append(
+                        {
+                            "dept": data["dept"],
+                            "crsnum": data["crsnum"],
+                            "grade": data["grade"],
+                        }
+                    )
 
         # Always include classes from these departments as LS classes
-        # Check if type_ is NOT "LS" to avoid duplicates if map_class_types already returned "LS"
-        if data["dept"] in ALWAYS_INCLUDE_DEPT and type_ != "LS":
+        # Check if "LS" is NOT in types to avoid duplicates
+        if data["dept"] in ALWAYS_INCLUDE_DEPT and (not types or "LS" not in types):
             classes["LS"].append(
                 {
                     "dept": data["dept"],
@@ -217,16 +219,18 @@ def get_ap_classes(student_id):
     )
 
     for _, data in student_classes.iterrows():
-        type_ = map_class_types(data["dept"], data["crsnum"], "")
+        types = map_class_types(data["dept"], data["crsnum"], "")
 
-        if type_ in ap_classes:
-            ap_classes[type_].append(
-                {
-                    "crsnum": data["crsnum"],
-                    "description": data["title"],
-                    "units": data["units"],
-                }
-            )
+        if types:
+            for type_ in types:
+                if type_ in ap_classes:
+                    ap_classes[type_].append(
+                        {
+                            "crsnum": data["crsnum"],
+                            "description": data["title"],
+                            "units": data["units"],
+                        }
+                    )
     return ap_classes
 
 
@@ -248,16 +252,18 @@ def get_ib_classes(student_id):
     )
 
     for _, data in student_classes.iterrows():
-        type_ = map_class_types(data["dept"], data["crsnum"], "")
+        types = map_class_types(data["dept"], data["crsnum"], "")
 
-        if type_ in ib_classes:
-            ib_classes[type_].append(
-                {
-                    "crsnum": data["crsnum"],
-                    "description": data["title"],
-                    "units": data["units"],
-                }
-            )
+        if types:
+            for type_ in types:
+                if type_ in ib_classes:
+                    ib_classes[type_].append(
+                        {
+                            "crsnum": data["crsnum"],
+                            "description": data["title"],
+                            "units": data["units"],
+                        }
+                    )
     return ib_classes
 
 

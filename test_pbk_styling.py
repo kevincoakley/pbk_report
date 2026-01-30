@@ -29,18 +29,24 @@ class TestPbkStyling(unittest.TestCase):
             "courseid,department,coursenumber,courseletter,anyUD,classtype\n"
             "1,MATH,101,A,N,MS\n"
             "2,HIST,*,*,N,SS\n"
+            "3,PSYC,60,A,N,MS\n"
+            "4,PSYC,60,A,N,SS\n"
         )
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
         # Test exact match
         result = pbk_styling.map_class_types("MATH", "101", "A")
-        self.assertEqual(result, "MS")
+        self.assertEqual(result, ["MS"])
+
+        # Test multiple exact matches
+        result = pbk_styling.map_class_types("PSYC", "60", "A")
+        self.assertEqual(sorted(result), ["MS", "SS"])
 
         # Test wildcard match logic
         # 1. Match anyUD=N with course < 100 (SS)
         result = pbk_styling.map_class_types("HIST", "99", "")
-        self.assertEqual(result, "SS")
+        self.assertEqual(result, ["SS"])
 
         # 2. Match anyUD=Y with course >= 100 (LS) -- assuming added row
         # Add a more complex dataframe setup for this test
@@ -57,29 +63,29 @@ class TestPbkStyling(unittest.TestCase):
 
         # Test LIT: anyUD=Y, course=105 -> LS
         result = pbk_styling.map_class_types("LIT", "105", "")
-        self.assertEqual(result, "LS")
+        self.assertEqual(result, ["LS"])
 
-        # Test LIT: anyUD=Y, course=50 -> None (mismatch condition)
+        # Test LIT: anyUD=Y, course=50 -> [] (mismatch condition)
         result = pbk_styling.map_class_types("LIT", "50", "")
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
         # Test MIX: has both N (SS) and Y (LS) rows
         # Course 10 (matches N -> SS)
         result = pbk_styling.map_class_types("MIX", "10", "")
-        self.assertEqual(result, "SS")
+        self.assertEqual(result, ["SS"])
 
         # Course 150 (matches Y -> LS)
         result = pbk_styling.map_class_types("MIX", "150", "")
-        self.assertEqual(result, "LS")
+        self.assertEqual(result, ["LS"])
 
         # Test no match
         result = pbk_styling.map_class_types("ART", "101", "A")
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
         # Test file not exists
         mock_get_df.return_value = None
         result = pbk_styling.map_class_types("MATH", "101", "A")
-        self.assertIsNone(result)
+        self.assertEqual(result, [])
 
     @patch("pbk_styling._get_df")
     def test_get_students(self, mock_get_df):
@@ -117,42 +123,56 @@ class TestPbkStyling(unittest.TestCase):
         row6 = "12345,MATH,104,A,2.0"
         # 7. Units 1.0
         row7 = "12345,MATH,105,A,1.0"
+        # 8. PSYC 60 (Multiple types)
+        row8 = "12345,PSYC,60,A,4.0"
 
-        csv_content = (
-            f"{headers}\n{row1}\n{row2}\n{row3}\n{row4}\n{row5}\n{row6}\n{row7}\n"
-        )
+        csv_content = f"{headers}\n{row1}\n{row2}\n{row3}\n{row4}\n{row5}\n{row6}\n{row7}\n{row8}\n"
 
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
-        mock_map.side_effect = lambda d, n, l: "MS" if d == "MATH" else None
+        # Mock map_class_types to return list
+        def side_effect(d, n, l):
+            if d == "MATH":
+                return ["MS"]
+            if d == "PSYC" and n == "60":
+                return ["MS", "SS"]
+            return []
+
+        mock_map.side_effect = side_effect
 
         classes = pbk_styling.get_classes("12345")
 
+        # Check MATH
         self.assertIn("MS", classes)
-        # Only row1 should be included
-        self.assertEqual(len(classes["MS"]), 1)
-        self.assertEqual(classes["MS"][0]["crsnum"], "101A")
-        self.assertEqual(classes["MS"][0]["grade"], "A")
+        # Should be 2 classes in MS (MATH 101A and PSYC 60)
+        ms_courses = [c["crsnum"] for c in classes["MS"]]
+        self.assertIn("101A", ms_courses)
+        self.assertIn("60", ms_courses)
+
+        # Check PSYC 60 also in SS
+        self.assertIn("SS", classes)
+        ss_courses = [c["crsnum"] for c in classes["SS"]]
+        self.assertIn("60", ss_courses)
 
         # Test Force Include (e.g. HUM)
         # Setup mock for force include scenario
-        # 1. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns None -> Should be in LS
-        # 2. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns LS -> Should be in LS once
+        # 1. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns [] -> Should be in LS
+        # 2. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns ["LS"] -> Should be in LS once
 
-        row8 = "12345,HUM,1,A,4.0"
-        csv_content_force = f"{headers}\n{row8}\n"
+        row9 = "12345,HUM,1,A,4.0"
+        csv_content_force = f"{headers}\n{row9}\n"
         df_force = pd.read_csv(io.StringIO(csv_content_force), dtype=str).fillna("")
         mock_get_df.return_value = df_force
 
-        # Scenario 1: map returns None
-        mock_map.side_effect = lambda d, n, l: None
+        # Scenario 1: map returns []
+        mock_map.side_effect = lambda d, n, l: []
         classes = pbk_styling.get_classes("12345")
         self.assertEqual(len(classes["LS"]), 1)
         self.assertEqual(classes["LS"][0]["dept"], "HUM")
 
-        # Scenario 2: map returns LS (should not duplicate)
-        mock_map.side_effect = lambda d, n, l: "LS"
+        # Scenario 2: map returns ["LS"] (should not duplicate)
+        mock_map.side_effect = lambda d, n, l: ["LS"]
         classes = pbk_styling.get_classes("12345")
         self.assertEqual(len(classes["LS"]), 1)
 
@@ -170,7 +190,7 @@ class TestPbkStyling(unittest.TestCase):
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
-        mock_map.return_value = "MS"
+        mock_map.return_value = ["MS"]
 
         ap_classes = pbk_styling.get_ap_classes("12345")
 
@@ -191,7 +211,7 @@ class TestPbkStyling(unittest.TestCase):
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
-        mock_map.return_value = "SS"
+        mock_map.return_value = ["SS"]
 
         ib_classes = pbk_styling.get_ib_classes("12345")
 
