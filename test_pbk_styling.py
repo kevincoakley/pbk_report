@@ -67,9 +67,19 @@ class TestPbkStyling(unittest.TestCase):
             "3,LIT,*,*,Y,LS\n"
             "4,MIX,*,*,N,SS\n"
             "5,MIX,*,*,Y,LS\n"
+            "6,BOTH,100,,N,MS\n"
+            "7,BOTH,*,*,Y,SS\n"
         )
         df_complex = pd.read_csv(io.StringIO(csv_content_complex), dtype=str).fillna("")
         mock_get_df.return_value = df_complex
+
+        # Test BOTH: Matches exact (MS) and wildcard (SS) because 100 >= 100 and AnyUD=Y
+        # Wait, AnyUD=Y means >= 100.
+        # Row 6: BOTH 100 -> MS
+        # Row 7: BOTH * -> SS (AnyUD=Y, so 100 matches)
+        # Expected: ["MS", "SS"]
+        result = pbk_styling.map_class_types("BOTH", "100", "")
+        self.assertEqual(sorted(result), ["MS", "SS"])
 
         # Test LIT: anyUD=Y, course=105 -> LS
         result = pbk_styling.map_class_types("LIT", "105", "")

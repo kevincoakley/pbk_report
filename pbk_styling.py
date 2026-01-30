@@ -58,6 +58,8 @@ def map_class_types(department, coursenumber, courseletter):
     if df is None:
         return []
 
+    matches = set()
+
     # First pass: exact match
     # PHP: $data[1] == $department && $data[2] == $coursenumber && $data[3] == $courseletter
     match = df[
@@ -66,31 +68,32 @@ def map_class_types(department, coursenumber, courseletter):
         & (df["courseletter"] == courseletter)
     ]
     if not match.empty:
-        return match["classtype"].tolist()
+        matches.update(match["classtype"].tolist())
 
-    # Try alternate formats (Split vs Combined)
-    # Case 1: Input has separate letter, check if CSV has combined (e.g. Input: "20", "R" -> CSV: "20R", "")
-    if courseletter:
-        combined_num = coursenumber + courseletter
-        match = df[
-            (df["department"] == department)
-            & (df["coursenumber"] == combined_num)
-            & (df["courseletter"] == "")
-        ]
-        if not match.empty:
-            return match["classtype"].tolist()
-    # Case 2: Input has no separate letter but number contains letter, check if CSV is split (e.g. Input: "20R", "" -> CSV: "20", "R")
-    else:
-        c_num = re.sub(r"[^0-9]", "", coursenumber)
-        c_let = re.sub(r"[0-9]", "", coursenumber)
-        if c_let:
+    # If no exact match, try alternate formats
+    if not matches:
+        # Case 1: Input has separate letter, check if CSV has combined (e.g. Input: "20", "R" -> CSV: "20R", "")
+        if courseletter:
+            combined_num = coursenumber + courseletter
             match = df[
                 (df["department"] == department)
-                & (df["coursenumber"] == c_num)
-                & (df["courseletter"] == c_let)
+                & (df["coursenumber"] == combined_num)
+                & (df["courseletter"] == "")
             ]
             if not match.empty:
-                return match["classtype"].tolist()
+                matches.update(match["classtype"].tolist())
+        # Case 2: Input has no separate letter but number contains letter, check if CSV is split (e.g. Input: "20R", "" -> CSV: "20", "R")
+        else:
+            c_num = re.sub(r"[^0-9]", "", coursenumber)
+            c_let = re.sub(r"[0-9]", "", coursenumber)
+            if c_let:
+                match = df[
+                    (df["department"] == department)
+                    & (df["coursenumber"] == c_num)
+                    & (df["courseletter"] == c_let)
+                ]
+                if not match.empty:
+                    matches.update(match["classtype"].tolist())
 
     # Second pass: wildcard
     if department != "AP" and department != "IB":
@@ -99,20 +102,23 @@ def map_class_types(department, coursenumber, courseletter):
         ]
 
         if not wildcard_matches.empty:
-            c_num = int(coursenumber)
+            try:
+                # Use regex to extract only the leading digits for comparison
+                # This handles cases like "100A", "100", etc. for numeric comparison
+                c_num_match = re.search(r"^\d+", str(coursenumber))
+                c_num = int(c_num_match.group()) if c_num_match else 0
+            except (ValueError, TypeError):
+                c_num = 0
+
             for _, row in wildcard_matches.iterrows():
                 # If anyUD is Y and coursenumber is >= 100, return classtype
                 if (row["anyUD"] == "Y") and (c_num >= 100):
-                    return [row["classtype"]]
+                    matches.add(row["classtype"])
                 # If anyUD is N and coursenumber is < 100, return classtype
                 elif (row["anyUD"] == "N") and (c_num < 100):
-                    return [row["classtype"]]
+                    matches.add(row["classtype"])
 
-            # If no condition met after checking all rows
-            return []
-
-    # print(f"No match found for: {department} - {coursenumber} - {courseletter}")
-    return []
+    return list(matches)
 
 
 def get_students():
