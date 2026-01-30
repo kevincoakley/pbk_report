@@ -48,6 +48,10 @@ def get_class_types():
     }
 
 
+# Always include classes from these departments as LS classes
+ALWAYS_INCLUDE_DEPT = ["HUM", "MMW", "DOC", "ETHN", "THHI", "CULT", "CAT"]
+
+
 def map_class_types(department, coursenumber, courseletter):
     df = _get_df("coursecrit.csv")
 
@@ -175,6 +179,17 @@ def get_classes(student_id):
 
         if type_ in classes:
             classes[type_].append(
+                {
+                    "dept": data["dept"],
+                    "crsnum": data["crsnum"],
+                    "grade": data["grade"],
+                }
+            )
+
+        # Always include classes from these departments as LS classes
+        # Check if type_ is NOT "LS" to avoid duplicates if map_class_types already returned "LS"
+        if data["dept"] in ALWAYS_INCLUDE_DEPT and type_ != "LS":
+            classes["LS"].append(
                 {
                     "dept": data["dept"],
                     "crsnum": data["crsnum"],

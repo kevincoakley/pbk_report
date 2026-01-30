@@ -135,6 +135,27 @@ class TestPbkStyling(unittest.TestCase):
         self.assertEqual(classes["MS"][0]["crsnum"], "101A")
         self.assertEqual(classes["MS"][0]["grade"], "A")
 
+        # Test Force Include (e.g. HUM)
+        # Setup mock for force include scenario
+        # 1. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns None -> Should be in LS
+        # 2. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns LS -> Should be in LS once
+
+        row8 = "12345,HUM,1,A,4.0"
+        csv_content_force = f"{headers}\n{row8}\n"
+        df_force = pd.read_csv(io.StringIO(csv_content_force), dtype=str).fillna("")
+        mock_get_df.return_value = df_force
+
+        # Scenario 1: map returns None
+        mock_map.side_effect = lambda d, n, l: None
+        classes = pbk_styling.get_classes("12345")
+        self.assertEqual(len(classes["LS"]), 1)
+        self.assertEqual(classes["LS"][0]["dept"], "HUM")
+
+        # Scenario 2: map returns LS (should not duplicate)
+        mock_map.side_effect = lambda d, n, l: "LS"
+        classes = pbk_styling.get_classes("12345")
+        self.assertEqual(len(classes["LS"]), 1)
+
         mock_map.assert_called()
 
     @patch("pbk_styling.map_class_types")
