@@ -68,6 +68,30 @@ def map_class_types(department, coursenumber, courseletter):
     if not match.empty:
         return match["classtype"].tolist()
 
+    # Try alternate formats (Split vs Combined)
+    # Case 1: Input has separate letter, check if CSV has combined (e.g. Input: "20", "R" -> CSV: "20R", "")
+    if courseletter:
+        combined_num = coursenumber + courseletter
+        match = df[
+            (df["department"] == department)
+            & (df["coursenumber"] == combined_num)
+            & (df["courseletter"] == "")
+        ]
+        if not match.empty:
+            return match["classtype"].tolist()
+    # Case 2: Input has no separate letter but number contains letter, check if CSV is split (e.g. Input: "20R", "" -> CSV: "20", "R")
+    else:
+        c_num = re.sub(r"[^0-9]", "", coursenumber)
+        c_let = re.sub(r"[0-9]", "", coursenumber)
+        if c_let:
+            match = df[
+                (df["department"] == department)
+                & (df["coursenumber"] == c_num)
+                & (df["courseletter"] == c_let)
+            ]
+            if not match.empty:
+                return match["classtype"].tolist()
+
     # Second pass: wildcard
     if department != "AP" and department != "IB":
         wildcard_matches = df[

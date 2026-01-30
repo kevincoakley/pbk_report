@@ -31,6 +31,8 @@ class TestPbkStyling(unittest.TestCase):
             "2,HIST,*,*,N,SS\n"
             "3,PSYC,60,A,N,MS\n"
             "4,PSYC,60,A,N,SS\n"
+            "5,SIO,20R,,N,NS\n"
+            "6,COGS,18,A,N,SS\n"
         )
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
@@ -42,6 +44,14 @@ class TestPbkStyling(unittest.TestCase):
         # Test multiple exact matches
         result = pbk_styling.map_class_types("PSYC", "60", "A")
         self.assertEqual(sorted(result), ["MS", "SS"])
+
+        # Test messy data: Input Split ("20", "R") -> CSV Combined ("20R", "")
+        result = pbk_styling.map_class_types("SIO", "20", "R")
+        self.assertEqual(result, ["NS"])
+
+        # Test messy data: Input Combined ("18A", "") -> CSV Split ("18", "A")
+        result = pbk_styling.map_class_types("COGS", "18A", "")
+        self.assertEqual(result, ["SS"])
 
         # Test wildcard match logic
         # 1. Match anyUD=N with course < 100 (SS)
