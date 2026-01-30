@@ -118,6 +118,12 @@ h5, h6 {
                     <td valign="top" width="30%">
         <h5>Transfer Classes</h5>
         <table width="100%" cellpadding="0" border="0">
+        {% for rowclss in student.apTransferClasses %}
+            <tr><td>{{ rowclss.dept }}</td><td>{{ rowclss.crsnum }}</td><td class="class-title">{{ rowclss.title }}</td><td>{{ rowclss.units }}</td><td>{{ rowclss.grade }}</td></tr>
+        {% endfor %}
+        {% for rowclss in student.ibTransferClasses %}
+            <tr><td>{{ rowclss.dept }}</td><td>{{ rowclss.crsnum }}</td><td class="class-title">{{ rowclss.title }}</td><td>{{ rowclss.units }}</td><td>{{ rowclss.grade }}</td></tr>
+        {% endfor %}
         {% for rowclss in student.transferClasses %}
              {% if rowclss.dept != "" %}
                 <tr><td>{{ rowclss.dept }}</td><td>{{ rowclss.crsnum }}</td><td class="class-title">{{ rowclss.title }}</td><td>{{ rowclss.units }}</td><td>{{ rowclss.grade }}</td></tr>

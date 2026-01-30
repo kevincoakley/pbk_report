@@ -268,17 +268,19 @@ def get_ap_classes(student_id):
     df = _get_df("pbk_screening_apclasses.csv")
 
     if df is None:
-        return ap_classes
+        return ap_classes, []
 
     student_classes = df[df["id"] == student_id]
 
     if student_classes.empty:
-        return ap_classes
+        return ap_classes, []
 
     # Deduplicate rows based on output columns
     student_classes = student_classes.drop_duplicates(
         subset=["dept", "crsnum", "title", "units"]
     )
+
+    uncategorized = []
 
     for _, data in student_classes.iterrows():
         types = map_class_types(data["dept"], data["crsnum"], "")
@@ -294,12 +296,26 @@ def get_ap_classes(student_id):
                             "units": data["units"],
                         }
                     )
+        else:
+            # If no type map, add to uncategorized list (will go to transfer)
+            uncategorized.append(
+                {
+                    "dept": data["dept"],
+                    "crsnum": data["crsnum"],
+                    "title": data["title"],
+                    "units": data["units"],
+                    "grade": "P",
+                }
+            )
 
     # Sort classes in each category
     for type_ in ap_classes:
         ap_classes[type_].sort(key=_course_sort_key)
 
-    return ap_classes
+    # Sort uncategorized classes
+    uncategorized.sort(key=_course_sort_key)
+
+    return ap_classes, uncategorized
 
 
 def get_ib_classes(student_id):
@@ -307,17 +323,19 @@ def get_ib_classes(student_id):
     df = _get_df("pbk_screening_ibclasses.csv")
 
     if df is None:
-        return ib_classes
+        return ib_classes, []
 
     student_classes = df[df["id"] == student_id]
 
     if student_classes.empty:
-        return ib_classes
+        return ib_classes, []
 
     # Deduplicate rows based on output columns
     student_classes = student_classes.drop_duplicates(
         subset=["dept", "crsnum", "title", "units"]
     )
+
+    uncategorized = []
 
     for _, data in student_classes.iterrows():
         types = map_class_types(data["dept"], data["crsnum"], "")
@@ -333,12 +351,26 @@ def get_ib_classes(student_id):
                             "units": data["units"],
                         }
                     )
+        else:
+            # If no type map, add to uncategorized list (will go to transfer)
+            uncategorized.append(
+                {
+                    "dept": data["dept"],
+                    "crsnum": data["crsnum"],
+                    "title": data["title"],
+                    "units": data["units"],
+                    "grade": "P",
+                }
+            )
 
     # Sort classes in each category
     for type_ in ib_classes:
         ib_classes[type_].sort(key=_course_sort_key)
 
-    return ib_classes
+    # Sort uncategorized classes
+    uncategorized.sort(key=_course_sort_key)
+
+    return ib_classes, uncategorized
 
 
 def get_transfer_classes(student_id):
@@ -381,8 +413,8 @@ def main():
     for student in students:
         s_id = student["id"]
         student["classes"] = get_classes(s_id)
-        student["apClasses"] = get_ap_classes(s_id)
-        student["ibClasses"] = get_ib_classes(s_id)
+        student["apClasses"], student["apTransferClasses"] = get_ap_classes(s_id)
+        student["ibClasses"], student["ibTransferClasses"] = get_ib_classes(s_id)
         student["transferClasses"] = get_transfer_classes(s_id)
 
     env = Environment(loader=FileSystemLoader(BASE_DIR))

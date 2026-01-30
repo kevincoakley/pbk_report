@@ -226,14 +226,35 @@ class TestPbkStyling(unittest.TestCase):
         df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
         mock_get_df.return_value = df
 
-        mock_map.return_value = ["MS"]
+        # Mock map_class_types side effect to return [] for second row if needed
+        # But here we set return_value to ["MS"], so all will be categorized.
+        # Let's adjust mock_map to verify uncategorized logic too.
 
-        ap_classes = pbk_styling.get_ap_classes("12345")
+        def side_effect(d, n, l):
+            if d == "MATH":
+                return ["MS"]
+            return []
+
+        mock_map.side_effect = side_effect
+        mock_map.return_value = None  # Clear fixed return
+
+        # Add a row that will be uncategorized
+        row3 = "12345,OTHRADPL,Advanced Placement Credit,HIST,99,History,S112,4580,4.0,P,LD,,0,HIST,1a,,,,0000,,2026-01-03,A0000001-OTHRADPL-AP-MA4"
+        csv_content = f"{headers}\n{row1}\n{row2}\n{row3}\n"
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
+
+        ap_classes, uncategorized = pbk_styling.get_ap_classes("12345")
 
         self.assertIn("MS", ap_classes)
         # Should be 1 because of deduplication on relevant cols
         self.assertEqual(len(ap_classes["MS"]), 1)
         self.assertEqual(ap_classes["MS"][0]["crsnum"], "101")
+
+        # Verify uncategorized
+        self.assertEqual(len(uncategorized), 1)
+        self.assertEqual(uncategorized[0]["dept"], "HIST")
+        self.assertEqual(uncategorized[0]["grade"], "P")
 
     @patch("pbk_styling.map_class_types")
     @patch("pbk_styling._get_df")
@@ -249,11 +270,12 @@ class TestPbkStyling(unittest.TestCase):
 
         mock_map.return_value = ["SS"]
 
-        ib_classes = pbk_styling.get_ib_classes("12345")
+        ib_classes, uncategorized = pbk_styling.get_ib_classes("12345")
 
         self.assertIn("SS", ib_classes)
         # Should be 1 because of deduplication
         self.assertEqual(len(ib_classes["SS"]), 1)
+        self.assertEqual(len(uncategorized), 0)
 
     @patch("pbk_styling._get_df")
     def test_get_transfer_classes(self, mock_get_df):
@@ -292,8 +314,8 @@ class TestPbkStyling(unittest.TestCase):
         # Setup mocks
         mock_students.return_value = [{"id": "12345"}]
         mock_classes.return_value = {}
-        mock_ap.return_value = {}
-        mock_ib.return_value = {}
+        mock_ap.return_value = ({}, [])
+        mock_ib.return_value = ({}, [])
         mock_trans.return_value = []
 
         mock_template = MagicMock()
