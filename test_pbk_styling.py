@@ -90,18 +90,34 @@ class TestPbkStyling(unittest.TestCase):
     @patch("pbk_styling._get_df")
     def test_get_students(self, mock_get_df):
         headers = "Full Name,First Name,Middle Name,Last Name,PID,College,Major Code,Major Description,Class Level,Gender,Cumulative Units,Cumulative GPA,Email(UCSD),Permanent Mailing Addresss Line 1,Permanent Mailing City Line 1,Permanent Mailing State Line 1,Permanent Mailing Zip Code Line 1,Permanent Mailing Country Line 1,Permanent Phone Number,Graduating Quarter,Registration Status"
-        row1 = "Doe,John,M,Doe,12345,Col,Maj,Desc,U,M,100,4.0,e@mail,Addr,City,ST,12345,USA,555,2023,Reg"
-        csv_content = f"{headers}\n{row1}\n"
+        row1 = "Doe,John,M,Doe,12345,Col,Maj,Desc,U,M,100,4.0,e@mail,Addr,City,ST,12345,US,555,2023,Reg"
+        row2 = "Smith,Jane,F,Smith,67890,Col,Maj,Desc,U,F,100,4.0,e@mail,Addr,City,ST,12345,XX,555,2023,Reg"
+        csv_content = f"{headers}\n{row1}\n{row2}\n"
 
-        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
-        mock_get_df.return_value = df
+        country_content = "country_code,country_name\nUS,United States\nCA,Canada\n"
+
+        def side_effect(filename):
+            if filename == "pbk_screening.csv":
+                return pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+            if filename == "country_codes.csv":
+                return pd.read_csv(io.StringIO(country_content), dtype=str).fillna("")
+            return None
+
+        mock_get_df.side_effect = side_effect
 
         students = pbk_styling.get_students()
-        self.assertEqual(len(students), 1)
+        self.assertEqual(len(students), 2)
+
+        # Test valid country lookup
         self.assertEqual(students[0]["id"], "12345")
         self.assertEqual(students[0]["country"], "United States")
 
+        # Test fallback to code when not found
+        self.assertEqual(students[1]["id"], "67890")
+        self.assertEqual(students[1]["country"], "XX")
+
         # Test file not exists
+        mock_get_df.side_effect = None
         mock_get_df.return_value = None
         self.assertEqual(pbk_styling.get_students(), [])
 

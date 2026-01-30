@@ -98,6 +98,15 @@ def get_students():
     if df is None:
         return students
 
+    # Load country codes
+    country_df = _get_df("country_codes.csv")
+    country_lookup = {}
+    if country_df is not None:
+        # Create a dictionary mapping country_code to country_name
+        country_lookup = dict(
+            zip(country_df["country_code"], country_df["country_name"])
+        )
+
     # Iterate over the rows and construct the student dictionary
     # to_dict('records') is efficient enough for this step
     records = df.to_dict("records")
@@ -129,10 +138,9 @@ def get_students():
             "major2_desc": "",
             "apln_term": data.get("Graduating Quarter", ""),
             "lang": "N",
-            "country": (
-                "United States"
-                if data.get("Permanent Mailing Country Line 1") == "USA"
-                else data.get("Permanent Mailing Country Line 1", "")
+            "country": country_lookup.get(
+                data.get("Permanent Mailing Country Line 1", ""),
+                data.get("Permanent Mailing Country Line 1", ""),
             ),
         }
         students.append(student)
