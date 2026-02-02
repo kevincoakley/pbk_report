@@ -285,7 +285,7 @@ def get_students() -> List[Student]:
             "reg_status": data.get("Registration Status", ""),
             "major2": "",
             "major2_desc": "",
-            "apln_term": data.get("Graduating Quarter", ""),
+            "apln_term": data.get("Apln Term", ""),
             "lang": "N",
             "country": country_lookup.get(pm_country_code, pm_country_code),
             "classes": {},
