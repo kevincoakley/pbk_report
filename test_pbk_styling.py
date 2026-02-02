@@ -312,7 +312,7 @@ class TestPbkStyling(unittest.TestCase):
         mock_print,
     ):
         # Setup mocks
-        mock_students.return_value = [{"id": "12345"}]
+        mock_students.return_value = [{"id": "12345", "college": "RE"}]
         mock_classes.return_value = {}
         mock_ap.return_value = ({}, [])
         mock_ib.return_value = ({}, [])

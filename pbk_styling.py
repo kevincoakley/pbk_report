@@ -511,7 +511,7 @@ def main() -> None:
     students = get_students()
 
     # Enrich students with their classes
-    for student in students:
+    for student in students[:]:
         s_id = student["id"]
         student["classes"] = get_classes(s_id)
         student["apClasses"], student["apTransferClasses"] = get_ap_classes(s_id)
