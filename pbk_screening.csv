@@ -1,101 +1,101 @@
 Full Name,First Name,Middle Name,Last Name,PID,College,Major Code,Major Description,Class Level,Gender,Cumulative Units,Cumulative GPA,Email(UCSD),Permanent Mailing Addresss Line 1,Permanent Mailing City Line 1,Permanent Mailing State Line 1,Permanent Mailing Zip Code Line 1,Permanent Mailing Country Line 1,Permanent Phone Number,Graduating Quarter,Registration Status
-First0 M0 Last0,First0,M0,Last0,A0000000,Warren,BIOL,Biology,JR,M,64,2.29,first0last0@ucsd.edu,0 Main St,La Jolla,CA,92000,US,(858) 555-1000,SU26,Withdrawn
-First1 Last1,First1,,Last1,A0000001,Warren,PSYC,Psychology,JR,O,148,2.56,first1last1@ucsd.edu,1 Main St,La Jolla,CA,92001,US,(858) 555-1001,SP26,Withdrawn
-First2 M2 Last2,First2,M2,Last2,A0000002,Marshall,PHYS,Physics,FR,F,114,2.91,first2last2@ucsd.edu,2 Main St,La Jolla,CA,92002,US,(858) 555-1002,FA25,Withdrawn
-First3 Last3,First3,,Last3,A0000003,Marshall,ECON,Economics,FR,O,154,2.68,first3last3@ucsd.edu,3 Main St,La Jolla,CA,92003,CN,(858) 555-1003,SP26,Withdrawn
-First4 M4 Last4,First4,M4,Last4,A0000004,Muir,CSE,Computer Science,SR,M,88,3.15,first4last4@ucsd.edu,4 Main St,La Jolla,CA,92004,US,(858) 555-1004,FA25,Registered
-First5 Last5,First5,,Last5,A0000005,Muir,BIOL,Biology,SR,F,109,3.01,first5last5@ucsd.edu,5 Main St,La Jolla,CA,92005,US,(858) 555-1005,SP26,Withdrawn
-First6 M6 Last6,First6,M6,Last6,A0000006,Muir,CSE,Computer Science,FR,F,135,2.1,first6last6@ucsd.edu,6 Main St,La Jolla,CA,92006,US,(858) 555-1006,SP26,Leave
-First7 Last7,First7,,Last7,A0000007,Sixth,BIOL,Biology,SR,F,126,3.27,first7last7@ucsd.edu,7 Main St,La Jolla,CA,92007,US,(858) 555-1007,SP26,Registered
-First8 M8 Last8,First8,M8,Last8,A0000008,Sixth,BIOL,Biology,JR,F,82,2.15,first8last8@ucsd.edu,8 Main St,La Jolla,CA,92008,US,(858) 555-1008,SU26,Leave
-First9 Last9,First9,,Last9,A0000009,Muir,PSYC,Psychology,FR,F,107,3.33,first9last9@ucsd.edu,9 Main St,La Jolla,CA,92009,CA,(858) 555-1009,FA25,Leave
-First10 M10 Last10,First10,M10,Last10,A0000010,Muir,MATH,Mathematics,JR,O,89,2.52,first10last10@ucsd.edu,10 Main St,La Jolla,CA,92010,IT,(858) 555-1010,SU26,Leave
-First11 Last11,First11,,Last11,A0000011,Warren,BIOL,Biology,SR,F,176,3.92,first11last11@ucsd.edu,11 Main St,La Jolla,CA,92011,US,(858) 555-1011,SU26,Registered
-First12 M12 Last12,First12,M12,Last12,A0000012,Warren,PHYS,Physics,SR,O,107,2.48,first12last12@ucsd.edu,12 Main St,La Jolla,CA,92012,US,(858) 555-1012,WI26,Leave
-First13 Last13,First13,,Last13,A0000013,Muir,PHYS,Physics,JR,F,80,2.78,first13last13@ucsd.edu,13 Main St,La Jolla,CA,92013,US,(858) 555-1013,WI26,Leave
-First14 M14 Last14,First14,M14,Last14,A0000014,Warren,ECON,Economics,FR,O,133,2.62,first14last14@ucsd.edu,14 Main St,La Jolla,CA,92014,IN,(858) 555-1014,SU26,Withdrawn
-First15 Last15,First15,,Last15,A0000015,Sixth,PHYS,Physics,JR,M,146,3.27,first15last15@ucsd.edu,15 Main St,La Jolla,CA,92015,US,(858) 555-1015,FA25,Leave
-First16 M16 Last16,First16,M16,Last16,A0000016,Sixth,CSE,Computer Science,JR,O,95,3.79,first16last16@ucsd.edu,16 Main St,La Jolla,CA,92016,US,(858) 555-1016,WI26,Leave
-First17 Last17,First17,,Last17,A0000017,Warren,MATH,Mathematics,SO,M,149,2.78,first17last17@ucsd.edu,17 Main St,La Jolla,CA,92017,US,(858) 555-1017,WI26,Leave
-First18 M18 Last18,First18,M18,Last18,A0000018,Warren,BIOL,Biology,SO,M,66,2.35,first18last18@ucsd.edu,18 Main St,La Jolla,CA,92018,US,(858) 555-1018,SP26,Leave
-First19 Last19,First19,,Last19,A0000019,Roosevelt,BIOL,Biology,SR,M,137,2.11,first19last19@ucsd.edu,19 Main St,La Jolla,CA,92019,US,(858) 555-1019,FA25,Registered
-First20 M20 Last20,First20,M20,Last20,A0000020,Muir,PHYS,Physics,SR,M,64,2.02,first20last20@ucsd.edu,20 Main St,La Jolla,CA,92020,US,(858) 555-1020,SU26,Withdrawn
-First21 Last21,First21,,Last21,A0000021,Marshall,PHYS,Physics,SO,M,171,2.44,first21last21@ucsd.edu,21 Main St,La Jolla,CA,92021,US,(858) 555-1021,SP26,Withdrawn
-First22 M22 Last22,First22,M22,Last22,A0000022,Sixth,MATH,Mathematics,JR,F,143,3.65,first22last22@ucsd.edu,22 Main St,La Jolla,CA,92022,US,(858) 555-1022,SU26,Withdrawn
-First23 Last23,First23,,Last23,A0000023,Warren,BIOL,Biology,SR,O,146,3.1,first23last23@ucsd.edu,23 Main St,La Jolla,CA,92023,US,(858) 555-1023,SU26,Withdrawn
-First24 M24 Last24,First24,M24,Last24,A0000024,Marshall,MATH,Mathematics,SO,O,169,3.38,first24last24@ucsd.edu,24 Main St,La Jolla,CA,92024,US,(858) 555-1024,SU26,Withdrawn
-First25 Last25,First25,,Last25,A0000025,Revelle,CSE,Computer Science,JR,M,107,3.03,first25last25@ucsd.edu,25 Main St,La Jolla,CA,92025,US,(858) 555-1025,WI26,Leave
-First26 M26 Last26,First26,M26,Last26,A0000026,Roosevelt,BIOL,Biology,SO,M,98,3.3,first26last26@ucsd.edu,26 Main St,La Jolla,CA,92026,US,(858) 555-1026,SP26,Withdrawn
-First27 Last27,First27,,Last27,A0000027,Warren,CSE,Computer Science,FR,M,141,2.35,first27last27@ucsd.edu,27 Main St,La Jolla,CA,92027,US,(858) 555-1027,SU26,Withdrawn
-First28 M28 Last28,First28,M28,Last28,A0000028,Muir,PHYS,Physics,JR,O,145,3.39,first28last28@ucsd.edu,28 Main St,La Jolla,CA,92028,US,(858) 555-1028,SP26,Registered
-First29 Last29,First29,,Last29,A0000029,Muir,ECON,Economics,SR,O,154,3.97,first29last29@ucsd.edu,29 Main St,La Jolla,CA,92029,US,(858) 555-1029,FA25,Leave
-First30 M30 Last30,First30,M30,Last30,A0000030,Marshall,PHYS,Physics,JR,O,159,2.25,first30last30@ucsd.edu,30 Main St,La Jolla,CA,92030,US,(858) 555-1030,WI26,Leave
-First31 Last31,First31,,Last31,A0000031,Muir,CSE,Computer Science,FR,O,123,2.38,first31last31@ucsd.edu,31 Main St,La Jolla,CA,92031,US,(858) 555-1031,SU26,Registered
-First32 M32 Last32,First32,M32,Last32,A0000032,Sixth,CSE,Computer Science,FR,M,90,2.99,first32last32@ucsd.edu,32 Main St,La Jolla,CA,92032,US,(858) 555-1032,SU26,Registered
-First33 Last33,First33,,Last33,A0000033,Sixth,PSYC,Psychology,JR,M,72,2.79,first33last33@ucsd.edu,33 Main St,La Jolla,CA,92033,US,(858) 555-1033,FA25,Leave
-First34 M34 Last34,First34,M34,Last34,A0000034,Roosevelt,PHYS,Physics,SR,O,62,2.44,first34last34@ucsd.edu,34 Main St,La Jolla,CA,92034,US,(858) 555-1034,SU26,Withdrawn
-First35 Last35,First35,,Last35,A0000035,Warren,ECON,Economics,FR,O,68,3.68,first35last35@ucsd.edu,35 Main St,La Jolla,CA,92035,US,(858) 555-1035,FA25,Leave
-First36 M36 Last36,First36,M36,Last36,A0000036,Muir,PHYS,Physics,SO,F,118,2.15,first36last36@ucsd.edu,36 Main St,La Jolla,CA,92036,US,(858) 555-1036,SP26,Withdrawn
-First37 Last37,First37,,Last37,A0000037,Revelle,PHYS,Physics,SR,F,75,2.73,first37last37@ucsd.edu,37 Main St,La Jolla,CA,92037,US,(858) 555-1037,SU26,Leave
-First38 M38 Last38,First38,M38,Last38,A0000038,Marshall,PHYS,Physics,FR,M,62,3.7,first38last38@ucsd.edu,38 Main St,La Jolla,CA,92038,US,(858) 555-1038,SP26,Registered
-First39 Last39,First39,,Last39,A0000039,Sixth,MATH,Mathematics,JR,F,91,2.64,first39last39@ucsd.edu,39 Main St,La Jolla,CA,92039,US,(858) 555-1039,SP26,Registered
-First40 M40 Last40,First40,M40,Last40,A0000040,Roosevelt,PSYC,Psychology,JR,M,141,3.09,first40last40@ucsd.edu,40 Main St,La Jolla,CA,92040,US,(858) 555-1040,WI26,Leave
-First41 Last41,First41,,Last41,A0000041,Warren,MATH,Mathematics,FR,F,143,3.67,first41last41@ucsd.edu,41 Main St,La Jolla,CA,92041,US,(858) 555-1041,WI26,Withdrawn
-First42 M42 Last42,First42,M42,Last42,A0000042,Muir,CSE,Computer Science,FR,M,106,2.44,first42last42@ucsd.edu,42 Main St,La Jolla,CA,92042,US,(858) 555-1042,SP26,Registered
-First43 Last43,First43,,Last43,A0000043,Muir,PHYS,Physics,FR,F,65,3.81,first43last43@ucsd.edu,43 Main St,La Jolla,CA,92043,US,(858) 555-1043,SU26,Withdrawn
-First44 M44 Last44,First44,M44,Last44,A0000044,Warren,ECON,Economics,SO,O,105,2.43,first44last44@ucsd.edu,44 Main St,La Jolla,CA,92044,US,(858) 555-1044,WI26,Leave
-First45 Last45,First45,,Last45,A0000045,Roosevelt,ECON,Economics,SR,M,46,2.55,first45last45@ucsd.edu,45 Main St,La Jolla,CA,92045,US,(858) 555-1045,WI26,Leave
-First46 M46 Last46,First46,M46,Last46,A0000046,Marshall,CSE,Computer Science,FR,M,63,3.12,first46last46@ucsd.edu,46 Main St,La Jolla,CA,92046,US,(858) 555-1046,SU26,Registered
-First47 Last47,First47,,Last47,A0000047,Marshall,ECON,Economics,JR,M,178,2.37,first47last47@ucsd.edu,47 Main St,La Jolla,CA,92047,US,(858) 555-1047,WI26,Registered
-First48 M48 Last48,First48,M48,Last48,A0000048,Muir,BIOL,Biology,SR,M,91,2.54,first48last48@ucsd.edu,48 Main St,La Jolla,CA,92048,US,(858) 555-1048,SU26,Leave
-First49 Last49,First49,,Last49,A0000049,Sixth,ECON,Economics,JR,M,80,3.65,first49last49@ucsd.edu,49 Main St,La Jolla,CA,92049,US,(858) 555-1049,SU26,Leave
-First50 M50 Last50,First50,M50,Last50,A0000050,Marshall,MATH,Mathematics,FR,M,108,3.65,first50last50@ucsd.edu,50 Main St,La Jolla,CA,92050,US,(858) 555-1050,WI26,Leave
-First51 Last51,First51,,Last51,A0000051,Muir,BIOL,Biology,JR,O,167,3.08,first51last51@ucsd.edu,51 Main St,La Jolla,CA,92051,US,(858) 555-1051,SP26,Withdrawn
-First52 M52 Last52,First52,M52,Last52,A0000052,Roosevelt,PHYS,Physics,SR,F,64,2.4,first52last52@ucsd.edu,52 Main St,La Jolla,CA,92052,US,(858) 555-1052,FA25,Leave
-First53 Last53,First53,,Last53,A0000053,Revelle,PHYS,Physics,JR,O,49,2.4,first53last53@ucsd.edu,53 Main St,La Jolla,CA,92053,US,(858) 555-1053,WI26,Leave
-First54 M54 Last54,First54,M54,Last54,A0000054,Roosevelt,BIOL,Biology,SO,M,90,2.51,first54last54@ucsd.edu,54 Main St,La Jolla,CA,92054,US,(858) 555-1054,WI26,Leave
-First55 Last55,First55,,Last55,A0000055,Muir,BIOL,Biology,SR,O,86,3.42,first55last55@ucsd.edu,55 Main St,La Jolla,CA,92055,US,(858) 555-1055,SP26,Withdrawn
-First56 M56 Last56,First56,M56,Last56,A0000056,Sixth,ECON,Economics,SO,M,180,2.63,first56last56@ucsd.edu,56 Main St,La Jolla,CA,92056,US,(858) 555-1056,SP26,Registered
-First57 Last57,First57,,Last57,A0000057,Sixth,PHYS,Physics,SR,O,119,2.27,first57last57@ucsd.edu,57 Main St,La Jolla,CA,92057,US,(858) 555-1057,WI26,Registered
-First58 M58 Last58,First58,M58,Last58,A0000058,Sixth,PHYS,Physics,SO,M,154,3.16,first58last58@ucsd.edu,58 Main St,La Jolla,CA,92058,US,(858) 555-1058,WI26,Withdrawn
-First59 Last59,First59,,Last59,A0000059,Sixth,ECON,Economics,FR,M,128,2.9,first59last59@ucsd.edu,59 Main St,La Jolla,CA,92059,US,(858) 555-1059,SU26,Withdrawn
-First60 M60 Last60,First60,M60,Last60,A0000060,Marshall,CSE,Computer Science,SR,M,94,2.77,first60last60@ucsd.edu,60 Main St,La Jolla,CA,92060,US,(858) 555-1060,SU26,Withdrawn
-First61 Last61,First61,,Last61,A0000061,Roosevelt,CSE,Computer Science,JR,M,59,2.03,first61last61@ucsd.edu,61 Main St,La Jolla,CA,92061,US,(858) 555-1061,SU26,Registered
-First62 M62 Last62,First62,M62,Last62,A0000062,Roosevelt,ECON,Economics,SO,O,96,3.22,first62last62@ucsd.edu,62 Main St,La Jolla,CA,92062,US,(858) 555-1062,SP26,Withdrawn
-First63 Last63,First63,,Last63,A0000063,Sixth,MATH,Mathematics,JR,O,78,3.71,first63last63@ucsd.edu,63 Main St,La Jolla,CA,92063,US,(858) 555-1063,WI26,Withdrawn
-First64 M64 Last64,First64,M64,Last64,A0000064,Sixth,ECON,Economics,SO,O,79,3.33,first64last64@ucsd.edu,64 Main St,La Jolla,CA,92064,US,(858) 555-1064,SU26,Leave
-First65 Last65,First65,,Last65,A0000065,Sixth,PSYC,Psychology,SO,O,60,2.53,first65last65@ucsd.edu,65 Main St,La Jolla,CA,92065,US,(858) 555-1065,SU26,Withdrawn
-First66 M66 Last66,First66,M66,Last66,A0000066,Sixth,ECON,Economics,SO,O,158,2.72,first66last66@ucsd.edu,66 Main St,La Jolla,CA,92066,US,(858) 555-1066,SP26,Withdrawn
-First67 Last67,First67,,Last67,A0000067,Marshall,PSYC,Psychology,SR,M,117,2.42,first67last67@ucsd.edu,67 Main St,La Jolla,CA,92067,US,(858) 555-1067,SP26,Registered
-First68 M68 Last68,First68,M68,Last68,A0000068,Muir,BIOL,Biology,JR,F,61,3.77,first68last68@ucsd.edu,68 Main St,La Jolla,CA,92068,US,(858) 555-1068,SP26,Leave
-First69 Last69,First69,,Last69,A0000069,Roosevelt,PHYS,Physics,FR,F,59,3.05,first69last69@ucsd.edu,69 Main St,La Jolla,CA,92069,US,(858) 555-1069,WI26,Registered
-First70 M70 Last70,First70,M70,Last70,A0000070,Warren,ECON,Economics,SR,O,150,3.59,first70last70@ucsd.edu,70 Main St,La Jolla,CA,92070,US,(858) 555-1070,SP26,Registered
-First71 Last71,First71,,Last71,A0000071,Sixth,PSYC,Psychology,FR,O,129,2.64,first71last71@ucsd.edu,71 Main St,La Jolla,CA,92071,US,(858) 555-1071,SP26,Registered
-First72 M72 Last72,First72,M72,Last72,A0000072,Marshall,ECON,Economics,FR,F,119,2.54,first72last72@ucsd.edu,72 Main St,La Jolla,CA,92072,US,(858) 555-1072,SU26,Registered
-First73 Last73,First73,,Last73,A0000073,Warren,BIOL,Biology,JR,F,72,3.72,first73last73@ucsd.edu,73 Main St,La Jolla,CA,92073,US,(858) 555-1073,WI26,Registered
-First74 M74 Last74,First74,M74,Last74,A0000074,Muir,ECON,Economics,SR,M,103,3.21,first74last74@ucsd.edu,74 Main St,La Jolla,CA,92074,US,(858) 555-1074,FA25,Withdrawn
-First75 Last75,First75,,Last75,A0000075,Muir,BIOL,Biology,FR,O,40,2.09,first75last75@ucsd.edu,75 Main St,La Jolla,CA,92075,US,(858) 555-1075,SP26,Leave
-First76 M76 Last76,First76,M76,Last76,A0000076,Revelle,PHYS,Physics,FR,O,71,3.89,first76last76@ucsd.edu,76 Main St,La Jolla,CA,92076,US,(858) 555-1076,SP26,Withdrawn
-First77 Last77,First77,,Last77,A0000077,Muir,PHYS,Physics,SO,O,49,2.64,first77last77@ucsd.edu,77 Main St,La Jolla,CA,92077,US,(858) 555-1077,SU26,Withdrawn
-First78 M78 Last78,First78,M78,Last78,A0000078,Roosevelt,PHYS,Physics,JR,F,117,2.19,first78last78@ucsd.edu,78 Main St,La Jolla,CA,92078,US,(858) 555-1078,SP26,Leave
-First79 Last79,First79,,Last79,A0000079,Sixth,ECON,Economics,SO,O,171,2.99,first79last79@ucsd.edu,79 Main St,La Jolla,CA,92079,US,(858) 555-1079,SP26,Leave
-First80 M80 Last80,First80,M80,Last80,A0000080,Warren,BIOL,Biology,FR,F,118,2.6,first80last80@ucsd.edu,80 Main St,La Jolla,CA,92080,US,(858) 555-1080,SP26,Registered
-First81 Last81,First81,,Last81,A0000081,Roosevelt,CSE,Computer Science,SO,M,50,3.73,first81last81@ucsd.edu,81 Main St,La Jolla,CA,92081,US,(858) 555-1081,FA25,Withdrawn
-First82 M82 Last82,First82,M82,Last82,A0000082,Warren,PSYC,Psychology,SO,M,65,3.12,first82last82@ucsd.edu,82 Main St,La Jolla,CA,92082,US,(858) 555-1082,WI26,Leave
-First83 Last83,First83,,Last83,A0000083,Revelle,PHYS,Physics,FR,M,87,2.6,first83last83@ucsd.edu,83 Main St,La Jolla,CA,92083,US,(858) 555-1083,WI26,Registered
-First84 M84 Last84,First84,M84,Last84,A0000084,Marshall,CSE,Computer Science,JR,O,51,3.09,first84last84@ucsd.edu,84 Main St,La Jolla,CA,92084,US,(858) 555-1084,SU26,Registered
-First85 Last85,First85,,Last85,A0000085,Revelle,PHYS,Physics,SO,M,107,2.96,first85last85@ucsd.edu,85 Main St,La Jolla,CA,92085,US,(858) 555-1085,FA25,Withdrawn
-First86 M86 Last86,First86,M86,Last86,A0000086,Warren,BIOL,Biology,SR,F,153,2.32,first86last86@ucsd.edu,86 Main St,La Jolla,CA,92086,US,(858) 555-1086,SP26,Withdrawn
-First87 Last87,First87,,Last87,A0000087,Marshall,BIOL,Biology,FR,O,171,2.65,first87last87@ucsd.edu,87 Main St,La Jolla,CA,92087,US,(858) 555-1087,SP26,Registered
-First88 M88 Last88,First88,M88,Last88,A0000088,Muir,BIOL,Biology,SR,M,95,3.18,first88last88@ucsd.edu,88 Main St,La Jolla,CA,92088,US,(858) 555-1088,FA25,Leave
-First89 Last89,First89,,Last89,A0000089,Roosevelt,BIOL,Biology,JR,O,164,2.97,first89last89@ucsd.edu,89 Main St,La Jolla,CA,92089,US,(858) 555-1089,SU26,Registered
-First90 M90 Last90,First90,M90,Last90,A0000090,Roosevelt,PSYC,Psychology,JR,F,56,2.65,first90last90@ucsd.edu,90 Main St,La Jolla,CA,92090,US,(858) 555-1090,SU26,Withdrawn
-First91 Last91,First91,,Last91,A0000091,Marshall,ECON,Economics,SO,M,123,2.82,first91last91@ucsd.edu,91 Main St,La Jolla,CA,92091,US,(858) 555-1091,SP26,Withdrawn
-First92 M92 Last92,First92,M92,Last92,A0000092,Warren,PHYS,Physics,SR,O,179,2.52,first92last92@ucsd.edu,92 Main St,La Jolla,CA,92092,US,(858) 555-1092,SP26,Registered
-First93 Last93,First93,,Last93,A0000093,Sixth,ECON,Economics,SO,M,166,3.4,first93last93@ucsd.edu,93 Main St,La Jolla,CA,92093,US,(858) 555-1093,SP26,Withdrawn
-First94 M94 Last94,First94,M94,Last94,A0000094,Marshall,PSYC,Psychology,SR,O,134,3.36,first94last94@ucsd.edu,94 Main St,La Jolla,CA,92094,US,(858) 555-1094,WI26,Withdrawn
-First95 Last95,First95,,Last95,A0000095,Revelle,PSYC,Psychology,JR,F,81,3.05,first95last95@ucsd.edu,95 Main St,La Jolla,CA,92095,US,(858) 555-1095,SP26,Registered
-First96 M96 Last96,First96,M96,Last96,A0000096,Sixth,MATH,Mathematics,SR,M,91,3.43,first96last96@ucsd.edu,96 Main St,La Jolla,CA,92096,US,(858) 555-1096,FA25,Withdrawn
-First97 Last97,First97,,Last97,A0000097,Marshall,MATH,Mathematics,FR,O,103,2.22,first97last97@ucsd.edu,97 Main St,La Jolla,CA,92097,US,(858) 555-1097,SP26,Withdrawn
-First98 M98 Last98,First98,M98,Last98,A0000098,Roosevelt,MATH,Mathematics,JR,M,73,2.98,first98last98@ucsd.edu,98 Main St,La Jolla,CA,92098,US,(858) 555-1098,FA25,Withdrawn
-First99 Last99,First99,,Last99,A0000099,Revelle,BIOL,Biology,SR,M,97,2.73,first99last99@ucsd.edu,99 Main St,La Jolla,CA,92099,US,(858) 555-1099,WI26,Leave
+First0 M0 Last0,First0,M0,Last0,A0000000,WA,BIOL,Biology,JR,M,64,2.29,first0last0@ucsd.edu,0 Main St,La Jolla,CA,92000,US,(858) 555-1000,SU26,Withdrawn
+First1 Last1,First1,,Last1,A0000001,WA,PSYC,Psychology,JR,O,148,2.56,first1last1@ucsd.edu,1 Main St,La Jolla,CA,92001,US,(858) 555-1001,SP26,Withdrawn
+First2 M2 Last2,First2,M2,Last2,A0000002,TH,PHYS,Physics,FR,F,114,2.91,first2last2@ucsd.edu,2 Main St,La Jolla,CA,92002,US,(858) 555-1002,FA25,Withdrawn
+First3 Last3,First3,,Last3,A0000003,TH,ECON,Economics,FR,O,154,2.68,first3last3@ucsd.edu,3 Main St,La Jolla,CA,92003,CN,(858) 555-1003,SP26,Withdrawn
+First4 M4 Last4,First4,M4,Last4,A0000004,MU,CSE,Computer Science,SR,M,88,3.15,first4last4@ucsd.edu,4 Main St,La Jolla,CA,92004,US,(858) 555-1004,FA25,Registered
+First5 Last5,First5,,Last5,A0000005,MU,BIOL,Biology,SR,F,109,3.01,first5last5@ucsd.edu,5 Main St,La Jolla,CA,92005,US,(858) 555-1005,SP26,Withdrawn
+First6 M6 Last6,First6,M6,Last6,A0000006,MU,CSE,Computer Science,FR,F,135,2.1,first6last6@ucsd.edu,6 Main St,La Jolla,CA,92006,US,(858) 555-1006,SP26,Leave
+First7 Last7,First7,,Last7,A0000007,SI,BIOL,Biology,SR,F,126,3.27,first7last7@ucsd.edu,7 Main St,La Jolla,CA,92007,US,(858) 555-1007,SP26,Registered
+First8 M8 Last8,First8,M8,Last8,A0000008,SI,BIOL,Biology,JR,F,82,2.15,first8last8@ucsd.edu,8 Main St,La Jolla,CA,92008,US,(858) 555-1008,SU26,Leave
+First9 Last9,First9,,Last9,A0000009,MU,PSYC,Psychology,FR,F,107,3.33,first9last9@ucsd.edu,9 Main St,La Jolla,CA,92009,CA,(858) 555-1009,FA25,Leave
+First10 M10 Last10,First10,M10,Last10,A0000010,MU,MATH,Mathematics,JR,O,89,2.52,first10last10@ucsd.edu,10 Main St,La Jolla,CA,92010,IT,(858) 555-1010,SU26,Leave
+First11 Last11,First11,,Last11,A0000011,WA,BIOL,Biology,SR,F,176,3.92,first11last11@ucsd.edu,11 Main St,La Jolla,CA,92011,US,(858) 555-1011,SU26,Registered
+First12 M12 Last12,First12,M12,Last12,A0000012,WA,PHYS,Physics,SR,O,107,2.48,first12last12@ucsd.edu,12 Main St,La Jolla,CA,92012,US,(858) 555-1012,WI26,Leave
+First13 Last13,First13,,Last13,A0000013,MU,PHYS,Physics,JR,F,80,2.78,first13last13@ucsd.edu,13 Main St,La Jolla,CA,92013,US,(858) 555-1013,WI26,Leave
+First14 M14 Last14,First14,M14,Last14,A0000014,WA,ECON,Economics,FR,O,133,2.62,first14last14@ucsd.edu,14 Main St,La Jolla,CA,92014,IN,(858) 555-1014,SU26,Withdrawn
+First15 Last15,First15,,Last15,A0000015,SI,PHYS,Physics,JR,M,146,3.27,first15last15@ucsd.edu,15 Main St,La Jolla,CA,92015,US,(858) 555-1015,FA25,Leave
+First16 M16 Last16,First16,M16,Last16,A0000016,SI,CSE,Computer Science,JR,O,95,3.79,first16last16@ucsd.edu,16 Main St,La Jolla,CA,92016,US,(858) 555-1016,WI26,Leave
+First17 Last17,First17,,Last17,A0000017,WA,MATH,Mathematics,SO,M,149,2.78,first17last17@ucsd.edu,17 Main St,La Jolla,CA,92017,US,(858) 555-1017,WI26,Leave
+First18 M18 Last18,First18,M18,Last18,A0000018,WA,BIOL,Biology,SO,M,66,2.35,first18last18@ucsd.edu,18 Main St,La Jolla,CA,92018,US,(858) 555-1018,SP26,Leave
+First19 Last19,First19,,Last19,A0000019,FI,BIOL,Biology,SR,M,137,2.11,first19last19@ucsd.edu,19 Main St,La Jolla,CA,92019,US,(858) 555-1019,FA25,Registered
+First20 M20 Last20,First20,M20,Last20,A0000020,MU,PHYS,Physics,SR,M,64,2.02,first20last20@ucsd.edu,20 Main St,La Jolla,CA,92020,US,(858) 555-1020,SU26,Withdrawn
+First21 Last21,First21,,Last21,A0000021,TH,PHYS,Physics,SO,M,171,2.44,first21last21@ucsd.edu,21 Main St,La Jolla,CA,92021,US,(858) 555-1021,SP26,Withdrawn
+First22 M22 Last22,First22,M22,Last22,A0000022,SI,MATH,Mathematics,JR,F,143,3.65,first22last22@ucsd.edu,22 Main St,La Jolla,CA,92022,US,(858) 555-1022,SU26,Withdrawn
+First23 Last23,First23,,Last23,A0000023,WA,BIOL,Biology,SR,O,146,3.1,first23last23@ucsd.edu,23 Main St,La Jolla,CA,92023,US,(858) 555-1023,SU26,Withdrawn
+First24 M24 Last24,First24,M24,Last24,A0000024,TH,MATH,Mathematics,SO,O,169,3.38,first24last24@ucsd.edu,24 Main St,La Jolla,CA,92024,US,(858) 555-1024,SU26,Withdrawn
+First25 Last25,First25,,Last25,A0000025,RE,CSE,Computer Science,JR,M,107,3.03,first25last25@ucsd.edu,25 Main St,La Jolla,CA,92025,US,(858) 555-1025,WI26,Leave
+First26 M26 Last26,First26,M26,Last26,A0000026,FI,BIOL,Biology,SO,M,98,3.3,first26last26@ucsd.edu,26 Main St,La Jolla,CA,92026,US,(858) 555-1026,SP26,Withdrawn
+First27 Last27,First27,,Last27,A0000027,WA,CSE,Computer Science,FR,M,141,2.35,first27last27@ucsd.edu,27 Main St,La Jolla,CA,92027,US,(858) 555-1027,SU26,Withdrawn
+First28 M28 Last28,First28,M28,Last28,A0000028,MU,PHYS,Physics,JR,O,145,3.39,first28last28@ucsd.edu,28 Main St,La Jolla,CA,92028,US,(858) 555-1028,SP26,Registered
+First29 Last29,First29,,Last29,A0000029,MU,ECON,Economics,SR,O,154,3.97,first29last29@ucsd.edu,29 Main St,La Jolla,CA,92029,US,(858) 555-1029,FA25,Leave
+First30 M30 Last30,First30,M30,Last30,A0000030,TH,PHYS,Physics,JR,O,159,2.25,first30last30@ucsd.edu,30 Main St,La Jolla,CA,92030,US,(858) 555-1030,WI26,Leave
+First31 Last31,First31,,Last31,A0000031,MU,CSE,Computer Science,FR,O,123,2.38,first31last31@ucsd.edu,31 Main St,La Jolla,CA,92031,US,(858) 555-1031,SU26,Registered
+First32 M32 Last32,First32,M32,Last32,A0000032,SI,CSE,Computer Science,FR,M,90,2.99,first32last32@ucsd.edu,32 Main St,La Jolla,CA,92032,US,(858) 555-1032,SU26,Registered
+First33 Last33,First33,,Last33,A0000033,SI,PSYC,Psychology,JR,M,72,2.79,first33last33@ucsd.edu,33 Main St,La Jolla,CA,92033,US,(858) 555-1033,FA25,Leave
+First34 M34 Last34,First34,M34,Last34,A0000034,FI,PHYS,Physics,SR,O,62,2.44,first34last34@ucsd.edu,34 Main St,La Jolla,CA,92034,US,(858) 555-1034,SU26,Withdrawn
+First35 Last35,First35,,Last35,A0000035,WA,ECON,Economics,FR,O,68,3.68,first35last35@ucsd.edu,35 Main St,La Jolla,CA,92035,US,(858) 555-1035,FA25,Leave
+First36 M36 Last36,First36,M36,Last36,A0000036,MU,PHYS,Physics,SO,F,118,2.15,first36last36@ucsd.edu,36 Main St,La Jolla,CA,92036,US,(858) 555-1036,SP26,Withdrawn
+First37 Last37,First37,,Last37,A0000037,RE,PHYS,Physics,SR,F,75,2.73,first37last37@ucsd.edu,37 Main St,La Jolla,CA,92037,US,(858) 555-1037,SU26,Leave
+First38 M38 Last38,First38,M38,Last38,A0000038,TH,PHYS,Physics,FR,M,62,3.7,first38last38@ucsd.edu,38 Main St,La Jolla,CA,92038,US,(858) 555-1038,SP26,Registered
+First39 Last39,First39,,Last39,A0000039,SI,MATH,Mathematics,JR,F,91,2.64,first39last39@ucsd.edu,39 Main St,La Jolla,CA,92039,US,(858) 555-1039,SP26,Registered
+First40 M40 Last40,First40,M40,Last40,A0000040,FI,PSYC,Psychology,JR,M,141,3.09,first40last40@ucsd.edu,40 Main St,La Jolla,CA,92040,US,(858) 555-1040,WI26,Leave
+First41 Last41,First41,,Last41,A0000041,WA,MATH,Mathematics,FR,F,143,3.67,first41last41@ucsd.edu,41 Main St,La Jolla,CA,92041,US,(858) 555-1041,WI26,Withdrawn
+First42 M42 Last42,First42,M42,Last42,A0000042,MU,CSE,Computer Science,FR,M,106,2.44,first42last42@ucsd.edu,42 Main St,La Jolla,CA,92042,US,(858) 555-1042,SP26,Registered
+First43 Last43,First43,,Last43,A0000043,MU,PHYS,Physics,FR,F,65,3.81,first43last43@ucsd.edu,43 Main St,La Jolla,CA,92043,US,(858) 555-1043,SU26,Withdrawn
+First44 M44 Last44,First44,M44,Last44,A0000044,WA,ECON,Economics,SO,O,105,2.43,first44last44@ucsd.edu,44 Main St,La Jolla,CA,92044,US,(858) 555-1044,WI26,Leave
+First45 Last45,First45,,Last45,A0000045,FI,ECON,Economics,SR,M,46,2.55,first45last45@ucsd.edu,45 Main St,La Jolla,CA,92045,US,(858) 555-1045,WI26,Leave
+First46 M46 Last46,First46,M46,Last46,A0000046,TH,CSE,Computer Science,FR,M,63,3.12,first46last46@ucsd.edu,46 Main St,La Jolla,CA,92046,US,(858) 555-1046,SU26,Registered
+First47 Last47,First47,,Last47,A0000047,TH,ECON,Economics,JR,M,178,2.37,first47last47@ucsd.edu,47 Main St,La Jolla,CA,92047,US,(858) 555-1047,WI26,Registered
+First48 M48 Last48,First48,M48,Last48,A0000048,MU,BIOL,Biology,SR,M,91,2.54,first48last48@ucsd.edu,48 Main St,La Jolla,CA,92048,US,(858) 555-1048,SU26,Leave
+First49 Last49,First49,,Last49,A0000049,SI,ECON,Economics,JR,M,80,3.65,first49last49@ucsd.edu,49 Main St,La Jolla,CA,92049,US,(858) 555-1049,SU26,Leave
+First50 M50 Last50,First50,M50,Last50,A0000050,TH,MATH,Mathematics,FR,M,108,3.65,first50last50@ucsd.edu,50 Main St,La Jolla,CA,92050,US,(858) 555-1050,WI26,Leave
+First51 Last51,First51,,Last51,A0000051,MU,BIOL,Biology,JR,O,167,3.08,first51last51@ucsd.edu,51 Main St,La Jolla,CA,92051,US,(858) 555-1051,SP26,Withdrawn
+First52 M52 Last52,First52,M52,Last52,A0000052,FI,PHYS,Physics,SR,F,64,2.4,first52last52@ucsd.edu,52 Main St,La Jolla,CA,92052,US,(858) 555-1052,FA25,Leave
+First53 Last53,First53,,Last53,A0000053,RE,PHYS,Physics,JR,O,49,2.4,first53last53@ucsd.edu,53 Main St,La Jolla,CA,92053,US,(858) 555-1053,WI26,Leave
+First54 M54 Last54,First54,M54,Last54,A0000054,FI,BIOL,Biology,SO,M,90,2.51,first54last54@ucsd.edu,54 Main St,La Jolla,CA,92054,US,(858) 555-1054,WI26,Leave
+First55 Last55,First55,,Last55,A0000055,MU,BIOL,Biology,SR,O,86,3.42,first55last55@ucsd.edu,55 Main St,La Jolla,CA,92055,US,(858) 555-1055,SP26,Withdrawn
+First56 M56 Last56,First56,M56,Last56,A0000056,SI,ECON,Economics,SO,M,180,2.63,first56last56@ucsd.edu,56 Main St,La Jolla,CA,92056,US,(858) 555-1056,SP26,Registered
+First57 Last57,First57,,Last57,A0000057,SI,PHYS,Physics,SR,O,119,2.27,first57last57@ucsd.edu,57 Main St,La Jolla,CA,92057,US,(858) 555-1057,WI26,Registered
+First58 M58 Last58,First58,M58,Last58,A0000058,SI,PHYS,Physics,SO,M,154,3.16,first58last58@ucsd.edu,58 Main St,La Jolla,CA,92058,US,(858) 555-1058,WI26,Withdrawn
+First59 Last59,First59,,Last59,A0000059,SI,ECON,Economics,FR,M,128,2.9,first59last59@ucsd.edu,59 Main St,La Jolla,CA,92059,US,(858) 555-1059,SU26,Withdrawn
+First60 M60 Last60,First60,M60,Last60,A0000060,TH,CSE,Computer Science,SR,M,94,2.77,first60last60@ucsd.edu,60 Main St,La Jolla,CA,92060,US,(858) 555-1060,SU26,Withdrawn
+First61 Last61,First61,,Last61,A0000061,FI,CSE,Computer Science,JR,M,59,2.03,first61last61@ucsd.edu,61 Main St,La Jolla,CA,92061,US,(858) 555-1061,SU26,Registered
+First62 M62 Last62,First62,M62,Last62,A0000062,FI,ECON,Economics,SO,O,96,3.22,first62last62@ucsd.edu,62 Main St,La Jolla,CA,92062,US,(858) 555-1062,SP26,Withdrawn
+First63 Last63,First63,,Last63,A0000063,SI,MATH,Mathematics,JR,O,78,3.71,first63last63@ucsd.edu,63 Main St,La Jolla,CA,92063,US,(858) 555-1063,WI26,Withdrawn
+First64 M64 Last64,First64,M64,Last64,A0000064,SI,ECON,Economics,SO,O,79,3.33,first64last64@ucsd.edu,64 Main St,La Jolla,CA,92064,US,(858) 555-1064,SU26,Leave
+First65 Last65,First65,,Last65,A0000065,SI,PSYC,Psychology,SO,O,60,2.53,first65last65@ucsd.edu,65 Main St,La Jolla,CA,92065,US,(858) 555-1065,SU26,Withdrawn
+First66 M66 Last66,First66,M66,Last66,A0000066,SI,ECON,Economics,SO,O,158,2.72,first66last66@ucsd.edu,66 Main St,La Jolla,CA,92066,US,(858) 555-1066,SP26,Withdrawn
+First67 Last67,First67,,Last67,A0000067,TH,PSYC,Psychology,SR,M,117,2.42,first67last67@ucsd.edu,67 Main St,La Jolla,CA,92067,US,(858) 555-1067,SP26,Registered
+First68 M68 Last68,First68,M68,Last68,A0000068,MU,BIOL,Biology,JR,F,61,3.77,first68last68@ucsd.edu,68 Main St,La Jolla,CA,92068,US,(858) 555-1068,SP26,Leave
+First69 Last69,First69,,Last69,A0000069,FI,PHYS,Physics,FR,F,59,3.05,first69last69@ucsd.edu,69 Main St,La Jolla,CA,92069,US,(858) 555-1069,WI26,Registered
+First70 M70 Last70,First70,M70,Last70,A0000070,WA,ECON,Economics,SR,O,150,3.59,first70last70@ucsd.edu,70 Main St,La Jolla,CA,92070,US,(858) 555-1070,SP26,Registered
+First71 Last71,First71,,Last71,A0000071,SI,PSYC,Psychology,FR,O,129,2.64,first71last71@ucsd.edu,71 Main St,La Jolla,CA,92071,US,(858) 555-1071,SP26,Registered
+First72 M72 Last72,First72,M72,Last72,A0000072,TH,ECON,Economics,FR,F,119,2.54,first72last72@ucsd.edu,72 Main St,La Jolla,CA,92072,US,(858) 555-1072,SU26,Registered
+First73 Last73,First73,,Last73,A0000073,WA,BIOL,Biology,JR,F,72,3.72,first73last73@ucsd.edu,73 Main St,La Jolla,CA,92073,US,(858) 555-1073,WI26,Registered
+First74 M74 Last74,First74,M74,Last74,A0000074,MU,ECON,Economics,SR,M,103,3.21,first74last74@ucsd.edu,74 Main St,La Jolla,CA,92074,US,(858) 555-1074,FA25,Withdrawn
+First75 Last75,First75,,Last75,A0000075,MU,BIOL,Biology,FR,O,40,2.09,first75last75@ucsd.edu,75 Main St,La Jolla,CA,92075,US,(858) 555-1075,SP26,Leave
+First76 M76 Last76,First76,M76,Last76,A0000076,RE,PHYS,Physics,FR,O,71,3.89,first76last76@ucsd.edu,76 Main St,La Jolla,CA,92076,US,(858) 555-1076,SP26,Withdrawn
+First77 Last77,First77,,Last77,A0000077,MU,PHYS,Physics,SO,O,49,2.64,first77last77@ucsd.edu,77 Main St,La Jolla,CA,92077,US,(858) 555-1077,SU26,Withdrawn
+First78 M78 Last78,First78,M78,Last78,A0000078,FI,PHYS,Physics,JR,F,117,2.19,first78last78@ucsd.edu,78 Main St,La Jolla,CA,92078,US,(858) 555-1078,SP26,Leave
+First79 Last79,First79,,Last79,A0000079,SI,ECON,Economics,SO,O,171,2.99,first79last79@ucsd.edu,79 Main St,La Jolla,CA,92079,US,(858) 555-1079,SP26,Leave
+First80 M80 Last80,First80,M80,Last80,A0000080,WA,BIOL,Biology,FR,F,118,2.6,first80last80@ucsd.edu,80 Main St,La Jolla,CA,92080,US,(858) 555-1080,SP26,Registered
+First81 Last81,First81,,Last81,A0000081,FI,CSE,Computer Science,SO,M,50,3.73,first81last81@ucsd.edu,81 Main St,La Jolla,CA,92081,US,(858) 555-1081,FA25,Withdrawn
+First82 M82 Last82,First82,M82,Last82,A0000082,WA,PSYC,Psychology,SO,M,65,3.12,first82last82@ucsd.edu,82 Main St,La Jolla,CA,92082,US,(858) 555-1082,WI26,Leave
+First83 Last83,First83,,Last83,A0000083,RE,PHYS,Physics,FR,M,87,2.6,first83last83@ucsd.edu,83 Main St,La Jolla,CA,92083,US,(858) 555-1083,WI26,Registered
+First84 M84 Last84,First84,M84,Last84,A0000084,TH,CSE,Computer Science,JR,O,51,3.09,first84last84@ucsd.edu,84 Main St,La Jolla,CA,92084,US,(858) 555-1084,SU26,Registered
+First85 Last85,First85,,Last85,A0000085,RE,PHYS,Physics,SO,M,107,2.96,first85last85@ucsd.edu,85 Main St,La Jolla,CA,92085,US,(858) 555-1085,FA25,Withdrawn
+First86 M86 Last86,First86,M86,Last86,A0000086,WA,BIOL,Biology,SR,F,153,2.32,first86last86@ucsd.edu,86 Main St,La Jolla,CA,92086,US,(858) 555-1086,SP26,Withdrawn
+First87 Last87,First87,,Last87,A0000087,TH,BIOL,Biology,FR,O,171,2.65,first87last87@ucsd.edu,87 Main St,La Jolla,CA,92087,US,(858) 555-1087,SP26,Registered
+First88 M88 Last88,First88,M88,Last88,A0000088,MU,BIOL,Biology,SR,M,95,3.18,first88last88@ucsd.edu,88 Main St,La Jolla,CA,92088,US,(858) 555-1088,FA25,Leave
+First89 Last89,First89,,Last89,A0000089,FI,BIOL,Biology,JR,O,164,2.97,first89last89@ucsd.edu,89 Main St,La Jolla,CA,92089,US,(858) 555-1089,SU26,Registered
+First90 M90 Last90,First90,M90,Last90,A0000090,FI,PSYC,Psychology,JR,F,56,2.65,first90last90@ucsd.edu,90 Main St,La Jolla,CA,92090,US,(858) 555-1090,SU26,Withdrawn
+First91 Last91,First91,,Last91,A0000091,TH,ECON,Economics,SO,M,123,2.82,first91last91@ucsd.edu,91 Main St,La Jolla,CA,92091,US,(858) 555-1091,SP26,Withdrawn
+First92 M92 Last92,First92,M92,Last92,A0000092,WA,PHYS,Physics,SR,O,179,2.52,first92last92@ucsd.edu,92 Main St,La Jolla,CA,92092,US,(858) 555-1092,SP26,Registered
+First93 Last93,First93,,Last93,A0000093,SI,ECON,Economics,SO,M,166,3.4,first93last93@ucsd.edu,93 Main St,La Jolla,CA,92093,US,(858) 555-1093,SP26,Withdrawn
+First94 M94 Last94,First94,M94,Last94,A0000094,TH,PSYC,Psychology,SR,O,134,3.36,first94last94@ucsd.edu,94 Main St,La Jolla,CA,92094,US,(858) 555-1094,WI26,Withdrawn
+First95 Last95,First95,,Last95,A0000095,RE,PSYC,Psychology,JR,F,81,3.05,first95last95@ucsd.edu,95 Main St,La Jolla,CA,92095,US,(858) 555-1095,SP26,Registered
+First96 M96 Last96,First96,M96,Last96,A0000096,SI,MATH,Mathematics,SR,M,91,3.43,first96last96@ucsd.edu,96 Main St,La Jolla,CA,92096,US,(858) 555-1096,FA25,Withdrawn
+First97 Last97,First97,,Last97,A0000097,TH,MATH,Mathematics,FR,O,103,2.22,first97last97@ucsd.edu,97 Main St,La Jolla,CA,92097,US,(858) 555-1097,SP26,Withdrawn
+First98 M98 Last98,First98,M98,Last98,A0000098,FI,MATH,Mathematics,JR,M,73,2.98,first98last98@ucsd.edu,98 Main St,La Jolla,CA,92098,US,(858) 555-1098,FA25,Withdrawn
+First99 Last99,First99,,Last99,A0000099,RE,BIOL,Biology,SR,M,97,2.73,first99last99@ucsd.edu,99 Main St,La Jolla,CA,92099,US,(858) 555-1099,WI26,Leave
