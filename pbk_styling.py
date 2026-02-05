@@ -81,6 +81,7 @@ class ClassItem(TypedDict):
     dept: str
     crsnum: str
     grade: str
+    types: List[str]
 
 
 class ApIbClassItem(TypedDict):
@@ -388,23 +389,25 @@ def get_classes(student_id: str) -> Dict[str, List[ClassItem]]:
 
         types = map_class_types(data.get("dept", ""), coursenumber, courseletter)
 
+        # Filter types to only include valid CLASS_TYPES
+        types = [t for t in types if t in CLASS_TYPES]
+
+        # Always include classes from these departments as LS classes
+        if data.get("dept", "") in ALWAYS_INCLUDE_DEPT:
+            if "LS" not in types:
+                types.append("LS")
+
         class_item: ClassItem = {
             "dept": data.get("dept", ""),
             "crsnum": crsnum,
             "grade": data.get("grade", ""),
+            "types": types,
         }
 
         if types:
             for type_ in types:
                 if type_ in classes:
                     classes[type_].append(class_item)
-
-        # Always include classes from these departments as LS classes
-        # Check if "LS" is NOT in types to avoid duplicates
-        if data.get("dept", "") in ALWAYS_INCLUDE_DEPT and (
-            not types or "LS" not in types
-        ):
-            classes["LS"].append(class_item)
 
     _sort_class_dict(classes)
 

@@ -79,7 +79,7 @@ h5, h6 {
                                 {% set numClasses = numClasses + 1 %}
                             {% endif %}
                             <tr>
-                                <td>{{ rowclss.dept }} {{ rowclss.crsnum }}</td>
+                                <td>{% if rowclss.types and rowclss.types|length > 1 %}<i>{{ rowclss.dept }} {{ rowclss.crsnum }}</i>{% else %}{{ rowclss.dept }} {{ rowclss.crsnum }}{% endif %}</td>
                                 <td>{{ rowclss.grade }}</td>
                             </tr>
                         {% endfor %}

@@ -197,6 +197,11 @@ class TestPbkStyling(unittest.TestCase):
         ss_courses = [c["crsnum"] for c in classes["SS"]]
         self.assertIn("60", ss_courses)
 
+        # Verify 'types' field is populated correctly
+        # Find PSYC 60 in MS or SS
+        psyc60 = next(c for c in classes["MS"] if c["crsnum"] == "60")
+        self.assertEqual(sorted(psyc60["types"]), ["MS", "SS"])
+
         # Test Force Include (e.g. HUM)
         # Setup mock for force include scenario
         # 1. Dept HUM (in ALWAYS_INCLUDE_DEPT), map returns [] -> Should be in LS
@@ -460,6 +465,156 @@ class TestPbkStyling(unittest.TestCase):
             2,
             "IB Classes should only appear 2 times (MS, LA)",
         )
+
+    def test_template_italicize_multiple_types(self):
+        env = pbk_styling.Environment(
+            loader=pbk_styling.FileSystemLoader(pbk_styling.BASE_DIR)
+        )
+        template = env.get_template("pbk_styling.j2")
+
+        # Mock Student Data
+        student = {
+            "csv_row": 1,
+            "name": "Test Student",
+            "id": "12345",
+            # Pre-populate classes with mocked ClassItems including 'types'
+            "classes": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "ibClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apTransferClasses": [],
+            "ibTransferClasses": [],
+            "transferClasses": [],
+            "college": "MU",
+            "college_name": "Muir",
+            "level": "SR",
+        }
+
+        # Case 1: Single Type (Should NOT be italic parameters)
+        # Class: MATH 101 (MS)
+        student["classes"]["MS"].append(
+            {"dept": "MATH", "crsnum": "101", "grade": "A", "types": ["MS"]}
+        )
+
+        # Case 2: Multiple Types (Should be italicized)
+        # Class: PSYC 60 (MS, SS)
+        multi_type_class = {
+            "dept": "PSYC",
+            "crsnum": "60",
+            "grade": "A",
+            "types": ["MS", "SS"],
+        }
+        student["classes"]["MS"].append(multi_type_class)
+        student["classes"]["SS"].append(multi_type_class)
+
+        students = [student]
+        output = template.render(
+            students=students, class_types=pbk_styling.get_class_types()
+        )
+
+        # Verification
+        # Single Type: "MATH 101" should appear without <i> wrapper
+        # Regex check: <td>MATH 101</td>
+        self.assertRegex(output, r"<td>MATH 101</td>")
+
+        # Multiple Type: "PSYC 60" should appear INSIDE <i> wrapper
+        # Regex check: <td><i>PSYC 60</i></td>
+        # Since it appears twice (once in MS, once in SS), count should be 2
+        self.assertEqual(output.count("<i>PSYC 60</i>"), 2)
+
+    def test_reproduce_issues(self):
+        """
+        Reproduce observed issues:
+        1. ETHN 1 (Forced LS) not italicized when it has another type (SS).
+        2. POLI 5 italicized when it only appears once (likely due to invalid type).
+        """
+        env = pbk_styling.Environment(
+            loader=pbk_styling.FileSystemLoader(pbk_styling.BASE_DIR)
+        )
+        template = env.get_template("pbk_styling.j2")
+
+        student = {
+            "csv_row": 1,
+            "name": "Test Student",
+            "id": "12345",
+            "classes": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "ibClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apTransferClasses": [],
+            "ibTransferClasses": [],
+            "transferClasses": [],
+            "college": "MU",
+            "college_name": "Muir",
+            "level": "SR",
+        }
+
+        # Issue 1: ETHN 1
+        # ETHN is in ALWAYS_INCLUDE_DEPT.
+        # Suppose map_class_types returns ["SS"] only.
+        # It should end up in SS (from map) and LS (forced).
+        # It should be italicized in both.
+        # Current behavior suspected: It ends up in both, but 'types' is only ["SS"].
+
+        # We simulate get_classes logic here manually-ish or just craft the data
+        # that get_classes produces currently.
+        # Actually, let's test get_classes logic specifically in another test,
+        # but here we can test the TEMPLATE given what we think get_classes produces.
+
+        # BUT, the fix is likely in get_classes. So I should add a test for get_classes.
+        pass
+
+    @patch("pbk_styling.map_class_types")
+    @patch("pbk_styling._get_df")
+    def test_get_classes_fixes(self, mock_get_df, mock_map):
+        headers = "id,dept,crsnum,grade,units"
+
+        # Case 1: ETHN 1
+        # ETHN is in ALWAYS_INCLUDE_DEPT.
+        row1 = "12345,ETHN,1,A,4.0"
+
+        # Case 2: POLI 5
+        # POLI 5 maps to SS and some invalid type "XX".
+        row2 = "12345,POLI,5,A,4.0"
+
+        csv_content = f"{headers}\n{row1}\n{row2}\n"
+        df = pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
+        mock_get_df.return_value = df
+
+        def side_effect(d, n, l):
+            if d == "ETHN":
+                return ["SS"]  # Only SS returned
+            if d == "POLI":
+                return ["SS", "XX"]  # SS and invalid type
+            return []
+
+        mock_map.side_effect = side_effect
+
+        classes = pbk_styling.get_classes("12345")
+
+        # Check ETHN 1
+        # Should be in SS
+        ethn_ss = next((c for c in classes["SS"] if c["dept"] == "ETHN"), None)
+        self.assertIsNotNone(ethn_ss)
+
+        # Should be in LS (forced)
+        ethn_ls = next((c for c in classes["LS"] if c["dept"] == "ETHN"), None)
+        self.assertIsNotNone(ethn_ls)
+
+        # Check types for ETHN 1
+        # Expected: ["SS", "LS"] (so it italicizes)
+        # Current (suspected failure): ["SS"]
+        self.assertIn("LS", ethn_ls["types"])
+        self.assertIn("SS", ethn_ls["types"])
+        self.assertEqual(len(ethn_ls["types"]), 2)
+
+        # Check POLI 5
+        # Should be in SS
+        poli_ss = next((c for c in classes["SS"] if c["dept"] == "POLI"), None)
+        self.assertIsNotNone(poli_ss)
+
+        # Check types for POLI 5
+        # Expected: ["SS"] (XX is invalid/hidden, so should not count for italics)
+        # Current (suspected failure): ["SS", "XX"]
+        self.assertEqual(poli_ss["types"], ["SS"])
 
 
 if __name__ == "__main__":
