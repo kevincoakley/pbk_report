@@ -115,12 +115,15 @@ class TestPbkStyling(unittest.TestCase):
         csv_content = f"{headers}\n{row1}\n{row2}\n"
 
         country_content = "country_code,country_name\nUS,United States\nCA,Canada\n"
+        college_content = "college_code,college_name\nCol,TestCollege\n"
 
         def side_effect(filename):
             if filename == "pbk_screening.csv":
                 return pd.read_csv(io.StringIO(csv_content), dtype=str).fillna("")
             if filename == "country_codes.csv":
                 return pd.read_csv(io.StringIO(country_content), dtype=str).fillna("")
+            if filename == "colleges.csv":
+                return pd.read_csv(io.StringIO(college_content), dtype=str).fillna("")
             return None
 
         mock_get_df.side_effect = side_effect
@@ -131,6 +134,7 @@ class TestPbkStyling(unittest.TestCase):
         # Test valid country lookup
         self.assertEqual(students[0]["id"], "12345")
         self.assertEqual(students[0]["country"], "United States")
+        self.assertEqual(students[0]["college_name"], "TestCollege")
         self.assertEqual(students[0]["csv_row"], 1)
 
         # Test fallback to code when not found

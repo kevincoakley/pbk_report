@@ -45,7 +45,9 @@ class Student(TypedDict):
     mname: str
     lname: str
     id: str
+    id: str
     college: str
+    college_name: str
     major: str
     major_desc: str
     level: str
@@ -244,6 +246,16 @@ def _get_country_lookup() -> Dict[str, str]:
     return dict(zip(country_df["country_code"], country_df["country_name"]))
 
 
+def _get_college_lookup() -> Dict[str, str]:
+    """
+    Load colleges and return a mapping of code to name.
+    """
+    college_df = _get_df("colleges.csv")
+    if college_df is None:
+        return {}
+    return dict(zip(college_df["college_code"], college_df["college_name"]))
+
+
 def get_students() -> List[Student]:
     students: List[Student] = []
     df = _get_df("pbk_screening.csv")
@@ -252,6 +264,7 @@ def get_students() -> List[Student]:
         return students
 
     country_lookup = _get_country_lookup()
+    college_lookup = _get_college_lookup()
 
     # Iterate over the rows and construct the student dictionary
     # to_dict('records') is efficient enough for this step
@@ -269,6 +282,7 @@ def get_students() -> List[Student]:
             "lname": data.get("Last Name", ""),
             "id": data.get("PID", ""),
             "college": data.get("College", ""),
+            "college_name": college_lookup.get(data.get("College", ""), ""),
             "major": data.get("Major Code", ""),
             "major_desc": data.get("Major Description", ""),
             "level": data.get("Class Level", ""),

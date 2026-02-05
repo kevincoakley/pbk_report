@@ -59,7 +59,7 @@ h5, h6 {
                 {% endif %}
             </td>
             <td width="15%"><small><strong>Apln Term</strong></small> {{ student.apln_term }}<br /><small><strong>Grad Qtr</strong></small> {{ student.gradqtr }}</td>
-            <td width="10%"><small><strong>Coll</strong></small> {{ student.college }}<br /><small><strong>Lvl</strong></small> {{ student.level }}</td>
+            <td width="10%"><small><strong>Coll</strong></small> {% if student.college == 'RE' or student.college == 'FI' %}<strong>{{ student.college_name }}</strong>{% else %}{{ student.college_name }}{% endif %}<br /><small><strong>Lvl</strong></small> {{ student.level }}</td>
         </tr>
     <tr>
         <td colspan="9">
@@ -111,6 +111,10 @@ h5, h6 {
                         {% if classType == 'LA' and student.pm_country != 'US' %}
                             <h6>Home Country</h6>
                             {{ student.country }}
+                        {% endif %}
+                        {% if classType == 'LA' and (student.college == 'RE' or student.college == 'FI') %}
+                            <h6>College</h6>
+                            {{ student.college_name }}
                         {% endif %}
                     </td>
                 {% endfor %}
