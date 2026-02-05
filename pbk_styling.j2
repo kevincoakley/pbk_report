@@ -85,7 +85,8 @@ h5, h6 {
                         {% endfor %}
                         </table>
                         <br />
-                        <strong># classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong>
+                        <strong># classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong><br />
+                        <strong>#LTR: {{ student.classes[classType] | selectattr("grade") | rejectattr("grade", "equalto", "P") | list | length }}</strong>
                         {% if student.apClasses[classType] %}
                         <h6>AP Classes</h6>
                         {% endif %}

@@ -1,7 +1,7 @@
 "id","dept","crsnum","termcode","section","section_id","units","grade","repeat_code","repeat_fl","credittype","enrolled_status","grade_option","course_level","course_title","primary_instructor"
 A0000000,COGS,14A,S224,A00,250000,4.0,A-,,,AC,EN,L,LD,"Cognitive Science: Learning, Memory, and Attention","Gershman, Samuel"
 A0000000,CSE,120,FA23,C00,250001,4.0,C+,,,AC,EN,L,UD,Principles of Computer Operating Systems,"Culler, David"
-A0000000,CSE,12,FA23,F00,250002,4.0,C+,,,AC,EN,L,LD,Basic Data Structures and Object-Oriented Design,"Porter, George"
+A0000000,CSE,12,FA23,F00,250002,4.0,,,,AC,EN,L,LD,Basic Data Structures and Object-Oriented Design,"Porter, George"
 A0000000,PHYS,4C,WI24,D00,250003,4.0,A-,,,AC,EN,L,LD,Physics - Mechanics,"Le, Hoang"
 A0000000,PHYS,2A,S224,F00,250004,4.0,P,,,AC,EN,P,LD,Physics - Mechanics,"Devereaux, Thomas"
 A0000000,MATH,142A,S224,G00,250005,4.0,A,,,AC,EN,L,UD,Introduction to Analysis I,"Sarnak, Peter"
