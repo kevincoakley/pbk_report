@@ -542,12 +542,59 @@ def main() -> None:
     students = get_students()
 
     # Enrich students with their classes
-    for student in students[:]:
+    #
+    # Bin 1: Condition 1
+    # - College is RE or FI
+    # - AND Has ZERO LA classes (in classes, apClasses, or ibClasses)
+    # - AND pm_country IS US
+    #
+    bin1_students = []
+
+    #
+    # Bin 2: Condition 2
+    # - Does not match Bin 1
+    # - Has more than 8 transfer classes (Len(transferClasses) > 8)
+    #
+    bin2_students = []
+
+    #
+    # Bin 3: Remainder
+    #
+    bin3_students = []
+
+    for student in students:
         s_id = student["id"]
         student["classes"] = get_classes(s_id)
         student["apClasses"], student["apTransferClasses"] = get_ap_classes(s_id)
         student["ibClasses"], student["ibTransferClasses"] = get_ib_classes(s_id)
         student["transferClasses"] = get_transfer_classes(s_id)
+
+        has_la_classes = (
+            len(student["classes"]["LA"]) != 0
+            or len(student["apClasses"]["LA"]) != 0
+            or len(student["ibClasses"]["LA"]) != 0
+        )
+
+        # Bin 1 Logic
+        # - College is NOT RE or FI
+        # - AND Has ZERO LA classes
+        # - AND pm_country IS US
+        is_bin1 = (
+            (student["college"] != "RE" and student["college"] != "FI")
+            and (not has_la_classes)
+            and (student["pm_country"] == "US")
+        )
+
+        if is_bin1:
+            bin1_students.append(student)
+        # Bin 2: High Transfer (>= 8 classes)
+        elif len(student["transferClasses"]) >= 8:
+            bin2_students.append(student)
+        else:
+            bin3_students.append(student)
+
+    # Concatenate the bins
+    students = bin1_students + bin2_students + bin3_students
 
     env = Environment(loader=FileSystemLoader(BASE_DIR))
     template = env.get_template("pbk_styling.j2")

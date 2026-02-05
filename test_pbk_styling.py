@@ -328,9 +328,9 @@ class TestPbkStyling(unittest.TestCase):
     ):
         # Setup mocks
         mock_students.return_value = [{"id": "12345", "college": "RE"}]
-        mock_classes.return_value = {}
-        mock_ap.return_value = ({}, [])
-        mock_ib.return_value = ({}, [])
+        mock_classes.return_value = {k: [] for k in pbk_styling.CLASS_TYPES}
+        mock_ap.return_value = ({k: [] for k in pbk_styling.CLASS_TYPES}, [])
+        mock_ib.return_value = ({k: [] for k in pbk_styling.CLASS_TYPES}, [])
         mock_trans.return_value = []
 
         mock_template = MagicMock()
