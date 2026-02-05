@@ -1,5 +1,5 @@
 Full Name,First Name,Middle Name,Last Name,PID,College,Major Code,Major Description,Class Level,Gender,Cumulative Units,Cumulative GPA,Email(UCSD),Permanent Mailing Addresss Line 1,Permanent Mailing City Line 1,Permanent Mailing State Line 1,Permanent Mailing Zip Code Line 1,Permanent Mailing Country Line 1,Permanent Phone Number,Graduating Quarter,Registration Status,Apln Term
-First0 M0 Last0,First0,M0,Last0,A0000000,WA,BIOL,Biology,JR,M,64,2.29,first0last0@ucsd.edu,0 Main St,La Jolla,CA,92000,US,(858) 555-1000,SU26,RG,FA25
+First0 M0 Last0,First0,M0,Last0,A0000000,WA,BIOL,Biology,JR,M,64,2.29,first0last0@ucsd.edu,0 Main St,La Jolla,CA,92000,,(858) 555-1000,SU26,RG,FA25
 First1 Last1,First1,,Last1,A0000001,WA,PSYC,Psychology,JR,O,148,2.56,first1last1@ucsd.edu,1 Main St,La Jolla,CA,92001,US,(858) 555-1001,SP26,RG,FA25
 First2 M2 Last2,First2,M2,Last2,A0000002,TH,PHYS,Physics,FR,F,114,2.91,first2last2@ucsd.edu,2 Main St,La Jolla,CA,92002,US,(858) 555-1002,FA25,RG,FA25
 First3 Last3,First3,,Last3,A0000003,TH,ECON,Economics,FR,O,154,2.68,first3last3@ucsd.edu,3 Main St,La Jolla,CA,92003,CN,(858) 555-1003,SP26,RG,FA25

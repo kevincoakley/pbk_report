@@ -109,7 +109,7 @@ h5, h6 {
                             </tr>
                         {% endfor %}
                         </table>
-                        {% if classType == 'LA' and student.pm_country != 'US' %}
+                        {% if classType == 'LA' and student.pm_country != 'US' and student.country %}
                             <h6>Home Country</h6>
                             {{ student.country }}
                         {% endif %}
