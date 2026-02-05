@@ -87,6 +87,7 @@ h5, h6 {
                         <br />
                         <strong># classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong><br />
                         <strong>#LTR: {{ student.classes[classType] | selectattr("grade") | rejectattr("grade", "equalto", "P") | list | length }}</strong>
+                        {% if classType == 'MS' or classType == 'LA' %}
                         {% if student.apClasses[classType] %}
                         <h6>AP Classes</h6>
                         {% endif %}
@@ -109,6 +110,7 @@ h5, h6 {
                             </tr>
                         {% endfor %}
                         </table>
+                        {% endif %}
                         {% if classType == 'LA' and student.pm_country != 'US' and student.country %}
                             <h6>Home Country</h6>
                             {{ student.country }}

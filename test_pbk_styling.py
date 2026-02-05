@@ -386,6 +386,81 @@ class TestPbkStyling(unittest.TestCase):
             self.assertEqual(result_list[i]["dept"], exp["dept"])
             self.assertEqual(result_list[i]["crsnum"], exp["crsnum"])
 
+    def test_template_ap_ib_suppression(self):
+        env = pbk_styling.Environment(
+            loader=pbk_styling.FileSystemLoader(pbk_styling.BASE_DIR)
+        )
+        template = env.get_template("pbk_styling.j2")
+
+        # Mock Student Data
+        student = {
+            "csv_row": 1,
+            "name": "Test Student",
+            "id": "12345",
+            "classes": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "ibClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apTransferClasses": [],
+            "ibTransferClasses": [],
+            "transferClasses": [],
+            "college": "MU",
+            "college_name": "Muir",
+            "level": "SR",
+        }
+
+        # Add AP classes to all types
+        for c_type in pbk_styling.CLASS_TYPES:
+            student["apClasses"][c_type].append(
+                {"crsnum": "100", "description": "AP Test", "units": "4.0"}
+            )
+            student["ibClasses"][c_type].append(
+                {"crsnum": "100", "description": "IB Test", "units": "4.0"}
+            )
+
+        students = [student]
+        output = template.render(
+            students=students, class_types=pbk_styling.get_class_types()
+        )
+
+        # Check suppression
+        # LS, SS, NS should NOT show AP/IB sections
+        for c_type in ["LS", "SS", "NS"]:
+            # We can checks if the content is associated with the header.
+            # The template structure is:
+            # <h5>Humanities</h5> ... (LS)
+            # <h5>Social Sciences</h5> ... (SS)
+            # <h5>Natural Sciences</h5> ... (NS)
+
+            # A simple check is to split the output by the headers and check the content between them.
+            # But the template iterates through class_types.items(). The order might vary or be specific.
+            # "LS": "Humanities", "SS": "Social Sciences", etc.
+
+            # Let's find the header index
+            header = f"<h5>{pbk_styling.CLASS_TYPES[c_type]}</h5>"
+            self.assertIn(header, output)
+
+            # Check if AP/IB Classes text appears "near" this header is hard with simple string check.
+            # However, since we populate AP classes for ALL types, if the suppression works,
+            # "AP Classes" should appear ONLY 2 times (for MS - Mathematics and LA - Language).
+            # "IB Classes" should appear ONLY 2 times.
+
+            pass
+
+        # Count occurrences of "AP Classes" and "IB Classes"
+        # Since we gave every type an AP and IB class, if no suppression, we'd see 5 occurrences.
+        # With suppression (LS, SS, NS hidden), we should see 2 (MS, LA).
+
+        self.assertEqual(
+            output.count("AP Classes"),
+            2,
+            "AP Classes should only appear 2 times (MS, LA)",
+        )
+        self.assertEqual(
+            output.count("IB Classes"),
+            2,
+            "IB Classes should only appear 2 times (MS, LA)",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
