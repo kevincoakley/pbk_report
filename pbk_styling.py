@@ -66,6 +66,7 @@ class Student(TypedDict):
     apln_term: str
     lang: str
     country: str
+    csv_row: int
     classes: Dict[str, List["ClassItem"]]
     apClasses: Dict[str, List["ApIbClassItem"]]
     apTransferClasses: List["UncategorizedClassItem"]
@@ -256,7 +257,7 @@ def get_students() -> List[Student]:
     # to_dict('records') is efficient enough for this step
     records = df.to_dict("records")
 
-    for data in records:
+    for index, data in enumerate(records):
         pm_country_code = data.get("Permanent Mailing Country Line 1", "")
 
         # Use TypedDict constructor for better type checking if we weren't just appending dicts
@@ -288,6 +289,7 @@ def get_students() -> List[Student]:
             "apln_term": data.get("Apln Term", ""),
             "lang": "N",
             "country": country_lookup.get(pm_country_code, pm_country_code),
+            "csv_row": index + 1,
             "classes": {},
             "apClasses": {},
             "apTransferClasses": [],

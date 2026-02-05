@@ -131,10 +131,12 @@ class TestPbkStyling(unittest.TestCase):
         # Test valid country lookup
         self.assertEqual(students[0]["id"], "12345")
         self.assertEqual(students[0]["country"], "United States")
+        self.assertEqual(students[0]["csv_row"], 1)
 
         # Test fallback to code when not found
         self.assertEqual(students[1]["id"], "67890")
         self.assertEqual(students[1]["country"], "XX")
+        self.assertEqual(students[1]["csv_row"], 2)
 
         # Test file not exists
         mock_get_df.side_effect = None

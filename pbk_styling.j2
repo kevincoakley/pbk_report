@@ -37,11 +37,11 @@ h5, h6 {
 </style>
 
 {% for student in students %}
-    {% set i = loop.index0 %}
+    
     <p style="page-break-before:always">&nbsp;</p>
     <table class="student">
         <tr class="info">
-            <td width="2%">{{ i + 1 }}</td>
+            <td width="2%">{{ student.csv_row }}</td>
             <td colspan="2" width="25%">
             {% if student.level != "SR" %}
                 <font color="#FF0000" face="Arial, Helvetica, sans-serif">{{ student.name }}</font>
