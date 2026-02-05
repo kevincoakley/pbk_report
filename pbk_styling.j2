@@ -85,7 +85,7 @@ h5, h6 {
                         {% endfor %}
                         </table>
                         <br />
-                        <strong># of classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong>
+                        <strong># classes: {{ student.classes[classType] | selectattr("grade") | list | length }}</strong>
                         {% if student.apClasses[classType] %}
                         <h6>AP Classes</h6>
                         {% endif %}
