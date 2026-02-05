@@ -68,6 +68,7 @@ class Student(TypedDict):
     apln_term: str
     lang: str
     country: str
+    include_city: bool
     csv_row: int
     classes: Dict[str, List["ClassItem"]]
     apClasses: Dict[str, List["ApIbClassItem"]]
@@ -237,14 +238,21 @@ def map_class_types(department: str, coursenumber: str, courseletter: str) -> Li
     return list(matches)
 
 
-def _get_country_lookup() -> Dict[str, str]:
+def _get_country_lookup() -> Dict[str, Dict[str, Any]]:
     """
-    Load country codes and return a mapping of code to name.
+    Load country codes and return a mapping of code to info (name, include_city).
     """
     country_df = _get_df("country_codes.csv")
     if country_df is None:
         return {}
-    return dict(zip(country_df["country_code"], country_df["country_name"]))
+
+    lookup = {}
+    for _, row in country_df.iterrows():
+        lookup[row["country_code"]] = {
+            "name": row["country_name"],
+            "include_city": row["include_city"] == "Y",
+        }
+    return lookup
 
 
 def _get_college_lookup() -> Dict[str, str]:
@@ -273,6 +281,9 @@ def get_students() -> List[Student]:
 
     for index, data in enumerate(records):
         pm_country_code = data.get("Permanent Mailing Country Line 1", "")
+        country_info = country_lookup.get(
+            pm_country_code, {"name": pm_country_code, "include_city": False}
+        )
 
         # Use TypedDict constructor for better type checking if we weren't just appending dicts
         # But here we construct the dict explicitly to match Student TypedDict
@@ -303,7 +314,8 @@ def get_students() -> List[Student]:
             "major2_desc": "",
             "apln_term": data.get("Apln Term", ""),
             "lang": "N",
-            "country": country_lookup.get(pm_country_code, pm_country_code),
+            "country": country_info["name"],
+            "include_city": country_info["include_city"],
             "csv_row": index + 1,
             "classes": {},
             "apClasses": {},

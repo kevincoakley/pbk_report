@@ -1,127 +1,127 @@
-country_code,country_name
-AF,Afghanistan
-AL,Albania
-DZ,Algeria
-AS,American Samoa
-AD,Andorra
-AO,Angola
-AI,Anguilla
-AQ,Antarctica
-AG,Antigua and Barbuda
-AR,Argentina
-AM,Armenia
-AW,Aruba
-AU,Australia
-AT,Austria
-AZ,Azerbaijan
-BS,Bahamas
-BH,Bahrain
-BD,Bangladesh
-BB,Barbados
-BY,Belarus
-BE,Belgium
-BZ,Belize
-BJ,Benin
-BM,Bermuda
-BT,Bhutan
-BO,Bolivia
-BA,Bosnia and Herzegovina
-BW,Botswana
-BR,Brazil
-BN,Brunei
-BG,Bulgaria
-BF,Burkina Faso
-BI,Burundi
-KH,Cambodia
-CM,Cameroon
-CA,Canada
-CV,Cape Verde
-KY,Cayman Islands
-CF,Central African Republic
-TD,Chad
-CL,Chile
-CN,China
-CO,Colombia
-KM,Comoros
-CG,Congo
-CR,Costa Rica
-CI,Côte d’Ivoire
-HR,Croatia
-CU,Cuba
-CY,Cyprus
-CZ,Czech Republic
-DK,Denmark
-DJ,Djibouti
-DO,Dominican Republic
-EC,Ecuador
-EG,Egypt
-SV,El Salvador
-EE,Estonia
-ET,Ethiopia
-FI,Finland
-FR,France
-DE,Germany
-GH,Ghana
-GR,Greece
-GL,Greenland
-GT,Guatemala
-HT,Haiti
-HN,Honduras
-HK,Hong Kong
-HU,Hungary
-IS,Iceland
-IN,India
-ID,Indonesia
-IR,Iran
-IQ,Iraq
-IE,Ireland
-IL,Israel
-IT,Italy
-JM,Jamaica
-JP,Japan
-JO,Jordan
-KZ,Kazakhstan
-KE,Kenya
-KR,South Korea
-KW,Kuwait
-LA,Laos
-LV,Latvia
-LB,Lebanon
-LS,Lesotho
-LR,Liberia
-LY,Libya
-LT,Lithuania
-LU,Luxembourg
-MG,Madagascar
-MY,Malaysia
-MX,Mexico
-MA,Morocco
-NP,Nepal
-NL,Netherlands
-NZ,New Zealand
-NG,Nigeria
-NO,Norway
-PK,Pakistan
-PA,Panama
-PE,Peru
-PH,Philippines
-PL,Poland
-PT,Portugal
-RO,Romania
-RU,Russia
-SA,Saudi Arabia
-SG,Singapore
-ZA,South Africa
-ES,Spain
-SE,Sweden
-CH,Switzerland
-TH,Thailand
-TR,Turkey
-UA,Ukraine
-AE,United Arab Emirates
-GB,United Kingdom
-US,United States
-UY,Uruguay
-VE,Venezuela
-VN,Vietnam
-ZW,Zimbabwe
+country_code,country_name,include_city
+AF,Afghanistan,N
+AL,Albania,N
+DZ,Algeria,N
+AS,American Samoa,N
+AD,Andorra,N
+AO,Angola,N
+AI,Anguilla,N
+AQ,Antarctica,N
+AG,Antigua and Barbuda,N
+AR,Argentina,N
+AM,Armenia,N
+AW,Aruba,N
+AU,Australia,Y
+AT,Austria,N
+AZ,Azerbaijan,N
+BS,Bahamas,N
+BH,Bahrain,N
+BD,Bangladesh,N
+BB,Barbados,N
+BY,Belarus,N
+BE,Belgium,N
+BZ,Belize,N
+BJ,Benin,N
+BM,Bermuda,N
+BT,Bhutan,N
+BO,Bolivia,N
+BA,Bosnia and Herzegovina,N
+BW,Botswana,N
+BR,Brazil,N
+BN,Brunei,N
+BG,Bulgaria,N
+BF,Burkina Faso,N
+BI,Burundi,N
+KH,Cambodia,N
+CM,Cameroon,N
+CA,Canada,Y
+CV,Cape Verde,N
+KY,Cayman Islands,N
+CF,Central African Republic,N
+TD,Chad,N
+CL,Chile,N
+CN,China,N
+CO,Colombia,N
+KM,Comoros,N
+CG,Congo,N
+CR,Costa Rica,N
+CI,Côte d’Ivoire,N
+HR,Croatia,N
+CU,Cuba,N
+CY,Cyprus,N
+CZ,Czech Republic,N
+DK,Denmark,N
+DJ,Djibouti,N
+DO,Dominican Republic,N
+EC,Ecuador,N
+EG,Egypt,N
+SV,El Salvador,N
+EE,Estonia,N
+ET,Ethiopia,N
+FI,Finland,N
+FR,France,N
+DE,Germany,N
+GH,Ghana,N
+GR,Greece,N
+GL,Greenland,N
+GT,Guatemala,N
+HT,Haiti,N
+HN,Honduras,N
+HK,Hong Kong,N
+HU,Hungary,N
+IS,Iceland,N
+IN,India,N
+ID,Indonesia,N
+IR,Iran,N
+IQ,Iraq,N
+IE,Ireland,Y
+IL,Israel,N
+IT,Italy,N
+JM,Jamaica,N
+JP,Japan,N
+JO,Jordan,N
+KZ,Kazakhstan,N
+KE,Kenya,N
+KR,South Korea,N
+KW,Kuwait,N
+LA,Laos,N
+LV,Latvia,N
+LB,Lebanon,N
+LS,Lesotho,N
+LR,Liberia,N
+LY,Libya,N
+LT,Lithuania,N
+LU,Luxembourg,N
+MG,Madagascar,N
+MY,Malaysia,N
+MX,Mexico,N
+MA,Morocco,N
+NP,Nepal,N
+NL,Netherlands,N
+NZ,New Zealand,Y
+NG,Nigeria,N
+NO,Norway,N
+PK,Pakistan,N
+PA,Panama,N
+PE,Peru,N
+PH,Philippines,N
+PL,Poland,N
+PT,Portugal,N
+RO,Romania,N
+RU,Russia,N
+SA,Saudi Arabia,N
+SG,Singapore,N
+ZA,South Africa,N
+ES,Spain,N
+SE,Sweden,N
+CH,Switzerland,N
+TH,Thailand,N
+TR,Turkey,N
+UA,Ukraine,N
+AE,United Arab Emirates,N
+GB,United Kingdom,Y
+US,United States,N
+UY,Uruguay,N
+VE,Venezuela,N
+VN,Vietnam,N
+ZW,Zimbabwe,N

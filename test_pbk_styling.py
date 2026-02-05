@@ -114,7 +114,9 @@ class TestPbkStyling(unittest.TestCase):
         row2 = "Smith,Jane,F,Smith,67890,Col,Maj,Desc,U,F,100,4.0,e@mail,Addr,City,ST,12345,XX,555,2023,Reg"
         csv_content = f"{headers}\n{row1}\n{row2}\n"
 
-        country_content = "country_code,country_name\nUS,United States\nCA,Canada\n"
+        country_content = (
+            "country_code,country_name,include_city\nUS,United States,N\nCA,Canada,Y\n"
+        )
         college_content = "college_code,college_name\nCol,TestCollege\n"
 
         def side_effect(filename):
@@ -134,12 +136,14 @@ class TestPbkStyling(unittest.TestCase):
         # Test valid country lookup
         self.assertEqual(students[0]["id"], "12345")
         self.assertEqual(students[0]["country"], "United States")
+        self.assertEqual(students[0]["include_city"], False)  # US has N
         self.assertEqual(students[0]["college_name"], "TestCollege")
         self.assertEqual(students[0]["csv_row"], 1)
 
         # Test fallback to code when not found
         self.assertEqual(students[1]["id"], "67890")
         self.assertEqual(students[1]["country"], "XX")
+        self.assertEqual(students[1]["include_city"], False)  # Not found -> False
         self.assertEqual(students[1]["csv_row"], 2)
 
         # Test file not exists
@@ -615,6 +619,65 @@ class TestPbkStyling(unittest.TestCase):
         # Expected: ["SS"] (XX is invalid/hidden, so should not count for italics)
         # Current (suspected failure): ["SS", "XX"]
         self.assertEqual(poli_ss["types"], ["SS"])
+
+    def test_template_country_city(self):
+        env = pbk_styling.Environment(
+            loader=pbk_styling.FileSystemLoader(pbk_styling.BASE_DIR)
+        )
+        template = env.get_template("pbk_styling.j2")
+
+        # Mock Student Data
+        student1 = {
+            "csv_row": 1,
+            "name": "Student 1",
+            "id": "1",
+            "classes": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "ibClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apTransferClasses": [],
+            "ibTransferClasses": [],
+            "transferClasses": [],
+            "college": "MU",
+            "college_name": "Muir",
+            "level": "SR",
+            "pm_country": "CA",
+            "country": "Canada",
+            "include_city": True,
+            "pm_city": "Toronto",
+            "lang": "N",
+        }
+
+        student2 = {
+            "csv_row": 2,
+            "name": "Student 2",
+            "id": "2",
+            "classes": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "ibClasses": {k: [] for k in pbk_styling.CLASS_TYPES},
+            "apTransferClasses": [],
+            "ibTransferClasses": [],
+            "transferClasses": [],
+            "college": "MU",
+            "college_name": "Muir",
+            "level": "SR",
+            "pm_country": "FR",
+            "country": "France",
+            "include_city": False,
+            "pm_city": "Paris",
+            "lang": "N",
+        }
+
+        students = [student1, student2]
+        output = template.render(
+            students=students, class_types=pbk_styling.get_class_types()
+        )
+
+        # Check for Canada (Toronto)
+        self.assertIn("Canada (Toronto)", output)
+
+        # Check for France without city
+        self.assertIn("France", output)
+        self.assertNotIn("France (Paris)", output)
 
 
 if __name__ == "__main__":

@@ -113,7 +113,7 @@ h5, h6 {
                         {% endif %}
                         {% if classType == 'LA' and student.pm_country != 'US' and student.country %}
                             <h6>Home Country</h6>
-                            {{ student.country }}
+                            {{ student.country }}{% if student.include_city %} ({{ student.pm_city }}){% endif %}
                         {% endif %}
                         {% if classType == 'LA' and (student.college == 'RE' or student.college == 'FI') %}
                             <h6>College</h6>
