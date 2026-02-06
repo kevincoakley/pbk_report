@@ -41,7 +41,7 @@ h5, h6 {
     <p style="page-break-before:always">&nbsp;</p>
     <table class="student">
         <tr class="info">
-            <td width="2%">{{ student.csv_row }}</td>
+            <td width="2%">{{ loop.index }}</td>
             <td colspan="2" width="25%">
             {% if student.level != "SR" %}
                 <font color="#FF0000" face="Arial, Helvetica, sans-serif">{{ student.name }}</font>
@@ -144,5 +144,5 @@ h5, h6 {
 
 
         </table>
-    <center>Page {{ loop.index }}</center>
+    <div style="text-align: right;">Alpha Index: {{ student.csv_row }}</div>
 {% endfor %}
