@@ -41,7 +41,15 @@ h5, h6 {
     <p style="page-break-before:always">&nbsp;</p>
     <table class="student">
         <tr class="info">
-            <td width="2%">{{ loop.index }}</td>
+            <td width="2%">
+                {% if student.bin == 1 %}
+                    <font color="red">{{ loop.index }}</font>
+                {% elif student.bin == 2 %}
+                    <font color="blue">{{ loop.index }}</font>
+                {% else %}
+                    <font color="black">{{ loop.index }}</font>
+                {% endif %}
+            </td>
             <td colspan="2" width="25%">
             {% if student.level != "SR" %}
                 <font color="#FF0000" face="Arial, Helvetica, sans-serif">{{ student.name }}</font>

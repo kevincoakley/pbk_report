@@ -76,6 +76,7 @@ class Student(TypedDict):
     ibClasses: Dict[str, List["ApIbClassItem"]]
     ibTransferClasses: List["UncategorizedClassItem"]
     transferClasses: List["TransferClassItem"]
+    bin: int
 
 
 class ClassItem(TypedDict):
@@ -323,6 +324,7 @@ def get_students() -> List[Student]:
             "ibClasses": {},
             "ibTransferClasses": [],
             "transferClasses": [],
+            "bin": 0,
         }
         students.append(student)
     return students
@@ -586,11 +588,14 @@ def main() -> None:
         )
 
         if is_bin1:
+            student["bin"] = 1
             bin1_students.append(student)
         # Bin 2: High Transfer (>= 8 classes)
         elif len(student["transferClasses"]) >= 8:
+            student["bin"] = 2
             bin2_students.append(student)
         else:
+            student["bin"] = 3
             bin3_students.append(student)
 
     # Concatenate the bins

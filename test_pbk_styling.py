@@ -139,6 +139,7 @@ class TestPbkStyling(unittest.TestCase):
         self.assertEqual(students[0]["include_city"], False)  # US has N
         self.assertEqual(students[0]["college_name"], "TestCollege")
         self.assertEqual(students[0]["csv_row"], 1)
+        self.assertEqual(students[0]["bin"], 0)
 
         # Test fallback to code when not found
         self.assertEqual(students[1]["id"], "67890")
@@ -641,6 +642,7 @@ class TestPbkStyling(unittest.TestCase):
             "college_name": "Muir",
             "level": "SR",
             "pm_country": "CA",
+            "bin": 1,
             "country": "Canada",
             "include_city": True,
             "pm_city": "Toronto",
@@ -661,6 +663,7 @@ class TestPbkStyling(unittest.TestCase):
             "college_name": "Muir",
             "level": "SR",
             "pm_country": "FR",
+            "bin": 2,
             "country": "France",
             "include_city": False,
             "pm_city": "Paris",
