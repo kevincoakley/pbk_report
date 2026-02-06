@@ -540,7 +540,47 @@ def get_transfer_classes(student_id: str) -> List[TransferClassItem]:
     return transfer_classes
 
 
+import argparse
+
+
+def generate_csv(students: List[Student]) -> None:
+    """
+    Generate CSV output for the given list of students.
+    Columns: File #, Full Name, PID, Email, Major
+    """
+    writer = csv.writer(sys.stdout)
+    writer.writerow(["File #", "Full Name", "PID", "Email", "Major"])
+
+    # "File #" is a simple counter (1, 2, 3...) based on the output row number
+    for i, student in enumerate(students, start=1):
+        writer.writerow(
+            [
+                str(i),
+                student["name"],
+                student["id"],
+                student["email"],
+                student["major_desc"],
+            ]
+        )
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate PBK report.")
+    parser.add_argument(
+        "--html", action="store_true", help="Output HTML report (default)"
+    )
+    parser.add_argument("--csv", action="store_true", help="Output CSV report")
+
+    args = parser.parse_args()
+
+    # Default to HTML if neither or both are specified (or prioritize one? Standard argparse behavior is mutually exclusive usually better, but user said 'update with 2 arguments', implied flags. I'll prioritize csv if both, or just run whatever is requested. Let's make CSV exclusive or default to HTML if nothing.)
+    # Actually, simply checking args.csv first is fine. If they pass both, do they want both?
+    # "should output what is currently outputed" for html. "should return a csv output" for csv.
+    # I will support executing one. If both are passed, I'll error or just pick one. I'll make them mutually exclusive group for cleanliness.
+    # Wait, the prompt says "update pbk_styling.py with 2 command line arguments".
+
+    # Let's adjust parser logic inside the standard main block.
+
     students = get_students()
 
     # Enrich students with their classes
@@ -601,12 +641,16 @@ def main() -> None:
     # Concatenate the bins
     students = bin1_students + bin2_students + bin3_students
 
-    env = Environment(loader=FileSystemLoader(BASE_DIR))
-    template = env.get_template("pbk_styling.j2")
+    if args.csv:
+        generate_csv(students)
+    else:
+        # Default behavior: HTML
+        env = Environment(loader=FileSystemLoader(BASE_DIR))
+        template = env.get_template("pbk_styling.j2")
 
-    output = template.render(students=students, class_types=get_class_types())
+        output = template.render(students=students, class_types=get_class_types())
 
-    print(output)
+        print(output)
 
 
 if __name__ == "__main__":

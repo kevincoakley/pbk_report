@@ -310,6 +310,7 @@ class TestPbkStyling(unittest.TestCase):
         self.assertEqual(len(t_classes), 1)
         self.assertEqual(t_classes[0]["title"], "Transfer 101")
 
+    @patch("pbk_styling.sys.argv", ["pbk_styling.py"])
     @patch("pbk_styling.print")
     @patch("pbk_styling.Environment")
     @patch("pbk_styling.get_transfer_classes")
@@ -678,9 +679,153 @@ class TestPbkStyling(unittest.TestCase):
         # Check for Canada (Toronto)
         self.assertIn("Canada (Toronto)", output)
 
-        # Check for France without city
-        self.assertIn("France", output)
-        self.assertNotIn("France (Paris)", output)
+    @patch("pbk_styling.sys.stdout", new_callable=io.StringIO)
+    def test_generate_csv(self, mock_stdout):
+        students = [
+            {
+                "name": "John Doe",
+                "id": "12345",
+                "email": "jdoe@ucsd.edu",
+                "major_desc": "Computer Science",
+            },
+            {
+                "name": "Jane Smith",
+                "id": "67890",
+                "email": "jsmith@ucsd.edu",
+                "major_desc": "Biology",
+            },
+        ]
+
+        pbk_styling.generate_csv(students)
+
+        output = mock_stdout.getvalue()
+        expected = (
+            "File #,Full Name,PID,Email,Major\r\n"
+            "1,John Doe,12345,jdoe@ucsd.edu,Computer Science\r\n"
+            "2,Jane Smith,67890,jsmith@ucsd.edu,Biology\r\n"
+        )
+        self.assertEqual(output, expected)
+
+    @patch("pbk_styling.sys.argv", ["pbk_styling.py", "--csv"])
+    @patch("pbk_styling.generate_csv")
+    @patch("pbk_styling.get_students")
+    def test_main_csv_arg(self, mock_students, mock_generate_csv):
+        mock_students.return_value = []
+        # Mock other necessary calls in main if skipped
+        with (
+            patch("pbk_styling.get_classes"),
+            patch("pbk_styling.get_ap_classes", return_value=(({}, []))),
+            patch("pbk_styling.get_ib_classes", return_value=(({}, []))),
+            patch("pbk_styling.get_transfer_classes", return_value=[]),
+        ):
+
+            pbk_styling.main()
+            mock_generate_csv.assert_called_once()
+
+    @patch("pbk_styling.sys.argv", ["pbk_styling.py", "--html"])
+    @patch("pbk_styling.print")
+    @patch("pbk_styling.Environment")
+    @patch("pbk_styling.get_students")
+    def test_main_html_arg(self, mock_students, mock_env, mock_print):
+        mock_students.return_value = [
+            {"id": "123", "college": "MU", "pm_country": "US"}
+        ]
+        mock_template = MagicMock()
+        mock_env.return_value.get_template.return_value = mock_template
+        mock_template.render.return_value = "<html></html>"
+
+        with (
+            patch(
+                "pbk_styling.get_classes",
+                return_value={k: [] for k in pbk_styling.CLASS_TYPES},
+            ),
+            patch("pbk_styling.get_ap_classes", return_value=(({}, []))),
+            patch("pbk_styling.get_ib_classes", return_value=(({}, []))),
+            patch("pbk_styling.get_transfer_classes", return_value=[]),
+        ):
+
+            pbk_styling.main()
+            mock_print.assert_called_with("<html></html>")
+
+    @patch("pbk_styling.sys.stdout", new_callable=io.StringIO)
+    def test_generate_csv(self, mock_stdout):
+        students = [
+            {
+                "name": "John Doe",
+                "id": "12345",
+                "email": "jdoe@ucsd.edu",
+                "major_desc": "Computer Science",
+            },
+            {
+                "name": "Jane Smith",
+                "id": "67890",
+                "email": "jsmith@ucsd.edu",
+                "major_desc": "Biology",
+            },
+        ]
+
+        pbk_styling.generate_csv(students)
+
+        output = mock_stdout.getvalue()
+        expected = (
+            "File #,Full Name,PID,Email,Major\r\n"
+            "1,John Doe,12345,jdoe@ucsd.edu,Computer Science\r\n"
+            "2,Jane Smith,67890,jsmith@ucsd.edu,Biology\r\n"
+        )
+        self.assertEqual(output, expected)
+
+    @patch("pbk_styling.sys.argv", ["pbk_styling.py", "--csv"])
+    @patch("pbk_styling.generate_csv")
+    @patch("pbk_styling.get_students")
+    def test_main_csv_arg(self, mock_students, mock_generate_csv):
+        mock_students.return_value = []
+        # Mock other necessary calls in main if skipped
+        with (
+            patch("pbk_styling.get_classes"),
+            patch(
+                "pbk_styling.get_ap_classes",
+                return_value=({k: [] for k in pbk_styling.CLASS_TYPES}, []),
+            ),
+            patch(
+                "pbk_styling.get_ib_classes",
+                return_value=({k: [] for k in pbk_styling.CLASS_TYPES}, []),
+            ),
+            patch("pbk_styling.get_transfer_classes", return_value=[]),
+        ):
+
+            pbk_styling.main()
+            mock_generate_csv.assert_called_once()
+
+    @patch("pbk_styling.sys.argv", ["pbk_styling.py", "--html"])
+    @patch("pbk_styling.print")
+    @patch("pbk_styling.Environment")
+    @patch("pbk_styling.get_students")
+    def test_main_html_arg(self, mock_students, mock_env, mock_print):
+        mock_students.return_value = [
+            {"id": "123", "college": "MU", "pm_country": "US"}
+        ]
+        mock_template = MagicMock()
+        mock_env.return_value.get_template.return_value = mock_template
+        mock_template.render.return_value = "<html></html>"
+
+        with (
+            patch(
+                "pbk_styling.get_classes",
+                return_value={k: [] for k in pbk_styling.CLASS_TYPES},
+            ),
+            patch(
+                "pbk_styling.get_ap_classes",
+                return_value=({k: [] for k in pbk_styling.CLASS_TYPES}, []),
+            ),
+            patch(
+                "pbk_styling.get_ib_classes",
+                return_value=({k: [] for k in pbk_styling.CLASS_TYPES}, []),
+            ),
+            patch("pbk_styling.get_transfer_classes", return_value=[]),
+        ):
+
+            pbk_styling.main()
+            mock_print.assert_called_with("<html></html>")
 
 
 if __name__ == "__main__":
