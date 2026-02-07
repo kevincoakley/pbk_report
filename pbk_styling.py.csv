@@ -1,0 +1,101 @@
+File #,Full Name,PID,Email,Major
+1,First2 M2 Last2,A0000002,first2last2@ucsd.edu,Physics
+2,First4 M4 Last4,A0000004,first4last4@ucsd.edu,Computer Science
+3,First5 Last5,A0000005,first5last5@ucsd.edu,Biology
+4,First6 M6 Last6,A0000006,first6last6@ucsd.edu,Computer Science
+5,First7 Last7,A0000007,first7last7@ucsd.edu,Biology
+6,First8 M8 Last8,A0000008,first8last8@ucsd.edu,Biology
+7,First11 Last11,A0000011,first11last11@ucsd.edu,Biology
+8,First12 M12 Last12,A0000012,first12last12@ucsd.edu,Physics
+9,First13 Last13,A0000013,first13last13@ucsd.edu,Physics
+10,First15 Last15,A0000015,first15last15@ucsd.edu,Physics
+11,First18 M18 Last18,A0000018,first18last18@ucsd.edu,Biology
+12,First20 M20 Last20,A0000020,first20last20@ucsd.edu,Physics
+13,First21 Last21,A0000021,first21last21@ucsd.edu,Physics
+14,First22 M22 Last22,A0000022,first22last22@ucsd.edu,Mathematics
+15,First27 Last27,A0000027,first27last27@ucsd.edu,Computer Science
+16,First30 M30 Last30,A0000030,first30last30@ucsd.edu,Physics
+17,First31 Last31,A0000031,first31last31@ucsd.edu,Computer Science
+18,First35 Last35,A0000035,first35last35@ucsd.edu,Economics
+19,First36 M36 Last36,A0000036,first36last36@ucsd.edu,Physics
+20,First38 M38 Last38,A0000038,first38last38@ucsd.edu,Physics
+21,First39 Last39,A0000039,first39last39@ucsd.edu,Mathematics
+22,First41 Last41,A0000041,first41last41@ucsd.edu,Mathematics
+23,First42 M42 Last42,A0000042,first42last42@ucsd.edu,Computer Science
+24,First44 M44 Last44,A0000044,first44last44@ucsd.edu,Economics
+25,First46 M46 Last46,A0000046,first46last46@ucsd.edu,Computer Science
+26,First47 Last47,A0000047,first47last47@ucsd.edu,Economics
+27,First48 M48 Last48,A0000048,first48last48@ucsd.edu,Biology
+28,First49 Last49,A0000049,first49last49@ucsd.edu,Economics
+29,First51 Last51,A0000051,first51last51@ucsd.edu,Biology
+30,First55 Last55,A0000055,first55last55@ucsd.edu,Biology
+31,First56 M56 Last56,A0000056,first56last56@ucsd.edu,Economics
+32,First58 M58 Last58,A0000058,first58last58@ucsd.edu,Physics
+33,First59 Last59,A0000059,first59last59@ucsd.edu,Economics
+34,First60 M60 Last60,A0000060,first60last60@ucsd.edu,Computer Science
+35,First63 Last63,A0000063,first63last63@ucsd.edu,Mathematics
+36,First64 M64 Last64,A0000064,first64last64@ucsd.edu,Economics
+37,First66 M66 Last66,A0000066,first66last66@ucsd.edu,Economics
+38,First67 Last67,A0000067,first67last67@ucsd.edu,Psychology
+39,First68 M68 Last68,A0000068,first68last68@ucsd.edu,Biology
+40,First70 M70 Last70,A0000070,first70last70@ucsd.edu,Economics
+41,First72 M72 Last72,A0000072,first72last72@ucsd.edu,Economics
+42,First73 Last73,A0000073,first73last73@ucsd.edu,Biology
+43,First75 Last75,A0000075,first75last75@ucsd.edu,Biology
+44,First77 Last77,A0000077,first77last77@ucsd.edu,Physics
+45,First79 Last79,A0000079,first79last79@ucsd.edu,Economics
+46,First80 M80 Last80,A0000080,first80last80@ucsd.edu,Biology
+47,First87 Last87,A0000087,first87last87@ucsd.edu,Biology
+48,First88 M88 Last88,A0000088,first88last88@ucsd.edu,Biology
+49,First92 M92 Last92,A0000092,first92last92@ucsd.edu,Physics
+50,First93 Last93,A0000093,first93last93@ucsd.edu,Economics
+51,First94 M94 Last94,A0000094,first94last94@ucsd.edu,Psychology
+52,First97 Last97,A0000097,first97last97@ucsd.edu,Mathematics
+53,First10 M10 Last10,A0000010,first10last10@ucsd.edu,Mathematics
+54,First0 M0 Last0,A0000000,first0last0@ucsd.edu,Biology
+55,First1 Last1,A0000001,first1last1@ucsd.edu,Psychology
+56,First3 Last3,A0000003,first3last3@ucsd.edu,Economics
+57,First9 Last9,A0000009,first9last9@ucsd.edu,Psychology
+58,First14 M14 Last14,A0000014,first14last14@ucsd.edu,Economics
+59,First16 M16 Last16,A0000016,first16last16@ucsd.edu,Computer Science
+60,First17 Last17,A0000017,first17last17@ucsd.edu,Mathematics
+61,First19 Last19,A0000019,first19last19@ucsd.edu,Biology
+62,First23 Last23,A0000023,first23last23@ucsd.edu,Biology
+63,First24 M24 Last24,A0000024,first24last24@ucsd.edu,Mathematics
+64,First25 Last25,A0000025,first25last25@ucsd.edu,Computer Science
+65,First26 M26 Last26,A0000026,first26last26@ucsd.edu,Biology
+66,First28 M28 Last28,A0000028,first28last28@ucsd.edu,Physics
+67,First29 Last29,A0000029,first29last29@ucsd.edu,Economics
+68,First32 M32 Last32,A0000032,first32last32@ucsd.edu,Computer Science
+69,First33 Last33,A0000033,first33last33@ucsd.edu,Psychology
+70,First34 M34 Last34,A0000034,first34last34@ucsd.edu,Physics
+71,First37 Last37,A0000037,first37last37@ucsd.edu,Physics
+72,First40 M40 Last40,A0000040,first40last40@ucsd.edu,Psychology
+73,First43 Last43,A0000043,first43last43@ucsd.edu,Physics
+74,First45 Last45,A0000045,first45last45@ucsd.edu,Economics
+75,First50 M50 Last50,A0000050,first50last50@ucsd.edu,Mathematics
+76,First52 M52 Last52,A0000052,first52last52@ucsd.edu,Physics
+77,First53 Last53,A0000053,first53last53@ucsd.edu,Physics
+78,First54 M54 Last54,A0000054,first54last54@ucsd.edu,Biology
+79,First57 Last57,A0000057,first57last57@ucsd.edu,Physics
+80,First61 Last61,A0000061,first61last61@ucsd.edu,Computer Science
+81,First62 M62 Last62,A0000062,first62last62@ucsd.edu,Economics
+82,First65 Last65,A0000065,first65last65@ucsd.edu,Psychology
+83,First69 Last69,A0000069,first69last69@ucsd.edu,Physics
+84,First71 Last71,A0000071,first71last71@ucsd.edu,Psychology
+85,First74 M74 Last74,A0000074,first74last74@ucsd.edu,Economics
+86,First76 M76 Last76,A0000076,first76last76@ucsd.edu,Physics
+87,First78 M78 Last78,A0000078,first78last78@ucsd.edu,Physics
+88,First81 Last81,A0000081,first81last81@ucsd.edu,Computer Science
+89,First82 M82 Last82,A0000082,first82last82@ucsd.edu,Psychology
+90,First83 Last83,A0000083,first83last83@ucsd.edu,Physics
+91,First84 M84 Last84,A0000084,first84last84@ucsd.edu,Computer Science
+92,First85 Last85,A0000085,first85last85@ucsd.edu,Physics
+93,First86 M86 Last86,A0000086,first86last86@ucsd.edu,Biology
+94,First89 Last89,A0000089,first89last89@ucsd.edu,Biology
+95,First90 M90 Last90,A0000090,first90last90@ucsd.edu,Psychology
+96,First91 Last91,A0000091,first91last91@ucsd.edu,Economics
+97,First95 Last95,A0000095,first95last95@ucsd.edu,Psychology
+98,First96 M96 Last96,A0000096,first96last96@ucsd.edu,Mathematics
+99,First98 M98 Last98,A0000098,first98last98@ucsd.edu,Mathematics
+100,First99 Last99,A0000099,first99last99@ucsd.edu,Biology
